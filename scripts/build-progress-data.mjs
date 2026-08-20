@@ -1,0 +1,14 @@
+import fs from "node:fs/promises";
+import path from "node:path";
+const root=process.cwd();
+const quests=JSON.parse(await fs.readFile(path.join(root,"work/quests.json"),"utf8"));
+const hideout=JSON.parse(await fs.readFile(path.join(root,"work/hideout.json"),"utf8"));
+const names=JSON.parse(await fs.readFile(path.join(root,"work/items.en.json"),"utf8"));
+const traders=["Prapor","Therapist","Skier","Peacekeeper","Mechanic","Ragman","Jaeger","Fence"];
+const ignored=new Set(["5449016a4bdc2d6f028b456f","569668774bdc2da2298b4568","5696686a4bdc2da3298b456a"]);
+const questData=quests.map(q=>({id:String(q.id),name:q.title,trader:traders[q.giver]||"Other",level:q.require?.level||1,items:(q.objectives||[]).filter(o=>["find","collect"].includes(o.type)&&names[o.target]&&!ignored.has(o.target)).map(o=>({id:o.target,count:Number(o.number)||1,fir:o.type==="find"}))}));
+const stations=new Map(hideout.stations.map(s=>[s.id,s.locales.en]));
+const moduleData=hideout.modules.map(m=>({id:String(m.id),stationId:String(m.stationId),station:stations.get(m.stationId)||m.module,level:m.level,items:(m.require||[]).filter(r=>r.type==="item"&&names[r.name]&&!ignored.has(r.name)).map(r=>({id:r.name,count:Number(r.quantity)||1}))})).sort((a,b)=>a.station.localeCompare(b.station)||a.level-b.level);
+const data={story:["Accidental Witness","Batya","Blue Fire","Boreas","Falling Skies","The Labyrinth","The Ticket","The Unheard","They Are Already Here","Tour"],quests:questData,modules:moduleData};
+await fs.writeFile(path.join(root,"app/data/progress.json"),JSON.stringify(data,null,2));
+console.log(`progress: ${questData.length} quests, ${moduleData.length} hideout levels`);

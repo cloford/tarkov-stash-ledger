@@ -1,0 +1,18 @@
+.groupDivider {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 35px;
+  margin-top: 10px;
+  color: #777a70;
+  font: 10px monospace;
+  letter-spacing: .13em;
+}
+.groupDivider::after { content: ""; height: 1px; flex: 1; background: #40423b; }
+.groupDivider strong { color: #c8c8bd; font-size: 11px; }
+.groupDivider span { order: 2; }
+.groupDivider.counted { color: #9ca65e; }
+.groupDivider.counted strong { color: var(--acid); }
+.groupDivider.counted::after { background: linear-gradient(90deg, #7d883a, #3c3e36); }
+.groupDivider.uncounted { height: 48px; margin-top: 20px; padding-top: 12px; border-top: 1px solid #242622; }
