@@ -20,6 +20,12 @@ test("全マップ共通の強調表示修正を保持する",()=>{
  assert.match(page,/"name:thelabyrinth"\s*:\s*\{/);
  assert.match(page,/thewayup:\s*\{/);
  assert.match(page,/ariadnespath:\s*\{/);
+ assert.match(page,/nearkamchatskayaarch:\s*\{left:\s*47\.11,\s*top:\s*33\.7/);
+ assert.match(page,/hangargate:\s*\{left:\s*71\.64,\s*top:\s*77\.32/);
+ assert.match(page,/thewayup:\s*\{left:\s*79,\s*top:\s*43\.7/);
+ assert.match(page,/nakatanibasementstairs:\s*\{[^\n]*parts:\s*\[/);
+ assert.match(page,/markerPoints\.map\(/);
+ assert.doesNotMatch(page,/holeinthefence:\s*\{/);
  assert.match(page,/marker\.offsetLeft\s*-\s*viewport\.clientWidth\s*\/\s*2/);
  assert.doesNotMatch(page,/marker\.offsetLeft\s*\+\s*marker\.offsetWidth\s*\/\s*2/);
  assert.match(page,/event\.deltaY\s*>\s*0\s*\?\s*\.2\s*:\s*-\.2/);
