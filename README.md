@@ -36,10 +36,10 @@ Windowsでは起動用バッチファイルからも開発版を起動できま�
 npm run desktop:build
 ```
 
-生成物は `outputs/Tarkov-Task-Extract-Navi-test-v4/` に出力されます。
+生成物は `outputs/Tarkov-Task-Extract-Navi-test-v5/` に出力されます。
 
 - `win-unpacked/`: 展開済みのポータブル版
-- `Tarkov-Task-Extract-Navi-test-v4.exe`: Windowsセットアップ版
+- `Tarkov-Task-Extract-Navi-test-v5.exe`: Windowsセットアップ版
 
 ## データと保存先
 
