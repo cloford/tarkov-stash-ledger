@@ -7,7 +7,11 @@ Escape from Tarkovのタスク情報、マップ、脱出地点を簡単に確�
 ## 主な機能
 
 - タスク詳細、前提条件、報酬、マップ、脱出地点の確認
+- サブタスクの推奨順・レベル順・名前順、マップ／トレーダー別表示
+- ANY MAPを含むマップ絞り込み
 - マップの拡大・縮小、ドラッグ移動
+- 脱出地点の自動フォーカスと照準リング表示
+- 日本語化した他マップへのトランジット表示
 - マップ画像と脱出地点データのオフライン保存
 - Windows向けElectronデスクトップ版
 
@@ -32,10 +36,10 @@ Windowsでは起動用バッチファイルからも開発版を起動できま�
 npm run desktop:build
 ```
 
-生成物は `outputs/Tarkov-Task-Extract-Navi-test-v2/` に出力されます。
+生成物は `outputs/Tarkov-Task-Extract-Navi-test-v4/` に出力されます。
 
 - `win-unpacked/`: 展開済みのポータブル版
-- `Tarkov-Task-Extract-Navi-test-v2.exe`: Windowsセットアップ版
+- `Tarkov-Task-Extract-Navi-test-v4.exe`: Windowsセットアップ版
 
 ## データと保存先
 
