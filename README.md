@@ -36,10 +36,10 @@ Windowsでは起動用バッチファイルからも開発版を起動できま�
 npm run desktop:build
 ```
 
-生成物は `outputs/Tarkov-Task-Extract-Navi-test-v5/` に出力されます。
+生成物は `outputs/Tarkov-Task-Extract-Navi-test-v6/` に出力されます。
 
 - `win-unpacked/`: 展開済みのポータブル版
-- `Tarkov-Task-Extract-Navi-test-v5.exe`: Windowsセットアップ版
+- `Tarkov-Task-Extract-Navi-test-v6.exe`: Windowsセットアップ版
 
 ## データと保存先
 
@@ -62,5 +62,6 @@ tests/     テストコード
 ## 注意事項
 
 - 本リポジトリはBattlestate Gamesの公式プロジェクトではありません。
+- 高解像度マップは [RE3MR MAPS](https://reemr.se/) の作品をオンライン表示します。各マップは作者が示す Creative Commons Attribution-NonCommercial-ShareAlike 4.0 の条件に従います。
 - ゲームアップデートにより、必要数やタスク条件が実際のゲームと異なる場合があります。
 - 現在のテストには初期テンプレート由来の古い内容が残っており、今後整理予定です。
