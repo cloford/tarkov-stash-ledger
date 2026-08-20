@@ -1,6 +1,6 @@
 {
   "name": "tarkov-task-extract-navi",
-  "version": "1.1.0-test.8",
+  "version": "1.1.0-test.9",
   "description": "Escape from Tarkovのタスクと脱出地点を確認する日本語デスクトップアプリ",
   "private": true,
   "engines": {
@@ -55,7 +55,7 @@
     "appId": "jp.tarkov.taskextractnavi",
     "productName": "タルコフ タスク・脱出ナビ",
     "directories": {
-      "output": "outputs/Tarkov-Task-Extract-Navi-test-v8"
+      "output": "outputs/Tarkov-Task-Extract-Navi-test-v9"
     },
     "files": [
       "desktop-dist/**/*",
@@ -64,7 +64,7 @@
     "win": {
       "target": "nsis",
       "icon": "electron/icon.ico",
-      "artifactName": "Tarkov-Task-Extract-Navi-test-v8.${ext}"
+      "artifactName": "Tarkov-Task-Extract-Navi-test-v9.${ext}"
     },
     "nsis": {
       "oneClick": false,
