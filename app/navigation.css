@@ -1,0 +1,54 @@
+.hero.compact {
+  padding-bottom: 24px;
+}
+
+.mainNav {
+  display: flex;
+  border-bottom: 1px solid var(--line);
+  background: #0e100e;
+}
+
+.mainNav button {
+  min-width: 150px;
+  padding: 18px 24px;
+  border: 0;
+  border-right: 1px solid var(--line);
+  background: transparent;
+  color: #73766c;
+  text-align: left;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.mainNav button span {
+  margin-right: 12px;
+  color: #4e5049;
+  font: 10px monospace;
+}
+
+.mainNav button.active {
+  color: #efeee6;
+  background: #1b1d19;
+  box-shadow: inset 0 -2px var(--acid);
+}
+
+.mainNav button.active span {
+  color: var(--acid);
+}
+
+.manager {
+  padding: 28px 0;
+}
+
+@media (max-width: 650px) {
+  .mainNav button {
+    min-width: 0;
+    flex: 1;
+    padding: 14px 10px;
+    text-align: center;
+  }
+
+  .mainNav button span {
+    display: none;
+  }
+}

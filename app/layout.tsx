@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import "./groups.css";
-import "./progress.css";
-import "./remodel.css";
-import "./ownership.css";
-import "./scanner.css";
+import "./navigation.css";
 import "./guide.css";
 import "./map.css";
 
@@ -20,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Stash Ledger — Tarkov Item Tracker",
-  description: "クエストとハイドアウト用アイテムのローカル収集カウンター",
+  title: "タルコフ タスク・脱出ナビ",
+  description: "Escape from Tarkovのタスクと脱出地点を確認する日本語ガイド",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",

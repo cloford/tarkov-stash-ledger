@@ -1,12 +1,7 @@
-import React from "react";
 import { createRoot } from "react-dom/client";
 import Home from "../app/page";
 import "../app/globals.css";
-import "../app/groups.css";
-import "../app/progress.css";
-import "../app/remodel.css";
-import "../app/ownership.css";
-import "../app/scanner.css";
+import "../app/navigation.css";
 import "../app/guide.css";
 import "../app/map.css";
 createRoot(document.getElementById("root")!).render(<Home />);

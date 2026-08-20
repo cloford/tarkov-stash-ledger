@@ -1,17 +1,14 @@
-# Tarkov Stash Ledger
+# タルコフ タスク・脱出ナビ
 
-Escape from Tarkovのクエスト、ハイドアウト、必要アイテム、マップ情報をまとめて確認する日本語向けデスクトップアプリです。
+Escape from Tarkovのタスク情報、マップ、脱出地点を簡単に確認する日本語デスクトップアプリです。
 
-現在の版は機能整理前の保存版です。今後、不要な機能を削除しながら構成を簡素化します。
+マップは拡大・縮小とドラッグ移動に対応し、選択したマップをオフライン用に保存できます。
 
 ## 主な機能
 
-- 未完了クエストとハイドアウト設備から必要アイテム数を計算
-- 所持数、不足数、余剰数をローカル保存
-- クエストとハイドアウトの進捗管理
 - タスク詳細、前提条件、報酬、マップ、脱出地点の確認
-- スクリーンショットからハイドアウト素材を読み取る機能
-- 売却前に残すべきアイテムを確認する機能
+- マップの拡大・縮小、ドラッグ移動
+- マップ画像と脱出地点データのオフライン保存
 - Windows向けElectronデスクトップ版
 
 ## 必要環境
@@ -27,7 +24,7 @@ npm install
 npm run dev
 ```
 
-Windowsでは `STASH-LEDGERを起動.bat` からも開発版を起動できます。
+Windowsでは起動用バッチファイルからも開発版を起動できます。
 
 ## デスクトップ版のビルド
 
@@ -35,26 +32,24 @@ Windowsでは `STASH-LEDGERを起動.bat` からも開発版を起動できま�
 npm run desktop:build
 ```
 
-生成物は `outputs/windows-app/` に出力されます。
+生成物は `outputs/Tarkov-Task-Extract-Navi-test-v2/` に出力されます。
 
 - `win-unpacked/`: 展開済みのポータブル版
-- `Tarkov Stash Ledger Setup 0.1.0.exe`: Windowsセットアップ版
+- `Tarkov-Task-Extract-Navi-test-v2.exe`: Windowsセットアップ版
 
 ## データと保存先
 
-- タスク、アイテム、ハイドアウトの初期データは `app/data/` に収録しています。
-- アイテム画像などの静的ファイルは `public/` に収録しています。
-- アプリ上の進捗はElectronまたはブラウザのローカルストレージに保存されます。
+- タスクの初期データは `app/data/` に収録しています。
+- タスクやマップで使用する静的画像は `public/` に収録しています。
 - 一部のタスク、Wiki画像、翻訳、マップ情報はインターネット接続時に外部サービスから取得します。
 
 ## ディレクトリ構成
 
 ```text
-app/       React画面、スタイル、初期データ
+app/       React画面、スタイル、タスクデータ
 desktop/   Electron向けViteエントリーポイント
 electron/  ElectronメインプロセスとIPCブリッジ
-public/    アイテム、設備、マップ、トレーダー画像
-scripts/   データ更新、画像取得、配布物生成用スクリプト
+public/    タスク、マップ、トレーダー用画像
 worker/    Vinext／Cloudflare Workerエントリーポイント
 db/        将来用のDrizzle設定
 tests/     テストコード
