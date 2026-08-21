@@ -139,7 +139,25 @@ function printedLabelLineLengths(value: any) {
   const search = (start: number, lengths: number[]) => {if (lengths.length === lineCount - 1) {const tail = words.slice(start).join(" ").length, candidate = [...lengths, tail], max = Math.max(...candidate), min = Math.min(...candidate), score = max * 10 + (max - min); if (score < bestScore) {best = candidate; bestScore = score;} return ;} const remainingLines = lineCount - lengths.length - 1; for (let end = start + 1; end <= words.length - remainingLines; end++)search(end, [...lengths, words.slice(start, end).join(" ").length]);};
   search(0, []); return best || [label.length];
 }
-function printedLabelAnchor(mapId: string, mapName: string, name: any) {const points = printedLabelAnchors[mapId] || printedLabelAnchors[`name:${printedLabelKey(mapName)}`], point = points?.[printedLabelKey(name)]; if (!point) return null; const lines = printedLabelLineLengths(name), longest = Math.max(...lines, 1), lineCount = lines.length, desiredWidth = point.width ?? Math.min(13.5, Math.max(3.2, longest * .64 + 1.1)), desiredHeight = Math.max(point.height ?? 0, 1.35 + (lineCount - 1) * 2.2), edgeWidth = Math.max(1.4, 2 * (Math.min(point.left, 100 - point.left) - .15)), edgeHeight = Math.max(.9, 2 * (Math.min(point.top, 100 - point.top) - .15)); return {...point, width: Math.min(desiredWidth, edgeWidth), height: Math.min(desiredHeight, edgeHeight), lines: lineCount};}
+const PRINTED_LABEL_FRAME_SCALE = {width: 1.22, height: 1.28};
+const PRINTED_LABEL_FRAME_PADDING = {width: 1.1, height: .7};
+function paddedPrintedLabelPart(point: PrintedLabelPart | PrintedLabelAnchor, width: number, height: number) {
+  const desiredWidth = width * PRINTED_LABEL_FRAME_SCALE.width + PRINTED_LABEL_FRAME_PADDING.width;
+  const desiredHeight = height * PRINTED_LABEL_FRAME_SCALE.height + PRINTED_LABEL_FRAME_PADDING.height;
+  const edgeWidth = Math.max(1.4, 2 * (Math.min(point.left, 100 - point.left) - .15));
+  const edgeHeight = Math.max(.9, 2 * (Math.min(point.top, 100 - point.top) - .15));
+  return {...point, width: Math.min(desiredWidth, edgeWidth), height: Math.min(desiredHeight, edgeHeight)};
+}
+function printedLabelAnchor(mapId: string, mapName: string, name: any) {
+  const points = printedLabelAnchors[mapId] || printedLabelAnchors[`name:${printedLabelKey(mapName)}`], point = points?.[printedLabelKey(name)];
+  if (!point) return null;
+  const lines = printedLabelLineLengths(name), longest = Math.max(...lines, 1), lineCount = lines.length;
+  const baseWidth = point.width ?? Math.min(13.5, Math.max(3.2, longest * .64 + 1.1));
+  const baseHeight = Math.max(point.height ?? 0, 1.35 + (lineCount - 1) * 2.2);
+  const padded = paddedPrintedLabelPart(point, baseWidth, baseHeight);
+  const parts = point.parts?.map(part => paddedPrintedLabelPart(part, part.width, part.height));
+  return {...padded, parts, lines: lineCount};
+}
 function OfflineZoomMap({selected, selectedExtract, onShowDetails}: {selected: any; selectedExtract: any; onShowDetails: () => void;}) {
   const viewportRef = useRef<HTMLDivElement | null>(null), markerRef = useRef<HTMLButtonElement | null>(null), dragRef = useRef<{x: number; y: number; startX: number; startY: number;} | null>(null), didDragRef = useRef(false), panCleanupRef = useRef<() => void>(() => {}), zoomAnchorRef = useRef<{x: number; y: number; localX: number; localY: number;} | null>(null), focusRequestRef = useRef("");
   const remoteUrl = mapImageFor({id: selected.id, name: selected.name, slug: selected.name.toLowerCase().replace(/\s+/g, "-")}), visual = mapVisualFor(selected);

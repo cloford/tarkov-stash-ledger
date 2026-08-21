@@ -25,6 +25,9 @@ test("全マップ共通の強調表示修正を保持する",()=>{
  assert.match(page,/thewayup:\s*\{left:\s*79,\s*top:\s*43\.7/);
  assert.match(page,/nakatanibasementstairs:\s*\{[^\n]*parts:\s*\[/);
  assert.match(page,/markerPoints\.map\(/);
+ assert.match(page,/PRINTED_LABEL_FRAME_SCALE\s*=\s*\{width:\s*1\.22,\s*height:\s*1\.28\}/);
+ assert.match(page,/PRINTED_LABEL_FRAME_PADDING\s*=\s*\{width:\s*1\.1,\s*height:\s*\.7\}/);
+ assert.match(page,/point\.parts\?\.map\(part\s*=>\s*paddedPrintedLabelPart/);
  assert.doesNotMatch(page,/holeinthefence:\s*\{/);
  assert.match(page,/marker\.offsetLeft\s*-\s*viewport\.clientWidth\s*\/\s*2/);
  assert.doesNotMatch(page,/marker\.offsetLeft\s*\+\s*marker\.offsetWidth\s*\/\s*2/);
