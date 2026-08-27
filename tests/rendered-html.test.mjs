@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import {readFile} from "node:fs/promises";
 import test from "node:test";
+import {selectTaskReferenceImages} from "../app/task-media.mjs";
 
 const [page,css,main,mapsCache]=await Promise.all([
  readFile(new URL("../app/page.tsx",import.meta.url),"utf8"),
@@ -47,6 +48,9 @@ test("全マップ共通の強調表示修正を保持する",()=>{
  assert.doesNotMatch(css,/\.printedLabelMarker|inset 0 0 8px/);
  assert.match(main,/ipcMain\.handle\("maps:latest"/);
  assert.match(main,/ipcMain\.handle\("maps:refresh-online"/);
+ assert.match(main,/ipcMain\.handle\("task:media"/);
+ assert.match(main,/iiprop=url\|mime\|size/);
+ assert.match(main,/names\.map\(name=>"File:"\+name\)\.join\("\|"\)/);
  assert.match(main,/createHash\("sha256"\)/);
  const bundled=JSON.parse(mapsCache);
  assert.ok(Array.isArray(bundled.maps) && bundled.maps.length >= 13);
@@ -68,6 +72,20 @@ test("サブタスク検索とマップ表示の回帰を防ぐ",()=>{
  assert.match(page,/normalizeSearchText\(search\)/);
  assert.ok(page.includes('.replace(/[^\\p{L}\\p{N}]/gu, "")'));
  assert.match(page,/zones:\s*Array\.isArray\(o\.zones\)[^\n]+oldObjective\.zones/);
+});
+
+test("Wikiの地点画像をタスク名・目的文・略称から選べる",()=>{
+ const task={name:"Health Care Privacy - Part 1",objectives:[{description:"Locate and mark the first ambulance with an MS2000 Marker on Shoreline"}]};
+ const images=[
+  {url:"https://static.wikia/HCPP1.png",caption:"HCPP1.png",width:1920,height:1080},
+  {url:"https://static.wikia/Ambulance1.png",caption:"Ambulance1.png",width:1280,height:720},
+  {url:"https://static.wikia/Ambulance2.png",caption:"Ambulance2.png",width:1280,height:720},
+  {url:"https://static.wikia/Out_of_Curiosity_Banner.png",caption:"Out of Curiosity Banner.png",width:1200,height:300},
+  {url:"https://static.wikia/MS2000_icon.png",caption:"MS2000 Marker icon.png",width:64,height:64}
+ ];
+ assert.deepEqual(selectTaskReferenceImages(images,task).map(image=>image.caption),["HCPP1.png","Ambulance1.png","Ambulance2.png"]);
+ assert.equal(selectTaskReferenceImages([{url:"https://static.wikia/Rigged.png",caption:"AnesthesiaxRiggedGameLocation1.png"}],{name:"Rigged Game",objectives:[]}).length,1);
+ assert.equal(selectTaskReferenceImages([{url:"https://static.wikia/Trouble.png",caption:"TroubleBigCity MarkSpot.png"}],{name:"Trouble in the Big City",objectives:[]}).length,1);
 });
 
 test("対応マップの全脱出地点に注釈データがある",()=>{

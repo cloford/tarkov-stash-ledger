@@ -1,6 +1,6 @@
 {
   "name": "tarkov-task-extract-navi",
-  "version": "1.1.0-test.18",
+  "version": "1.1.0-test.19",
   "description": "Escape from Tarkovのタスクと脱出地点を確認する日本語デスクトップアプリ",
   "private": true,
   "engines": {
@@ -11,6 +11,7 @@
     "build": "vinext build",
     "start": "vinext start",
     "test": "npm run build && node --test tests/rendered-html.test.mjs",
+    "media:audit": "node scripts/audit-task-media.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "desktop:build": "vite build --config vite.desktop.config.ts && electron-builder --win --dir",
     "db:generate": "drizzle-kit generate"
@@ -55,7 +56,7 @@
     "appId": "jp.tarkov.taskextractnavi",
     "productName": "タルコフ タスク・脱出ナビ",
     "directories": {
-      "output": "outputs/Tarkov-Task-Extract-Navi-test-v18"
+      "output": "outputs/Tarkov-Task-Extract-Navi-test-v19"
     },
     "files": [
       "desktop-dist/**/*",
