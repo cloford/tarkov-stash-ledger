@@ -2,6 +2,8 @@ const {app,BrowserWindow,ipcMain,shell}=require("electron");
 const path=require("node:path");
 const fs=require("node:fs");
 const crypto=require("node:crypto");
+const {fetchKeyCatalog}=require("./key-catalog.cjs");
+const {fetchMapVariants}=require("./map-variants.cjs");
 app.disableHardwareAcceleration();
 app.commandLine.appendSwitch("disable-gpu");
 app.commandLine.appendSwitch("disable-software-rasterizer");
@@ -9,6 +11,9 @@ app.commandLine.appendSwitch("no-sandbox");
 app.setPath("userData",path.join(process.resourcesPath,"user-data"));
 app.setAppUserModelId("jp.tarkov.taskextractnavi");
 ipcMain.handle("maps:cache-image",async(_event,url,mapId,refresh=false)=>{const source=String(url||""),safeId=String(mapId||"map").replace(/[^a-z0-9_-]/gi,"_").slice(0,80);if(!/^https:\/\//i.test(source))return{url:source,cached:false,error:"invalid url"};const cacheDir=path.join(app.getPath("userData"),"offline-maps"),imagePath=path.join(cacheDir,`${safeId}.bin`),metaPath=path.join(cacheDir,`${safeId}.json`),digest=data=>crypto.createHash("sha256").update(data).digest("hex"),readCache=()=>{try{const meta=JSON.parse(fs.readFileSync(metaPath,"utf8"));if(meta.source!==source)return null;const data=fs.readFileSync(imagePath),sha256=meta.sha256||digest(data);return{url:`data:${meta.mime||"image/jpeg"};base64,${data.toString("base64")}`,cached:true,updatedAt:meta.updatedAt,sha256}}catch{return null}};if(!refresh){const saved=readCache();return saved||{url:source,cached:false}}try{const response=await fetch(source,{signal:AbortSignal.timeout(45000),headers:{"user-agent":"Tarkov Task Extract Navi/1.0"}});if(!response.ok)throw Error(`image ${response.status}`);const mime=String(response.headers.get("content-type")||"image/jpeg").split(";")[0];if(!/^image\/(png|jpe?g|webp|svg\+xml)$/i.test(mime))throw Error("unsupported image");const data=Buffer.from(await response.arrayBuffer());if(!data.length||data.length>50*1024*1024)throw Error("invalid image size");fs.mkdirSync(cacheDir,{recursive:true});fs.writeFileSync(imagePath,data);const updatedAt=new Date().toISOString(),sha256=digest(data);fs.writeFileSync(metaPath,JSON.stringify({source,mime,updatedAt,sha256}));return{url:`data:${mime};base64,${data.toString("base64")}`,cached:true,updatedAt,sha256}}catch(error){const saved=readCache();return saved||{url:source,cached:false,error:String(error?.message||error)}}});
+ipcMain.handle("maps:variants",async(_event,mapName)=>{try{return await fetchMapVariants(String(mapName||""))}catch(error){console.error("maps:variants",error);return{variants:[],sourceUrl:"",error:String(error?.message||error)}}});
+ipcMain.handle("keys:latest",async()=>{const runtime=path.join(app.getPath("userData"),"key-catalog.json"),bundled=path.join(__dirname,"..","app","data","key-catalog.json");for(const [file,source] of [[runtime,"保存済み"],[bundled,"同梱"]]){try{const catalog=JSON.parse(fs.readFileSync(file,"utf8"));if(Array.isArray(catalog.keys)&&catalog.keys.length)return{...catalog,source}}catch{}}return{keys:[],source:"利用不可",updatedAt:null,error:"鍵データを読み込めませんでした"}});
+ipcMain.handle("keys:refresh-online",async()=>{const cache=path.join(app.getPath("userData"),"key-catalog.json");try{const catalog=await fetchKeyCatalog();fs.mkdirSync(path.dirname(cache),{recursive:true});fs.writeFileSync(cache,JSON.stringify(catalog));return{...catalog,source:"オンライン"}}catch(error){console.error("keys:refresh-online",error);return{keys:[],source:"更新失敗",updatedAt:null,error:String(error?.message||error)}}});
 ipcMain.handle("task:media",async(_event,url)=>{
   if(!/^https:\/\/escapefromtarkov\.fandom\.com\//.test(String(url||"")))return[];
   try{

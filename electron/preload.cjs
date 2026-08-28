@@ -8,6 +8,9 @@ contextBridge.exposeInMainWorld("stashAI",{
  maps:()=>ipcRenderer.invoke("maps:latest"),
  refreshMaps:()=>ipcRenderer.invoke("maps:refresh-online"),
  cacheMapImage:(url,mapId,refresh=false)=>ipcRenderer.invoke("maps:cache-image",url,mapId,refresh),
+ mapVariants:map=>ipcRenderer.invoke("maps:variants",map),
+ keys:()=>ipcRenderer.invoke("keys:latest"),
+ refreshKeys:()=>ipcRenderer.invoke("keys:refresh-online"),
  extractImage:(map,extract)=>ipcRenderer.invoke("maps:extract-image",map,extract),
  extractGuide:(map,extract)=>ipcRenderer.invoke("maps:extract-guide",map,extract),
 });

@@ -2,19 +2,63 @@ import assert from "node:assert/strict";
 import {readFile} from "node:fs/promises";
 import test from "node:test";
 import {selectTaskReferenceImages} from "../app/task-media.mjs";
+import {filterKeys} from "../app/key-wiki-utils.mjs";
+import {createRequire} from "node:module";
+const require=createRequire(import.meta.url),{variantKind}=require("../electron/map-variants.cjs"),{usableLockKey}=require("../electron/key-catalog.cjs");
 
-const [page,css,main,mapsCache]=await Promise.all([
+const [page,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain]=await Promise.all([
  readFile(new URL("../app/page.tsx",import.meta.url),"utf8"),
  readFile(new URL("../app/map.css",import.meta.url),"utf8"),
  readFile(new URL("../electron/main.cjs",import.meta.url),"utf8"),
- readFile(new URL("../app/data/maps-cache-v3.json",import.meta.url),"utf8")
+ readFile(new URL("../electron/preload.cjs",import.meta.url),"utf8"),
+ readFile(new URL("../app/key-wiki.tsx",import.meta.url),"utf8"),
+ readFile(new URL("../app/data/maps-cache-v3.json",import.meta.url),"utf8"),
+ readFile(new URL("../app/data/key-catalog.json",import.meta.url),"utf8"),
+ readFile(new URL("../desktop/main.tsx",import.meta.url),"utf8")
 ]);
 
-test("現在のタスク・マップ構成だけを表示する",()=>{
- assert.match(page,/\[\["guide",\s*"タスク情報"\],\s*\["maps",\s*"MAP"\]\]/);
+test("タスク・マップ・鍵Wikiだけを表示する",()=>{
+ assert.match(page,/\[\["guide",\s*"タスク情報"\],\s*\["maps",\s*"MAP"\],\s*\["keys",\s*"鍵WIKI"\]\]/);
  assert.doesNotMatch(page,/このタスクを完了済にする|アイテム情報|ハイドアウト/);
  assert.doesNotMatch(page,/function MapHub\s*\(/);
  assert.doesNotMatch(page,/extractFieldNote|方角・階層|画像でたどる脱出ルート|周辺の目印/);
+});
+
+test("英語Wikiの別マップを機能付き基準版と分離する",()=>{
+ assert.match(main,/ipcMain\.handle\("maps:variants"/);
+ assert.match(preload,/mapVariants:map=>ipcRenderer\.invoke\("maps:variants",map\)/);
+ assert.match(page,/マップ画像を切り替え/);
+ assert.match(page,/脱出地点対応マップへ戻す/);
+ assert.match(page,/activeVariant\.primary \? primaryVisual/);
+ assert.match(page,/脱出地点の強調表示は基準版のみ/);
+ assert.match(css,/\.mapVariantPicker\{/);
+ assert.equal(variantKind("Reserve underground map.png"),"地下・屋内");
+ assert.equal(variantKind("Customs 3D Map.jpg"),"3D");
+ assert.equal(variantKind("Factory plan map.png"),"ゲーム内地図");
+});
+
+test("鍵Wikiで鍵名・タスク名・マップ名を横断検索できる",()=>{
+ const catalog=JSON.parse(keyCatalog),keys=catalog.keys;
+ assert.ok(keys.length>=200);
+ assert.ok(keys.some(key=>key.tasks.length>0));
+ assert.ok(keys.some(key=>key.mapUses.length>0));
+ assert.ok(filterKeys(keys,{query:"factory emergency exit"}).some(key=>key.nameEn==="Factory emergency exit key"));
+ assert.ok(filterKeys(keys,{query:"factoryemergencyexit"}).some(key=>key.nameEn==="Factory emergency exit key"));
+ assert.ok(filterKeys(keys,{query:"Corporate Perks"}).some(key=>key.tasks.some(task=>task.nameEn==="Corporate Perks")));
+ assert.ok(filterKeys(keys,{query:"corporateperks"}).some(key=>key.tasks.some(task=>task.nameEn==="Corporate Perks")));
+ assert.ok(filterKeys(keys,{query:"customs"}).some(key=>key.mapUses.some(map=>map.nameEn==="Customs")));
+ assert.ok(filterKeys(keys,{usage:"task"}).every(key=>key.tasks.length>0));
+ const factoryKey="5448ba0b4bdc2d02308b456c";
+ assert.equal(usableLockKey({key:factoryKey,lockType:"trunk"}),null);
+ assert.equal(usableLockKey({key:factoryKey,lockType:"door"}),factoryKey);
+ assert.deepEqual(keys.find(key=>key.id===factoryKey).mapUses.map(map=>map.nameEn).sort(),["Customs","Factory","Night Factory"]);
+ assert.match(main,/ipcMain\.handle\("keys:latest"/);
+ assert.match(main,/ipcMain\.handle\("keys:refresh-online"/);
+ assert.match(preload,/keys:\(\)=>ipcRenderer\.invoke\("keys:latest"\)/);
+ assert.match(keyWiki,/使用するタスク/);
+ assert.match(keyWiki,/onOpenMap/);
+ assert.match(keyWiki,/onOpenTask/);
+ assert.match(desktopMain,/app\/key-wiki\.css/);
 });
 
 test("全マップ共通の強調表示修正を保持する",()=>{

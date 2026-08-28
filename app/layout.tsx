@@ -4,6 +4,7 @@ import "./globals.css";
 import "./navigation.css";
 import "./guide.css";
 import "./map.css";
+import "./key-wiki.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,7 +18,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "タルコフ タスク・脱出ナビ",
-  description: "Escape from Tarkovのタスクと脱出地点を確認する日本語ガイド",
+  description: "Escape from Tarkovのタスク・マップ・鍵用途を確認する日本語ガイド",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
