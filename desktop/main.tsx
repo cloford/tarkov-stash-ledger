@@ -7,4 +7,5 @@ import "../app/map.css";
 import "../app/map-v21.css";
 import "../app/key-wiki.css";
 import "../app/key-wiki-v21.css";
+import "../app/key-wiki-v22.css";
 createRoot(document.getElementById("root")!).render(<Home />);

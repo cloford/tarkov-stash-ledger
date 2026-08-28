@@ -4,9 +4,9 @@ import test from "node:test";
 import {selectTaskReferenceImages} from "../app/task-media.mjs";
 import {filterKeys} from "../app/key-wiki-utils.mjs";
 import {createRequire} from "node:module";
-const require=createRequire(import.meta.url),{variantKind}=require("../electron/map-variants.cjs"),{usableLockKey}=require("../electron/key-catalog.cjs");
+const require=createRequire(import.meta.url),{variantKind}=require("../electron/map-variants.cjs"),{usableLockKey}=require("../electron/key-catalog.cjs"),{extractWikiSection,plainWikiText}=require("../electron/key-wiki-details.cjs");
 
-const [page,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain,keyWikiV21,mapV21]=await Promise.all([
+const [page,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain,keyWikiV21,mapV21,keyWikiV22]=await Promise.all([
  readFile(new URL("../app/page.tsx",import.meta.url),"utf8"),
  readFile(new URL("../app/map.css",import.meta.url),"utf8"),
  readFile(new URL("../electron/main.cjs",import.meta.url),"utf8"),
@@ -16,7 +16,8 @@ const [page,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain,keyWikiV21
  readFile(new URL("../app/data/key-catalog.json",import.meta.url),"utf8"),
  readFile(new URL("../desktop/main.tsx",import.meta.url),"utf8"),
  readFile(new URL("../app/key-wiki-v21.css",import.meta.url),"utf8"),
- readFile(new URL("../app/map-v21.css",import.meta.url),"utf8")
+ readFile(new URL("../app/map-v21.css",import.meta.url),"utf8"),
+ readFile(new URL("../app/key-wiki-v22.css",import.meta.url),"utf8")
 ]);
 
 test("タスク・マップ・鍵Wikiだけを表示する",()=>{
@@ -66,9 +67,21 @@ test("鍵Wikiで鍵名・タスク名・マップ名を横断検索できる",()
  assert.match(keyWiki,/onOpenTask/);
  assert.match(desktopMain,/app\/key-wiki\.css/);
  assert.match(desktopMain,/app\/key-wiki-v21\.css/);
+ assert.match(desktopMain,/app\/key-wiki-v22\.css/);
  assert.match(keyWikiV21,/\.keyDecision\.keep/);
  const keysWithPositions=keys.filter(key=>key.mapUses.some(map=>map.positions?.length));
  assert.ok(keysWithPositions.length>=100);
+ const keysWithLockLocation=keys.filter(key=>key.lockLocationEn);
+ const keysWithBehindLock=keys.filter(key=>key.behindLockEn);
+ assert.ok(keysWithLockLocation.length>=240);
+ assert.ok(keysWithBehindLock.length>=220);
+ assert.ok(filterKeys(keys,{query:"grenade box"}).some(key=>key.behindLockEn?.includes("Grenade box")));
+ assert.ok(keys.find(key=>key.nameEn==="Military checkpoint key").mapUses.some(map=>map.nameEn==="Customs"&&map.kind==="wiki"));
+ assert.match(keyWiki,/鍵を使う場所/);
+ assert.match(keyWiki,/開錠先で入手・利用できるもの/);
+ assert.match(keyWikiV22,/\.keyWikiIntel/);
+ assert.equal(extractWikiSection("==Lock Location==\nDoor on [[Customs]].\n==Behind the Lock==\n* 2x {{Item|Grenade box}}","Lock Location"),"Door on Customs.");
+ assert.equal(plainWikiText("* 2x {{Item|Grenade box}}"),"・2x Grenade box");
 });
 
 test("鍵位置・安定したマップタイトル・タスク一覧への戻り先を保持する",()=>{
