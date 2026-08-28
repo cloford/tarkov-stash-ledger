@@ -6,8 +6,10 @@
 }
 .keyWikiIntel article { min-width: 0; padding: 18px; }
 .keyWikiIntel article + article { border-left: 1px solid #353a31; }
-.keyWikiIntel header { padding-left: 10px; border-left: 3px solid var(--acid); }
+.keyWikiIntel header { display:flex;justify-content:space-between;gap:10px;align-items:flex-start;padding-left: 10px; border-left: 3px solid var(--acid); }
 .keyWikiIntel article + article header { border-color: #d8a740; }
+.keyWikiIntel header > span { flex:none;padding:4px 6px;border:1px solid #58643f;color:#bdca72;font:7px monospace;letter-spacing:.08em; }
+.keyWikiIntel article.unlisted header > span { border-color:#4a4e45;color:#81877a; }
 .keyWikiIntel small { color: #8d977f; font: 8px monospace; letter-spacing: .12em; }
 .keyWikiIntel h3 { margin: 4px 0 0; color: #e6eddc; font-size: 14px; }
 .keyWikiIntel > article > p,.keyWikiIntel details p { margin: 14px 0 0; color: #b5beaa; font-size: 10px; line-height: 1.85; white-space: pre-line; }

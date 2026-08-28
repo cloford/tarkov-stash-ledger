@@ -16,7 +16,7 @@ Escape from Tarkovのタスク情報、マップ、脱出地点、鍵の用途�
 - 英語Wikiに掲載されている2D・3D・屋内などの別マップ画像への切り替え
 - 鍵名・タスク名・マップ名を横断できる鍵Wiki（空白を省いた検索にも対応）
 - 鍵を拾った時の保管判断と、マップ上の正確な使用位置の確認
-- 英語Wikiの「Lock Location」と「Behind the Lock」に基づく、使用場所と開錠先の入手物表示
+- 英語Wikiの「Lock Location」と「Behind the Lock」を全鍵で監査した、使用場所と開錠先の入手物表示
 - 鍵Wikiから関連マップ・関連タスクへ直接移動
 - Windows向けElectronデスクトップ版
 
