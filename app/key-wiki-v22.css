@@ -12,6 +12,7 @@
 .keyWikiIntel article.unlisted header > span { border-color:#4a4e45;color:#81877a; }
 .keyWikiIntel small { color: #8d977f; font: 8px monospace; letter-spacing: .12em; }
 .keyWikiIntel h3 { margin: 4px 0 0; color: #e6eddc; font-size: 14px; }
+.keyLocationMaps{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px;padding:8px 10px;border:1px solid #3b4430;background:#171d14}.keyLocationMaps>small{flex:none;color:#87936d;font-size:7px}.keyLocationMaps>div{display:flex;gap:5px;flex-wrap:wrap}.keyLocationMaps b{padding:3px 6px;border:1px solid #65753f;background:#242f19;color:#d8e694;font-size:8px;font-weight:700}
 .keyWikiIntel > article > p,.keyWikiIntel details p { margin: 14px 0 0; color: #b5beaa; font-size: 10px; line-height: 1.85; white-space: pre-line; }
 .keyWikiIntel details { margin-top: 13px; border-top: 1px solid #2d332a; padding-top: 10px; }
 .keyWikiIntel summary { color: #9fac62; cursor: pointer; font-size: 9px; }

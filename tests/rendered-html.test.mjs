@@ -92,9 +92,13 @@ test("鍵Wikiで鍵名・タスク名・マップ名を横断検索できる",()
  assert.ok(filterKeys(keys,{query:"grenade box"}).some(key=>key.behindLockEn?.includes("Grenade box")));
  assert.ok(keys.find(key=>key.nameEn==="Military checkpoint key").mapUses.some(map=>map.nameEn==="Customs"&&map.kind==="wiki"));
  assert.match(keyWiki,/鍵を使う場所/);
+ assert.match(keyWiki,/locationMaps=selected/);
+ assert.match(keyWiki,/使用場所の対応マップ/);
+ assert.match(keyWiki,/対応マップ/);
  assert.match(keyWiki,/開錠先で入手・利用できるもの/);
  assert.match(keyWiki,/節の記載なし/);
  assert.match(keyWikiV22,/\.keyWikiIntel/);
+ assert.match(keyWikiV22,/\.keyLocationMaps/);
  assert.equal(extractWikiSection("==Lock Location==\nDoor on [[Customs]].\n==Behind the Lock==\n* 2x {{Item|Grenade box}}","Lock Location"),"Door on Customs.");
  assert.equal(plainWikiText("* 2x {{Item|Grenade box}}"),"・2x Grenade box");
 });
