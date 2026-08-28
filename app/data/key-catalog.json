@@ -44,9 +44,9 @@
           ]
         }
       ],
-      "lockLocation": "Streets of TarkovのZmeisky 6ビル内の交渉室への扉。",
+      "lockLocation": "ストリート・オブ・タルコフのZmeisky 6ビル内の交渉室への扉。",
       "lockLocationEn": "Door to the negotiation room inside the Zmeisky 6 building at Streets of Tarkov.",
-      "behindLock": "・Loose loot (Valuables, Drinks, Building materials, Electronics)\n・メドバッグ SMU06\n・PCブロック\n・Relaxation room key spawn location on the metal table",
+      "behindLock": "・ルーズ戦利品（貴重品、飲料、建築資材、電子機器）\n・メドバッグ SMU06\n・PCブロック\n・金属製テーブル上にリラクゼーションルームの鍵が出現",
       "behindLockEn": "・Loose loot (Valuables, Drinks, Building materials, Electronics)\n・Medbag SMU06\n・PC block\n・Relaxation room key spawn location on the metal table",
       "lockLocationSource": "wiki-section",
       "behindLockSource": "wiki-section",
@@ -159,7 +159,7 @@
           "positions": []
         }
       ],
-      "lockLocation": "The Lab の 1 階にあるシステム管理者のオフィス。",
+      "lockLocation": "研究所 の 1 階にあるシステム管理者のオフィス。",
       "lockLocationEn": "System admin's office on the first level in The Lab.",
       "behindLock": "・抽出を有効にするスイッチ。\n・マップ上の任意のキーパッドのロックを解除するコード。コードはレイドごとに変わります。\n・棚に電子機器が落ちている。",
       "behindLockEn": "・A switch to enable the extractions.\n・A code to unlock any keypad on the map. The code changes in every raid.\n・Loose Electronics on the shelves.",
@@ -492,7 +492,7 @@
       "uses": 10,
       "tasks": [],
       "mapUses": [],
-      "lockLocation": "Icebreaker の乗組員室のロックを解除します。",
+      "lockLocation": "アイスブレーカー の乗組員室のロックを解除します。",
       "lockLocationEn": "Unlocks crew rooms on Icebreaker.",
       "behindLock": "・部屋番号12:\n・戦利品（電子機器、医療用品、医療用品、食料品）\n・部屋番号15:\n・戦利品（電子機器、食料品）\n・スポーツバッグ×1\n・部屋番号16:\n・戦利品（医療品、覚せい剤、食糧）\n・部屋番号18:\n・戦利品（貴重品、食料品）\n・部屋番号19:\n・ルーズ戦利品（情報アイテム）\n・部屋番号22:\n・部屋番号23:\n・粗品（貴重品、電化製品、食料品）\n・部屋番号27:\n・戦利品（食料品）",
       "behindLockEn": "・Room no. 12:\n・Loose loot (Electronics, Medical supplies, Medical items, Provisions)\n・Room no. 15:\n・Loose loot (Electronics, Provisions)\n・1x Sports bag\n・Room no. 16:\n・Loose loot (Medical supplies, Stimulants, Provisions)\n・Room no. 18:\n・Loose loot (Valuables, Provisions)\n・Room no. 19:\n・Loose loot (Info items)\n・Room no. 22:\n・Room no. 23:\n・Loose loot (Valuables, Electronics, Provisions)\n・Room no. 27:\n・Loose loot (Provisions)",
@@ -513,7 +513,7 @@
       "uses": 10,
       "tasks": [],
       "mapUses": [],
-      "lockLocation": "Icebreaker のレベル 0 にある更衣室へのドア。",
+      "lockLocation": "アイスブレーカー のレベル 0 にある更衣室へのドア。",
       "lockLocationEn": "Door to the changing room on level 0 of Icebreaker.",
       "behindLock": "・スポーツバッグ×1\n・略奪品（貴重品、食料品、医薬品、医薬品、覚せい剤）",
       "behindLockEn": "・1x Sports bag\n・Loose loot (Valuables, Provisions, Medical supplies, Medical items, Stimulants)",
@@ -563,7 +563,7 @@
           ]
         }
       ],
-      "lockLocation": "ストリート オブ タルコフの LexOs 自動車ディーラーの 2 階にある格子のドア。",
+      "lockLocation": "ストリート オブ タルコフの レクソス 自動車ディーラーの 2 階にある格子のドア。",
       "lockLocationEn": "Grate door on the second floor of the LexOs car dealership at Streets of Tarkov.",
       "behindLock": "・テクニカルサプライクレート 1個\n・木箱×1\n・武器ボックス×2(5×2)\n・武器ボックス(5×5)×1\n・武器ボックス×1(6×3)\n・PCブロック×1\n・ゆるい戦利品（武器改造、家庭用資材、その他アイテム）\n・自動車販売店の社長室の鍵の場所",
       "behindLockEn": "・1x Technical supply crate\n・1x Wooden crate\n・2x Weapon box (5x2)\n・1x Weapon box (5x5)\n・1x Weapon box (6x3)\n・1x PC block\n・Loose loot (Weapon mods, Household materials, Other items)\n・Car dealership director's office room key lock location",
@@ -613,7 +613,7 @@
           ]
         }
       ],
-      "lockLocation": "Streets of TarkovにあるLexOs自動車ディーラーの閉鎖された2階部分にあるオフィス。入るにはカーディーラーのクローズドセクションキーが必要です。",
+      "lockLocation": "ストリート・オブ・タルコフにあるレクソス自動車ディーラーの閉鎖された2階部分にあるオフィス。入るにはカーディーラーのクローズドセクションキーが必要です。",
       "lockLocationEn": "Office in the closed second floor section of the LexOs car dealership at Streets of Tarkov. Requires a Car dealership closed section key to enter.",
       "behindLock": "・引き出し×2\n・PCブロック×1\n・戦利品（貴重品）",
       "behindLockEn": "・2x Drawer\n・1x PC block\n・Loose loot (Valuables)",
@@ -644,7 +644,7 @@
       ],
       "lockLocation": "・タルコフの通りにあるカーディナル集合住宅の2階にあるアパート2のロックを解除します。",
       "lockLocationEn": "・Unlocks apartment 2 on the second floor of the Cardinal apartment complex on Streets of Tarkov.",
-      "behindLock": "・スポーツバッグ×2\n・PCブロック×1\n・ツールボックス×2\n・金庫×2（鍵付き）\n・武器ロッカー×1\n・戦利品（貴重品、医療品、紙弾薬箱、食料品、その他）\n・施錠された寝室：\n・戦利品（貴重品）\n・スポーツバッグ×1\n・金庫 (ロック付き) 1 個。TerraGroup Labs キーカード (黒) を絵画の後ろのキーカード パネルにスワイプする必要がありますが、使用しても消費されません",
+      "behindLock": "・スポーツバッグ×2\n・PCブロック×1\n・ツールボックス×2\n・金庫×2（鍵付き）\n・武器ロッカー×1\n・戦利品（貴重品、医療品、紙弾薬箱、食料品、その他）\n・施錠された寝室：\n・戦利品（貴重品）\n・スポーツバッグ×1\n・金庫 (ロック付き) 1 個。テラグループ Labs キーカード (黒) を絵画の後ろのキーカード パネルにスワイプする必要がありますが、使用しても消費されません",
       "behindLockEn": "・2x Sports bag\n・1x PC block\n・2x Toolbox\n・2x Safe (locked)\n・1x Weapon locker\n・Loose loot (Valuables, Medical items, Paper ammo boxes, Provisions, Other items)\n・Locked bedroom:\n・Loose loot (Valuables)\n・1x Sports bag\n・1x Safe (locked) requiring TerraGroup Labs keycard (Black) to be swiped at the keycard panel behind the painting, while no use gets consumed",
       "lockLocationSource": "wiki-fallback",
       "behindLockSource": "wiki-section",
@@ -678,7 +678,7 @@
           ]
         }
       ],
-      "lockLocation": "ストリート オブ タルコフの LexOs 自動車ディーラーと自動車ワークショップの間の輸送コンテナ内の格子ドア。",
+      "lockLocation": "ストリート オブ タルコフの レクソス 自動車ディーラーと自動車ワークショップの間の輸送コンテナ内の格子ドア。",
       "lockLocationEn": "Grate door inside a shipping container between the LexOs car dealership and the car workshop at Streets of Tarkov.",
       "behindLock": "・グレネードボックス×1\n・武器ボックス(5×5)×1\n・武器ボックス×1(5×2)\n・ルーズ戦利品（武器改造）",
       "behindLockEn": "・1x Grenade box\n・1x Weapon box (5x5)\n・1x Weapon box (5x2)\n・Loose loot (Weapon mods)",
@@ -2458,7 +2458,7 @@
       ],
       "lockLocation": "・2つの追加抽出とファクトリーの部屋のロックを解除します",
       "lockLocationEn": "・Unlocks two additional extractions and a room on Factory",
-      "behindLock": "【工場】\n・メッドテントゲート抽出\n・地下セラー抽出\n・執務エリア3階の密室：\n・ポータブル飯場の鍵出現場所\n・ジャケット×1\n【税関】\n・ZB-013抽出\n・クレーンヤード警備棟：\n・ルーズ戦利品（武器改造）\n・TerraGroup Labs兵器庫保管室の鍵出現場所\n・引き出し×1\n・木箱×1",
+      "behindLock": "【工場】\n・メッドテントゲート抽出\n・地下セラー抽出\n・執務エリア3階の密室：\n・ポータブル飯場の鍵出現場所\n・ジャケット×1\n【税関】\n・ZB-013抽出\n・クレーンヤード警備棟：\n・ルーズ戦利品（武器改造）\n・テラグループ Labs兵器庫保管室の鍵出現場所\n・引き出し×1\n・木箱×1",
       "behindLockEn": "【Factory】\n・Med Tent Gate extraction\n・Cellars extraction in the underground\n・Locked room on the 3rd floor of the office area:\n・Portable bunkhouse key spawn location\n・1x Jacket\n【Customs】\n・ZB-013 extraction\n・Crane yard guard building:\n・Loose loot (Weapon mods)\n・TerraGroup Labs arsenal storage room key spawn location\n・1x Drawer\n・1x Wooden crate",
       "lockLocationSource": "wiki-fallback",
       "behindLockSource": "wiki-section",
@@ -4751,7 +4751,7 @@
           ]
         }
       ],
-      "lockLocation": "・インターチェンジのイデア店前のレジ。\n・インターチェンジにあるNecrusPharm薬局内のレジ。",
+      "lockLocation": "・インターチェンジのイデア店前のレジ。\n・インターチェンジにあるネクラスファーム薬局内のレジ。",
       "lockLocationEn": "・Cash registers in the front of the Idea store on Interchange.\n・Cash registers in the NecrusPharm pharmacy on Interchange.",
       "behindLock": "・イデアストア：\n・20x レジ TAR2-2\n・ネクラスファーム薬局：\n・レジ TAR2-2×2台",
       "behindLockEn": "・IDEA store:\n・20x Cash register TAR2-2\n・NecrusPharm pharmacy:\n・2x Cash register TAR2-2",
@@ -5028,7 +5028,7 @@
           ]
         }
       ],
-      "lockLocation": "The Labの2階、Laboratoryブロック（G22）のすぐ前のドア。\nokkUwcC-3_s 300x169\n地図上にマークされた場所\nドア",
+      "lockLocation": "研究所の2階、Laboratoryブロック（G22）のすぐ前のドア。\nokkUwcC-3_s 300x169\n地図上にマークされた場所\nドア",
       "lockLocationEn": "The door just in front of the Laboratory block (G22) on the second level in The Lab.\nokkUwcC-3_s 300x169\nLocation marked on map\nThe door",
       "behindLock": "・戦利品（医薬品・医療品）\n・ジャケット×1\n・検眼鏡が出現\n・覚せい剤",
       "behindLockEn": "・Loose loot (Meds and Medical supplies)\n・1x Jacket\n・Ophthalmoscope spawns\n・Stimulants",
@@ -5515,7 +5515,7 @@
           ]
         }
       ],
-      "lockLocation": "Streets of Tarkov にある Chekannaya 13 アパートメント ビルの 1 階にあるマークのある部屋。",
+      "lockLocation": "ストリート・オブ・タルコフ にある Chekannaya 13 アパートメント ビルの 1 階にあるマークのある部屋。",
       "lockLocationEn": "Marked room on the first floor of the Chekannaya 13 apartment building at Streets of Tarkov.",
       "behindLock": "・戦利品（複数の非常にレアな貴重品、武器、コンテナ、通貨、キーカード）",
       "behindLockEn": "・Loose loot (multiple very rare Valuables, Weapons, Containers, Currency, Keycards)",
@@ -5551,7 +5551,7 @@
           ]
         }
       ],
-      "lockLocation": "インターチェンジのショッピングモールにある薬局「NecrusPharm」のドア。",
+      "lockLocation": "インターチェンジのショッピングモールにある薬局「ネクラスファーム」のドア。",
       "lockLocationEn": "Door to the \"NecrusPharm\" pharmacy store in the shopping mall on Interchange.",
       "behindLock": "・戦利品（薬、医療用品、覚せい剤）",
       "behindLockEn": "・Loose loot (Meds, Medical supplies, Stimulants)",
@@ -5603,7 +5603,7 @@
       ],
       "lockLocation": "インターチェンジにあるショッピングモールの2階にあるレストラン「バーガースポット」の男子トイレにある小便器の後ろ。小便器を流すとキーパッドが現れます。",
       "lockLocationEn": "Behind a urinal that is located in the men's toilet at the \"Burger spot\" restaurant on the second floor of the mall on Interchange. The keypad is revealed upon flushing the urinal.",
-      "behindLock": "駐車場セクション C にあるインターチェンジのセーフルーム Exfil 抽出へのドアのロックを解除します。\n内部には次のものがあります。\n・複数の武器MODが出現\n・武器ボックス(4×4)×1\n・武器ボックス×1(6×3)\n・武器ボックス(5×5)×1\n・改造されたM4A1\n・レアアイテム出現\n・緑色の TerraGroup オブジェクト 14 コンテナを開くためのスイッチ。武器や武器 MOD も含めることができます。",
+      "behindLock": "駐車場セクション C にあるインターチェンジのセーフルーム Exfil 抽出へのドアのロックを解除します。\n内部には次のものがあります。\n・複数の武器MODが出現\n・武器ボックス(4×4)×1\n・武器ボックス×1(6×3)\n・武器ボックス(5×5)×1\n・改造されたM4A1\n・レアアイテム出現\n・緑色の テラグループ オブジェクト 14 コンテナを開くためのスイッチ。武器や武器 MOD も含めることができます。",
       "behindLockEn": "Unlocks the door to the Saferoom Exfil extraction on Interchange that is located in the parking lot section C.\nOn the inside can be found:\n・Multiple Weapon mods spawns\n・1x Weapon box (4x4)\n・1x Weapon box (6x3)\n・1x Weapon box (5x5)\n・Modded M4A1's\n・Rare item spawns\n・A switch to open the green TerraGroup Object 14 Container that can also contain Weapons and Weapon mods",
       "lockLocationSource": "wiki-section",
       "behindLockSource": "wiki-section",
@@ -5664,7 +5664,7 @@
           ]
         }
       ],
-      "lockLocation": "モールの南西、インターチェンジ沿いのコンテナ敷地内にあります。他のコンテナの上に積み重ねられた赤い TerraGroup コンテナ上。",
+      "lockLocation": "モールの南西、インターチェンジ沿いのコンテナ敷地内にあります。他のコンテナの上に積み重ねられた赤い テラグループ コンテナ上。",
       "lockLocationEn": "Located south west of the mall in a container lot on Interchange. On the red TerraGroup container that is stacked on top of other containers.",
       "behindLock": "・緩い戦利品（武器改造、貴重品）\n・武器ボックス(4×4)×1\n・武器ボックス×1(6×3)\n・武器ボックス×1(5×2)\n・SIG MPX 9x19 サブマシンガンスポーン x 1\n・ハイコム・トルーパー TFO ボディアーマー (マルチカム) スポーン x 1",
       "behindLockEn": "・Loose loot (Weapon mods, Valuables)\n・1x Weapon box (4x4)\n・1x Weapon box (6x3)\n・1x Weapon box (5x2)\n・1x SIG MPX 9x19 submachine gun spawn\n・1x HighCom Trooper TFO body armor (MultiCam) spawn",
@@ -5767,7 +5767,7 @@
       ],
       "lockLocation": "ウッズの車両基地にある古い家のバスルームへのドア。注: 家の前の通りの一部は国境狙撃兵の手が届く範囲にあるため、出入りする際は家の近くに留まることが推奨されます。",
       "lockLocationEn": "Door to the bathroom in the old house at the train depot on Woods. Note: The street in front of the house is partially in the reach of border snipers, therefore it is recommended to stay close to the house while entering and leaving.",
-      "behindLock": "・6-STEN-140-M軍用砲台が確実に出現\n・TerraGroup「Blue Folders」素材がシンク内に出現\n・シンクにタールコインが出現\n・ゆるい情報アイテム",
+      "behindLock": "・6-STEN-140-M軍用砲台が確実に出現\n・テラグループ「Blue Folders」素材がシンク内に出現\n・シンクにタールコインが出現\n・ゆるい情報アイテム",
       "behindLockEn": "・Guaranteed 6-STEN-140-M military battery spawn\n・TerraGroup \"Blue Folders\" materials spawn in the sink\n・TarCoin spawn in the sink\n・Loose info items",
       "lockLocationSource": "wiki-section",
       "behindLockSource": "wiki-section",
@@ -7054,7 +7054,7 @@
           ]
         }
       ],
-      "lockLocation": "ReserveのWestern Repair Point Building（黒騎士）の2階。 (緑色で強調表示されています)",
+      "lockLocation": "リザーブの西側修理ポイント建物（黒騎士）の2階。 (緑色で強調表示されています)",
       "lockLocationEn": "Second floor of the Western Repair Point Building (black knight) on Reserve. (Highlighted in green)",
       "behindLock": "・引き出し2段\n・ウェポンラック 1個（AK-74N、AKS-74U、AKS-74N、AKS-74UB、AKS-74UN）\n・AKS-74N スポーン 1 体\n・戦利品（武器改造、弾薬）\n・ツールボックス 1個\n・武器ボックス(4×4) 1個\n・インテリジェンスフォルダーは机とキャビネットに出現します。\n・6-STEN-140-M軍用砲台（ドア右のテーブル上）",
       "behindLockEn": "・Two Drawers\n・One Weapon rack (AK-74N, AKS-74U, AKS-74N, AKS-74UB, AKS-74UN)\n・One AKS-74N spawn\n・Loose loot (Weapon mods, Ammunition)\n・One Toolbox\n・One Weapon Box (4x4)\n・Intelligence folder spawn on desk & on cabinets.\n・6-STEN-140-M military battery spawn (On the table to the right of the door.)",
@@ -7804,7 +7804,7 @@
       ],
       "lockLocation": "予備の修理ポイント建物の修理倉庫内。",
       "lockLocationEn": "In the Repair Warehouses of the Repair Point Buildings on Reserve.",
-      "behindLock": "・武器ボックス 1個（5×5）\n・武器ボックス 1個（5個×2）\n・武器ボックス 1個（6×3）\n・グレネードボックス2個\n・Loose loot (Ammunition, Weapon mods and Electronics)\n・6-STEN-140-M軍用バッテリーが2個スポーン\n・OFZ 30x165mm シェルスポーン 3 個\n・フェーズドアレイ要素が2つ出現\n・軍用ジャイロタノメータが1つスポーン\n・軍用ケーブル1本スポーン\n・TP-200 TNTレンガスポーン 1個",
+      "behindLock": "・武器ボックス 1個（5×5）\n・武器ボックス 1個（5個×2）\n・武器ボックス 1個（6×3）\n・グレネードボックス2個\n・ルーズ戦利品（弾薬、武器改造、電子機器）\n・6-STEN-140-M軍用バッテリーが2個スポーン\n・OFZ 30x165mm シェルスポーン 3 個\n・フェーズドアレイ要素が2つ出現\n・軍用ジャイロタノメータが1つスポーン\n・軍用ケーブル1本スポーン\n・TP-200 TNTレンガスポーン 1個",
       "behindLockEn": "・One Weapon box (5x5)\n・One Weapon box (5x2)\n・One Weapon box (6x3)\n・Two Grenade boxes\n・Loose loot (Ammunition, Weapon mods and Electronics)\n・Two 6-STEN-140-M military battery spawns\n・Three OFZ 30x165mm shell spawns\n・Two Phased array element spawns\n・One Military gyrotachometer spawn\n・One Military cable spawn\n・One TP-200 TNT brick spawn",
       "lockLocationSource": "wiki-section",
       "behindLockSource": "wiki-section",
@@ -8024,7 +8024,7 @@
           "positions": []
         }
       ],
-      "lockLocation": "タルコフの通りにあるカーディナル集合住宅の 2 階にあるアパート 1 の隠し部屋への扉。アクセスするには、TerraGroup のコーポレート アパートメント キーが必要です。",
+      "lockLocation": "タルコフの通りにあるカーディナル集合住宅の 2 階にあるアパート 1 の隠し部屋への扉。アクセスするには、テラグループ のコーポレート アパートメント キーが必要です。",
       "lockLocationEn": "Door to the hidden room in apartment 1 on the second floor of the Cardinal apartment complex on Streets of Tarkov. A TerraGroup corporate apartment key is required to acces it.",
       "behindLock": "・武器ロッカー×1\n・戦利品（貴重品）",
       "behindLockEn": "・1x Weapon locker\n・Loose loot (Valuables)",
@@ -8614,7 +8614,7 @@
           ]
         }
       ],
-      "lockLocation": "Streets of Tarkovの「Sparja」ストアの2階にあるオフィス。東の人員通路の階段からアクセスできます。",
+      "lockLocation": "ストリート・オブ・タルコフの「Sparja」ストアの2階にあるオフィス。東の人員通路の階段からアクセスできます。",
       "lockLocationEn": "Office on the second floor of the \"Sparja\" store at Streets of Tarkov. It can be accessed via the staircase in the eastern personnel tract.",
       "behindLock": "・引き出し×2\n・PCブロック×1\n・金庫×1\n・スポーツバッグ×1\n・ばらまき品（可燃物、家庭用品）",
       "behindLockEn": "・2x Drawer\n・1x PC block\n・1x Safe\n・1x Sport bag\n・Loose loot (Flammable materials, Household materials)",
@@ -8671,7 +8671,7 @@
           ]
         }
       ],
-      "lockLocation": "Streets of Tarkovにある「Aspect」LLCビルの2階にあるオフィス。",
+      "lockLocation": "ストリート・オブ・タルコフにある「アスペクト」LLCビルの2階にあるオフィス。",
       "lockLocationEn": "Office on the second floor of the \"Aspect\" LLC building at Streets of Tarkov.",
       "behindLock": "・引き出し×1\n・金庫×1\n・ばらけた戦利品（食料品、可燃物）",
       "behindLockEn": "・1x Drawer\n・1x Safe\n・Loose loot (Provisions, Flammable materials)",
@@ -8870,7 +8870,7 @@
           ]
         }
       ],
-      "lockLocation": "The Lab の 2 階にある実験室セキュリティ兵器庫 (R23) 内の保管室へのドア。アクセスするには、TerraGroup Labs キーカード (赤) が必要です。",
+      "lockLocation": "研究所 の 2 階にある実験室セキュリティ兵器庫 (R23) 内の保管室へのドア。アクセスするには、テラグループ Labs キーカード (赤) が必要です。",
       "lockLocationEn": "Door to the storage room inside the laboratory security arsenal (R23) on the second level in The Lab. A TerraGroup Labs keycard (Red) is required to access it.",
       "behindLock": "・貴重品\n・武器改造\n・医薬品・医療用品\n・引き出し1段",
       "behindLockEn": "・Valuables\n・Weapon mods\n・Meds and Medical supplies\n・One Drawer",
@@ -8939,9 +8939,9 @@
           ]
         }
       ],
-      "lockLocation": "・The Labの実験エリア(G12)への扉をアンロックします。",
+      "lockLocation": "・研究所の実験エリア(G12)への扉をアンロックします。",
       "lockLocationEn": "・Unlocks the door to the laboratory experiment's area (G12) in The Lab.",
-      "behindLock": "【研究室】\n・室内実験エリア：\n・メッドケース×1\n・覚せい剤\n・LEDXスキントランスイルミネーターが出現\n・クルグロフの執務室：\n・PCブロック×1\n・貴重品\n・情報項目\n・カードキー\n・アドバンスト電子材料教科書が机上に出現\n・机の上にシリコン光電子集積回路の教科書が出現\n・ノルビンスク地域の施設に関する情報が入ったフォルダー\n・クルグロフの金庫：\n・インテリジェンスフォルダ\n・TerraGroup「Blue Folders」素材\n・カーディナルアパートキーの出現場所。単一のキーですべてのレイドを生成することが保証されます。\n【タルコフの街並み】\n・カーディナルアパートメントの鍵付き寝室金庫：\n・Aさんとの会話の書き起こし。",
+      "behindLock": "【研究室】\n・室内実験エリア：\n・メッドケース×1\n・覚せい剤\n・LEDXスキントランスイルミネーターが出現\n・クルグロフの執務室：\n・PCブロック×1\n・貴重品\n・情報項目\n・カードキー\n・アドバンスト電子材料教科書が机上に出現\n・机の上にシリコン光電子集積回路の教科書が出現\n・ノルビンスク地域の施設に関する情報が入ったフォルダー\n・クルグロフの金庫：\n・インテリジェンスフォルダ\n・テラグループ「Blue Folders」素材\n・カーディナルアパートキーの出現場所。単一のキーですべてのレイドを生成することが保証されます。\n【タルコフの街並み】\n・カーディナルアパートメントの鍵付き寝室金庫：\n・Aさんとの会話の書き起こし。",
       "behindLockEn": "【The Lab】\n・Laboratory experiment's area:\n・1x Medcase\n・Stimulants\n・LEDX Skin Transilluminator spawns\n・Kruglov's office:\n・1x PC block\n・Valuables\n・Info items\n・Keycards\n・Advanced Electronic Materials textbook spawns on the desk\n・Silicon Optoelectronic Integrated Circuits textbook spawns on the desk\n・Folder with intelligence on Norvinsk region facilities\n・Kruglov's safe:\n・Intelligence folder\n・TerraGroup \"Blue Folders\" materials\n・Cardinal apartment key spawn location. A single key is guaranteed to spawn every raid.\n【Streets of Tarkov】\n・Cardinal apartment locked bedroom safe:\n・Transcript of conversation with Ms. A.",
       "lockLocationSource": "wiki-fallback",
       "behindLockSource": "wiki-section",
@@ -8975,7 +8975,7 @@
           ]
         }
       ],
-      "lockLocation": "The Lab の 1 階にある研究室隔離ゾーン (G11)。",
+      "lockLocation": "研究所 の 1 階にある研究室隔離ゾーン (G11)。",
       "lockLocationEn": "Laboratory quarantine zone (G11) on the first level in The Lab.",
       "behindLock": "・赤キーカード出現場所\n・LEDX スキン トランスイルミネーターが棚に出現する可能性\n・メッドケース×2\n・戦利品（薬、医療用品）",
       "behindLockEn": "・Red keycard spawn location\n・Possible LEDX Skin Transilluminator spawn on shelves\n・2× Medcases\n・Loose loot (Meds, Medical supplies)",
@@ -9011,9 +9011,9 @@
           ]
         }
       ],
-      "lockLocation": "The Lab の 2 階にある研究室ブロック (G22)。",
+      "lockLocation": "研究所 の 2 階にある研究室ブロック (G22)。",
       "lockLocationEn": "Laboratory block (G22) on the second level in The Lab.",
-      "behindLock": "・メッドケース×3\n・棚やテーブルに医療用品が放置されている\n・コンピュータの隣のテーブルにある黒いキーカードの出現場所\n・金属容器にLEDXスキントランスイルミネーターを搭載可能\n・ノートパソコンの近くにインテリジェンスフォルダとTerraGroupの「Blue Folders」マテリアルが出現する可能性がある\n・側室への扉横の棚にインテリジェンスフォルダとTerraGroup「Blue Folders」マテリアルの可能性あり\n・武器ボックス×2(4×4)\n・棚にあるゆるい武器改造と弾薬\n・フロントデスクに武器出現の可能性あり",
+      "behindLock": "・メッドケース×3\n・棚やテーブルに医療用品が放置されている\n・コンピュータの隣のテーブルにある黒いキーカードの出現場所\n・金属容器にLEDXスキントランスイルミネーターを搭載可能\n・ノートパソコンの近くにインテリジェンスフォルダとテラグループの「Blue Folders」マテリアルが出現する可能性がある\n・側室への扉横の棚にインテリジェンスフォルダとテラグループ「Blue Folders」マテリアルの可能性あり\n・武器ボックス×2(4×4)\n・棚にあるゆるい武器改造と弾薬\n・フロントデスクに武器出現の可能性あり",
       "behindLockEn": "・3x Medcase\n・Loose Medical supplies on shelves and tables\n・Black keycard spawn location on the table next to the computer\n・Possible LEDX Skin Transilluminator in the metal containers\n・Possible Intelligence folder and TerraGroup \"Blue Folders\" materials spawn near the laptop\n・Possible Intelligence folder and TerraGroup \"Blue Folders\" materials spawn on the shelf next to the door to the side room\n・2x Weapon box (4x4)\n・Loose Weapon mods and Ammunition on the shelf\n・A possible Weapons spawn on the front desk",
       "lockLocationSource": "wiki-section",
       "behindLockSource": "wiki-section",
@@ -9047,9 +9047,9 @@
           ]
         }
       ],
-      "lockLocation": "The Lab の 2 階にある研究所セキュリティ兵器庫 (R23)。",
+      "lockLocation": "研究所 の 2 階にある研究所セキュリティ兵器庫 (R23)。",
       "lockLocationEn": "Laboratory security arsenal (R23) on the second level in The Lab.",
-      "behindLock": "・複数の弾薬が出現\n・複数の武器MODが出現\n・複数の MP5 と改造された M4A1 がラック上に出現し、M4A1 SOPMOD II がテーブル上に出現します。\n・机の後ろの地面にアンティークティーポットやアンティーク花瓶が置かれている可能性があります\n・机上にインテリジェンスフォルダーの可能性あり\n・TerraGroup Labs兵器庫保管室の鍵の場所",
+      "behindLock": "・複数の弾薬が出現\n・複数の武器MODが出現\n・複数の MP5 と改造された M4A1 がラック上に出現し、M4A1 SOPMOD II がテーブル上に出現します。\n・机の後ろの地面にアンティークティーポットやアンティーク花瓶が置かれている可能性があります\n・机上にインテリジェンスフォルダーの可能性あり\n・テラグループ Labs兵器庫保管室の鍵の場所",
       "behindLockEn": "・Multiple Ammunition spawns\n・Multiple Weapon mods spawns\n・Multiple MP5 and modded M4A1 spawns on the rack, as well as a M4A1 SOPMOD II spawn on the table\n・Possible Antique teapot or Antique vase on the ground behind the desk\n・Possible Intelligence folder on the desk\n・TerraGroup Labs arsenal storage room key lock location",
       "lockLocationSource": "wiki-section",
       "behindLockSource": "wiki-section",
@@ -9083,9 +9083,9 @@
           ]
         }
       ],
-      "lockLocation": "The Lab の 2 階にある研究室セキュリティ ポスト (R23)。",
+      "lockLocation": "研究所 の 2 階にある研究室セキュリティ ポスト (R23)。",
       "lockLocationEn": "Laboratory security post (R23) on the second level in The Lab.",
-      "behindLock": "・サーバーラックにUHF RFIDリーダー搭載可能\n・隅の棚に武器MOD\n・武器ボックス×2(5×5)\n・武器ボックス(4×4)×1\n・机上の通貨\n・MP5SDをサーバーラックに搭載可能\n・サーバーラックの隣の地面に改造されたM4A1の可能性あり\n・入口右側の棚にTerraGroupの「Blue Folders」素材の可能性あり\n・入り口右側の棚にIntelligenceフォルダが出現する可能性あり\n・ドア横の棚と部屋の左端のテーブルに複数の貴重品",
+      "behindLock": "・サーバーラックにUHF RFIDリーダー搭載可能\n・隅の棚に武器MOD\n・武器ボックス×2(5×5)\n・武器ボックス(4×4)×1\n・机上の通貨\n・MP5SDをサーバーラックに搭載可能\n・サーバーラックの隣の地面に改造されたM4A1の可能性あり\n・入口右側の棚にテラグループの「Blue Folders」素材の可能性あり\n・入り口右側の棚にIntelligenceフォルダが出現する可能性あり\n・ドア横の棚と部屋の左端のテーブルに複数の貴重品",
       "behindLockEn": "・Possible UHF RFID Reader on the server rack\n・Weapon mods on the shelves in the corners\n・2x Weapon box (5x5)\n・1x Weapon box (4x4)\n・Currency on the desk\n・Possible MP5SD on the server rack\n・Possible modded M4A1 on the ground next to the server rack\n・Possible TerraGroup \"Blue Folders\" materials spawn on the shelve to the right of the entrance\n・Possible Intelligence folder spawn on the shelve to the right of the entrance\n・Multiple Valuables on the shelf next to the door as well as on the table on the far left of the room",
       "lockLocationSource": "wiki-section",
       "behindLockSource": "wiki-section",
@@ -9119,7 +9119,7 @@
           ]
         }
       ],
-      "lockLocation": "The Labの2階にある駐車場警報システムのコントロールパネル",
+      "lockLocation": "研究所の2階にある駐車場警報システムのコントロールパネル",
       "lockLocationEn": "Parking garage alarm system control panel on the second level in The Lab",
       "behindLock": "・赤キーカード出現場所\n・武器金庫1つ\n・PCブロック×1\n・引き出し×1\n・テーブル上の武器改造\n・貴重品、電子機器、医療用品",
       "behindLockEn": "・Red keycard spawn location\n・One weapon safe\n・1x PC block\n・1x Drawer\n・Weapon mods on the tables\n・Valuables, Electronics and Medical supplies",
@@ -9161,7 +9161,7 @@
           ]
         }
       ],
-      "lockLocation": "The Labの2階にある研究室長室（O21）。",
+      "lockLocation": "研究所の2階にある研究室長室（O21）。",
       "lockLocationEn": "Laboratory manager office (O21) on the second level in The Lab.",
       "behindLock": "・青キーカード出現場所\n・PCブロック×2\n・引き出し×1\n・金庫×1\n・武器ボックス×1(6×3)\n・貴重品×4出現\n・机上にインテリジェンスフォルダが出現",
       "behindLockEn": "・Blue keycard spawn location\n・2x PC block\n・1x Drawer\n・1x Safe\n・1x Weapon box (6x3)\n・4x Valuables spawns\n・Intelligence folder spawn on the desk",
@@ -9199,7 +9199,7 @@
       ],
       "lockLocation": "住戸番号7 ラボの 1 階の収容ブロック内。",
       "lockLocationEn": "Residential unit no. 7 inside the containment block on the first level in The Lab.",
-      "behindLock": "・戦利品（貴重品）\n・左側のベッドの下に武器が出現。\n・インテリジェンスフォルダ出現\n・TerraGroup「Blue Folders」マテリアルが出現",
+      "behindLock": "・戦利品（貴重品）\n・左側のベッドの下に武器が出現。\n・インテリジェンスフォルダ出現\n・テラグループ「Blue Folders」マテリアルが出現",
       "behindLockEn": "・Loose loot (Valuables)\n・Weapon spawns under the bed on the left\n・Intelligence folder spawns\n・TerraGroup \"Blue Folders\" materials spawns",
       "lockLocationSource": "wiki-section",
       "behindLockSource": "wiki-section",
@@ -9253,7 +9253,7 @@
           ]
         }
       ],
-      "lockLocation": "The Lab の 1 階にある研究所の武器実験エリア (O11)。",
+      "lockLocation": "研究所 の 1 階にある研究所の武器実験エリア (O11)。",
       "lockLocationEn": "Laboratory weapon testing area (O11) on the first level in The Lab.",
       "behindLock": "・武器ボックス（4×4） 1個\n・武器ボックス 1個（5×5）\n・武器出現の可能性あり\n・戦利品（武器改造品や弾薬）",
       "behindLockEn": "・One Weapon box (4x4)\n・One Weapon box (5x5)\n・Possible weapon spawns\n・Loose loot (Weapon mods and ammunition)",
@@ -9303,7 +9303,7 @@
           ]
         }
       ],
-      "lockLocation": "ストリート オブ タルコフにあるTerraGroupセキュリティポストの建物の1階にある会議室。",
+      "lockLocation": "ストリート オブ タルコフにあるテラグループセキュリティポストの建物の1階にある会議室。",
       "lockLocationEn": "Meeting room on the first floor of the TerraGroup security post building at Streets of Tarkov.",
       "behindLock": "・インテリジェンスフォルダ生成×2\n・引き出し×1",
       "behindLockEn": "・2x Intelligence folder spawn\n・1x Drawer",
@@ -9353,7 +9353,7 @@
           ]
         }
       ],
-      "lockLocation": "オフィスへのドア番号グラウンドゼロのTerraGroup本館2階4番地。",
+      "lockLocation": "オフィスへのドア番号グラウンドゼロのテラグループ本館2階4番地。",
       "lockLocationEn": "Door to office no. 4 on the second floor of the TerraGroup main building at Ground Zero.",
       "behindLock": "・PCブロック×3\n・引き出し×4\n・規定",
       "behindLockEn": "・3x PC block\n・4x Drawer\n・Provisions",
@@ -9389,7 +9389,7 @@
           ]
         }
       ],
-      "lockLocation": "Streets of TarkovにあるTerraGroupセキュリティポストの建物の1階にあるセキュリティ武器庫。",
+      "lockLocation": "ストリート・オブ・タルコフにあるテラグループセキュリティポストの建物の1階にあるセキュリティ武器庫。",
       "lockLocationEn": "Security armory on the first floor of the TerraGroup security post building at Streets of Tarkov.",
       "behindLock": "・戦利品（紙製弾薬箱）\n・武器ボックス(5×5)×1\n・武器ボックス(4×4)×1\n・PCブロック×1\n・木箱×2\n・グレネードボックス×1\n・武器ロッカー×1\n・武器ラック×2（M4A1カービン派生スポーンの可能性あり）",
       "behindLockEn": "・Loose loot (Paper ammo boxes)\n・1x Weapon box (5x5)\n・1x Weapon box (4x4)\n・1x PC block\n・2x Wooden crate\n・1x Grenade box\n・1x Weapon locker\n・2x Weapon rack (possible M4A1 Carbine variant spawn)",
@@ -9453,9 +9453,9 @@
           ]
         }
       ],
-      "lockLocation": "Factory の TerraGroup 保管室へのドア。地下にある「カメラバンカードア」のスカヴ抽出の隣。",
+      "lockLocation": "Factory の テラグループ 保管室へのドア。地下にある「カメラバンカードア」のスカヴ抽出の隣。",
       "lockLocationEn": "Door to the TerraGroup storage room on Factory. Next to the \"Camera Bunker Door\" Scav extraction in the underground.",
-      "behindLock": "・TerraGroup金庫×2\n・ジャケット×1\n・ツールボックス×1\n・メドバッグSMU06×1\n・武器ロッカー×1\n・左棚上隅にLEDXスキントランスイルミネーターの可能性あり\n・物理的なビットコイン生成の可能性",
+      "behindLock": "・テラグループ金庫×2\n・ジャケット×1\n・ツールボックス×1\n・メドバッグSMU06×1\n・武器ロッカー×1\n・左棚上隅にLEDXスキントランスイルミネーターの可能性あり\n・物理的なビットコイン生成の可能性",
       "behindLockEn": "・2x TerraGroup safe\n・1x Jacket\n・1x Toolbox\n・1x Medbag SMU06\n・1x Weapon locker\n・Possible LEDX Skin Transilluminator on the top corner of the left shelf\n・Possible Physical Bitcoin spawn",
       "lockLocationSource": "wiki-section",
       "behindLockSource": "wiki-section",
@@ -10258,7 +10258,7 @@
           ]
         }
       ],
-      "lockLocation": "Streets of TarkovのZmeisky 3ビルの2階にあるアパートメント8へのドア。入り口は裏庭側にあります。",
+      "lockLocation": "ストリート・オブ・タルコフのZmeisky 3ビルの2階にあるアパートメント8へのドア。入り口は裏庭側にあります。",
       "lockLocationEn": "Door to apartment 8 on the second floor of the Zmeisky 3 building at Streets of Tarkov. The entrance is on the backyard side.",
       "behindLock": "・スポーツバッグ×1\n・ジャケット×1\n・戦利品（貴重品）",
       "behindLockEn": "・1x Sport bag\n・1x Jacket\n・Loose loot (Valuables)",
@@ -10287,7 +10287,7 @@
           "positions": []
         }
       ],
-      "lockLocation": "Streets of TarkovのZmeisky 3ビルの1階にあるアパート7へのドア。入り口は裏庭側にあります。",
+      "lockLocation": "ストリート・オブ・タルコフのZmeisky 3ビルの1階にあるアパート7へのドア。入り口は裏庭側にあります。",
       "lockLocationEn": "Door to apartment 7 on the first floor of the Zmeisky 3 building at Streets of Tarkov. The entrance is on the backyard side.",
       "behindLock": "・戦利品（貴重品、家財道具、食料品）",
       "behindLockEn": "・Loose loot (Valuables, Household materials, Provisions)",
@@ -10323,7 +10323,7 @@
           ]
         }
       ],
-      "lockLocation": "Streets of TarkovのZmeisky 5ビルの5階にあるアパート20へのドア。",
+      "lockLocation": "ストリート・オブ・タルコフのZmeisky 5ビルの5階にあるアパート20へのドア。",
       "lockLocationEn": "Door to apartment 20 on the fifth floor of the Zmeisky 5 building at Streets of Tarkov.",
       "behindLock": "・スポーツバッグ×1\n・緩い戦利品（エネルギー要素、電子機器、食料品、貴重品）",
       "behindLockEn": "・1x Sport bag\n・Loose loot (Energy elements, Electronics, Provisions, Valuables)",
@@ -10332,7 +10332,7 @@
       "wikiUpdatedAt": "2026-08-28T12:13:06.970Z"
     }
   ],
-  "catalogSchemaVersion": 3,
+  "catalogSchemaVersion": 4,
   "wikiUpdatedAt": "2026-08-28T12:13:06.970Z",
   "wikiAudit": {
     "requested": 256,

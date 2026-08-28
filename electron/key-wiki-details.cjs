@@ -1,10 +1,12 @@
 const WIKI_API="https://escapefromtarkov.fandom.com/api.php";
-const KEY_CATALOG_SCHEMA_VERSION=3;
+const KEY_CATALOG_SCHEMA_VERSION=4;
 const WIKI_FIELDS=["lockLocation","lockLocationEn","behindLock","behindLockEn","lockLocationSource","behindLockSource","wikiUpdatedAt"];
 
 const compactTitle=value=>decodeURIComponent(String(value||"")).replace(/_/g," ").trim().toLocaleLowerCase("en-US");
 const wikiTitleFromUrl=url=>{try{return decodeURIComponent(new URL(url).pathname.split("/wiki/")[1]||"").replace(/_/g," ")}catch{return""}};
 const decodeEntities=value=>String(value||"").replace(/&nbsp;/gi," ").replace(/&amp;/gi,"&").replace(/&quot;/gi,'"').replace(/&#39;|&apos;/gi,"'").replace(/&lt;/gi,"<").replace(/&gt;/gi,">");
+const normalizeJapaneseWikiText=value=>String(value||"").replace(/Loose loot \(Valuables, Drinks, Building materials, Electronics\)/gi,"ルーズ戦利品（貴重品、飲料、建築資材、電子機器）").replace(/Loose loot \(Ammunition, Weapon mods and Electronics\)/gi,"ルーズ戦利品（弾薬、武器改造、電子機器）").replace(/Relaxation room key spawn location on the metal table/gi,"金属製テーブル上にリラクゼーションルームの鍵が出現").replace(/Streets of Tarkov/gi,"ストリート・オブ・タルコフ").replace(/Western Repair Point Building/gi,"西側修理ポイント建物").replace(/\bReserve\b/g,"リザーブ").replace(/\bAspect\b/g,"アスペクト").replace(/\bIcebreaker\b/g,"アイスブレーカー").replace(/\bLexOs\b/g,"レクソス").replace(/\bNecrusPharm\b/g,"ネクラスファーム").replace(/\bTerraGroup\b/g,"テラグループ").replace(/\bThe Lab\b/g,"研究所");
+const hasJapanese=value=>/[\u3040-\u30ff\u3400-\u9fff]/.test(String(value||""));
 
 function plainWikiText(value){
   let text=String(value||"")
@@ -78,7 +80,7 @@ async function enrichKeyCatalogWithWiki(catalog,{translate=true}={}){
     const title=titles[index],page=pages.get(compactTitle(title)),wikitext=page?.revisions?.[0]?.slots?.main?.content||"",lockSection=extractWikiSection(wikitext,"Lock Location"),behindSection=extractWikiSection(wikitext,"Behind the Lock"),lockLocationEn=lockSection||extractInfoboxUsage(wikitext),noUsableLock=/^none\.?$/i.test(lockLocationEn),behindLockEn=behindSection||(noUsableLock?"This item currently has no usable lock, so there are no obtainable items behind it.":lockLocationEn?"The English Wiki does not list a Behind the Lock section or specific obtainable items for this key.":"The English Wiki does not currently list a lock location or obtainable items for this item.");
     return{key,pageFound:Boolean(page&&!page.missing),lockSectionListed:hasWikiSection(wikitext,"Lock Location"),behindSectionListed:hasWikiSection(wikitext,"Behind the Lock"),lockLocationEn,behindLockEn};
   });
-  const translated=translate?await mapLimit(details.filter(item=>item.lockLocationEn||item.behindLockEn),4,async item=>({id:item.key.id,lockLocation:await translateJapanese(item.lockLocationEn),behindLock:await translateJapanese(item.behindLockEn)})):[],jaById=new Map(translated.map(item=>[item.id,item])),wikiUpdatedAt=new Date().toISOString();
+  const translated=translate?await mapLimit(details.filter(item=>item.lockLocationEn||item.behindLockEn),4,async item=>({id:item.key.id,lockLocation:normalizeJapaneseWikiText(await translateJapanese(item.lockLocationEn)),behindLock:normalizeJapaneseWikiText(await translateJapanese(item.behindLockEn))})):[],jaById=new Map(translated.map(item=>[item.id,item])),wikiUpdatedAt=new Date().toISOString();
   const wikiAudit={requested:titles.length,pagesFound:details.filter(item=>item.pageFound).length,lockSections:details.filter(item=>item.lockSectionListed).length,behindLockSections:details.filter(item=>item.behindSectionListed).length,lockTranslations:translated.filter(item=>item.lockLocation).length,behindLockTranslations:translated.filter(item=>item.behindLock).length};
   return{...catalog,catalogSchemaVersion:KEY_CATALOG_SCHEMA_VERSION,wikiUpdatedAt,wikiAudit,keys:details.map(({key,lockSectionListed,behindSectionListed,lockLocationEn,behindLockEn})=>{const ja=jaById.get(key.id)||{},mapUses=[...(key.mapUses||[])];for(const map of mapDirectory){const name=String(map.nameEn||""),aliases=name==="The Lab"?["The Lab","TerraGroup Labs"]:[name],mentioned=aliases.some(alias=>new RegExp(`(?:^|[^a-z])${alias.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?:$|[^a-z])`,"i").test(lockLocationEn));if(mentioned&&!mapUses.some(entry=>entry.id===map.id))mapUses.push({id:map.id,name:map.name,nameEn:map.nameEn,kind:"wiki",positions:[]})}return{...key,lockLocation:ja.lockLocation||lockLocationEn,lockLocationEn,behindLock:ja.behindLock||behindLockEn,behindLockEn,lockLocationSource:lockSectionListed?"wiki-section":"wiki-fallback",behindLockSource:behindSectionListed?"wiki-section":"wiki-not-listed",wikiUpdatedAt,mapUses}})};
 }
@@ -88,4 +90,9 @@ function mergeCatalogWikiDetails(catalog,...sources){
   const sourceWithAudit=sources.find(source=>source?.wikiAudit),hasWikiSource=sources.some(source=>source?.keys?.some(key=>key?.behindLockSource));return{...catalog,catalogSchemaVersion:hasWikiSource?KEY_CATALOG_SCHEMA_VERSION:Number(catalog?.catalogSchemaVersion)||1,wikiUpdatedAt:sources.find(source=>source?.wikiUpdatedAt)?.wikiUpdatedAt||null,wikiAudit:sourceWithAudit?.wikiAudit||null,keys:(catalog?.keys||[]).map(key=>{const saved=byId.get(key.id)||{},detail={};for(const field of WIKI_FIELDS)if(saved[field])detail[field]=saved[field];const mapUses=[...(key.mapUses||[])];for(const map of saved.mapUses||[])if(map.kind==="wiki"&&!mapUses.some(entry=>entry.id===map.id))mapUses.push(map);return{...key,...detail,mapUses}})};
 }
 
-module.exports={KEY_CATALOG_SCHEMA_VERSION,WIKI_FIELDS,wikiTitleFromUrl,plainWikiText,extractWikiSection,enrichKeyCatalogWithWiki,mergeCatalogWikiDetails};
+function preserveJapaneseWikiDetails(catalog,previous){
+  const oldById=new Map((previous?.keys||[]).map(key=>[key.id,key]));
+  return{...catalog,catalogSchemaVersion:KEY_CATALOG_SCHEMA_VERSION,keys:(catalog?.keys||[]).map(key=>{const old=oldById.get(key.id)||{},lockLocation=hasJapanese(key.lockLocation)?key.lockLocation:old.lockLocation||key.lockLocation,behindLock=hasJapanese(key.behindLock)?key.behindLock:old.behindLock||key.behindLock;return{...key,lockLocation:normalizeJapaneseWikiText(lockLocation),behindLock:normalizeJapaneseWikiText(behindLock)}})};
+}
+
+module.exports={KEY_CATALOG_SCHEMA_VERSION,WIKI_FIELDS,wikiTitleFromUrl,plainWikiText,extractWikiSection,normalizeJapaneseWikiText,enrichKeyCatalogWithWiki,mergeCatalogWikiDetails,preserveJapaneseWikiDetails};

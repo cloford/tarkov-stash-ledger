@@ -88,6 +88,7 @@ test("鍵Wikiで鍵名・タスク名・マップ名を横断検索できる",()
  const hasJapanese=value=>/[\u3040-\u30ff\u3400-\u9fff]/.test(String(value||""));
  assert.ok(keys.filter(key=>key.lockLocationEn).every(key=>hasJapanese(key.lockLocation)&&key.lockLocation!==key.lockLocationEn));
  assert.ok(keys.filter(key=>key.behindLockEn).every(key=>hasJapanese(key.behindLock)&&key.behindLock!==key.behindLockEn));
+ assert.ok(keys.every(key=>!/(?:Loose loot|Relaxation room key spawn location|Streets of Tarkov|Western Repair Point Building)/i.test(`${key.lockLocation}\n${key.behindLock}`)));
  assert.ok(filterKeys(keys,{query:"grenade box"}).some(key=>key.behindLockEn?.includes("Grenade box")));
  assert.ok(keys.find(key=>key.nameEn==="Military checkpoint key").mapUses.some(map=>map.nameEn==="Customs"&&map.kind==="wiki"));
  assert.match(keyWiki,/鍵を使う場所/);
@@ -113,6 +114,9 @@ test("古い鍵キャッシュでもBehind the Lockを保持する",()=>{
  assert.match(main,/mergeCatalogWikiDetails\(base,included,saved\)/);
  assert.match(main,/mergeCatalogWikiDetails\(await fetchKeyCatalog\(\),included,saved\)/);
  assert.match(keyWiki,/mergeKeyCatalogWithBundled\(value,initial\)/);
+ assert.doesNotMatch(keyWiki,/wikiTranslations|api\.translate\(texts\)/);
+ assert.match(keyWiki,/selected\.lockLocation\|\|selected\.lockLocationEn/);
+ assert.match(keyWiki,/selected\.behindLock\|\|selected\.behindLockEn/);
  assert.ok(JSON.parse(packageJson).build.files.includes("app/data/key-catalog.json"));
 });
 
