@@ -64,8 +64,7 @@ test("鍵Wikiで鍵名・タスク名・マップ名を横断検索できる",()
  assert.match(keyWiki,/QUICK DECISION/);
  assert.match(keyWiki,/タスク用に保管/);
  assert.match(keyWiki,/最大 \$\{selected\.uses\}回使用/);
- assert.match(keyWiki,/位置を見る ›/);
- assert.match(keyWiki,/onOpenMap/);
+ assert.doesNotMatch(keyWiki,/keyMapUses|onOpenMap|位置を見る ›/);
  assert.match(keyWiki,/onOpenTask/);
  assert.match(desktopMain,/app\/key-wiki\.css/);
  assert.match(desktopMain,/app\/key-wiki-v21\.css/);

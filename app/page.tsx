@@ -63,7 +63,7 @@ export default function Home() {
     <nav className="mainNav">{([["guide", "タスク情報"], ["maps", "MAP"], ["keys", "鍵WIKI"]] as const).map(([key, label], index) => <button className={page === key ? "active" : ""} onClick={() => openPage(key)} key={key}><span>0{index + 1}</span>{label}</button>)}</nav>
     {page === "guide" && <TaskGuidePage key={guideReset} />}
     {page === "maps" && <EnhancedMapHub />}
-    {page === "keys" && <KeyWiki onOpenMap={openMapFromKey} onOpenTask={openTaskFromKey} />}
+    {page === "keys" && <KeyWiki onOpenTask={openTaskFromKey} />}
     <footer>DATA: TARKOVDATA · TARKOV.DEV · EFT WIKI <span>タスク・マップ・鍵の情報を表示します</span></footer></main>;
 }
 
