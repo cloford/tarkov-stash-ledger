@@ -83,6 +83,11 @@ test("鍵Wikiで鍵名・タスク名・マップ名を横断検索できる",()
  const wikiAudit=JSON.parse(keyCatalog).wikiAudit;
  assert.equal(wikiAudit.pagesFound,247);
  assert.equal(wikiAudit.behindLockSections,keysWithBehindLock.length);
+ assert.equal(wikiAudit.lockTranslations,keys.filter(key=>key.lockLocationEn).length);
+ assert.equal(wikiAudit.behindLockTranslations,keys.filter(key=>key.behindLockEn).length);
+ const hasJapanese=value=>/[\u3040-\u30ff\u3400-\u9fff]/.test(String(value||""));
+ assert.ok(keys.filter(key=>key.lockLocationEn).every(key=>hasJapanese(key.lockLocation)&&key.lockLocation!==key.lockLocationEn));
+ assert.ok(keys.filter(key=>key.behindLockEn).every(key=>hasJapanese(key.behindLock)&&key.behindLock!==key.behindLockEn));
  assert.ok(filterKeys(keys,{query:"grenade box"}).some(key=>key.behindLockEn?.includes("Grenade box")));
  assert.ok(keys.find(key=>key.nameEn==="Military checkpoint key").mapUses.some(map=>map.nameEn==="Customs"&&map.kind==="wiki"));
  assert.match(keyWiki,/鍵を使う場所/);

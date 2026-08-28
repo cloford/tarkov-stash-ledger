@@ -1,5 +1,5 @@
 const WIKI_API="https://escapefromtarkov.fandom.com/api.php";
-const KEY_CATALOG_SCHEMA_VERSION=2;
+const KEY_CATALOG_SCHEMA_VERSION=3;
 const WIKI_FIELDS=["lockLocation","lockLocationEn","behindLock","behindLockEn","lockLocationSource","behindLockSource","wikiUpdatedAt"];
 
 const compactTitle=value=>decodeURIComponent(String(value||"")).replace(/_/g," ").trim().toLocaleLowerCase("en-US");
@@ -63,7 +63,8 @@ async function fetchWikiPages(titles){
 
 async function translateJapanese(text){
   if(!text)return"";
-  try{const params=new URLSearchParams({client:"gtx",sl:"en",tl:"ja",dt:"t",q:text}),response=await fetch(`https://translate.googleapis.com/translate_a/single?${params}`,{signal:AbortSignal.timeout(15000)});if(!response.ok)throw Error(String(response.status));const json=await response.json();return(json[0]||[]).map(part=>part[0]||"").join("").trim()}catch{return""}
+  for(let attempt=0;attempt<3;attempt++)try{const params=new URLSearchParams({client:"gtx",sl:"en",tl:"ja",dt:"t",q:text}),response=await fetch(`https://translate.googleapis.com/translate_a/single?${params}`,{signal:AbortSignal.timeout(20000)});if(!response.ok)throw Error(String(response.status));const json=await response.json(),translated=(json[0]||[]).map(part=>part[0]||"").join("").trim();if(translated)return translated}catch{if(attempt<2)await new Promise(resolve=>setTimeout(resolve,500*(attempt+1)))}
+  return"";
 }
 
 async function mapLimit(items,limit,worker){
@@ -78,7 +79,7 @@ async function enrichKeyCatalogWithWiki(catalog,{translate=true}={}){
     return{key,pageFound:Boolean(page&&!page.missing),lockSectionListed:hasWikiSection(wikitext,"Lock Location"),behindSectionListed:hasWikiSection(wikitext,"Behind the Lock"),lockLocationEn,behindLockEn};
   });
   const translated=translate?await mapLimit(details.filter(item=>item.lockLocationEn||item.behindLockEn),4,async item=>({id:item.key.id,lockLocation:await translateJapanese(item.lockLocationEn),behindLock:await translateJapanese(item.behindLockEn)})):[],jaById=new Map(translated.map(item=>[item.id,item])),wikiUpdatedAt=new Date().toISOString();
-  const wikiAudit={requested:titles.length,pagesFound:details.filter(item=>item.pageFound).length,lockSections:details.filter(item=>item.lockSectionListed).length,behindLockSections:details.filter(item=>item.behindSectionListed).length};
+  const wikiAudit={requested:titles.length,pagesFound:details.filter(item=>item.pageFound).length,lockSections:details.filter(item=>item.lockSectionListed).length,behindLockSections:details.filter(item=>item.behindSectionListed).length,lockTranslations:translated.filter(item=>item.lockLocation).length,behindLockTranslations:translated.filter(item=>item.behindLock).length};
   return{...catalog,catalogSchemaVersion:KEY_CATALOG_SCHEMA_VERSION,wikiUpdatedAt,wikiAudit,keys:details.map(({key,lockSectionListed,behindSectionListed,lockLocationEn,behindLockEn})=>{const ja=jaById.get(key.id)||{},mapUses=[...(key.mapUses||[])];for(const map of mapDirectory){const name=String(map.nameEn||""),aliases=name==="The Lab"?["The Lab","TerraGroup Labs"]:[name],mentioned=aliases.some(alias=>new RegExp(`(?:^|[^a-z])${alias.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?:$|[^a-z])`,"i").test(lockLocationEn));if(mentioned&&!mapUses.some(entry=>entry.id===map.id))mapUses.push({id:map.id,name:map.name,nameEn:map.nameEn,kind:"wiki",positions:[]})}return{...key,lockLocation:ja.lockLocation||lockLocationEn,lockLocationEn,behindLock:ja.behindLock||behindLockEn,behindLockEn,lockLocationSource:lockSectionListed?"wiki-section":"wiki-fallback",behindLockSource:behindSectionListed?"wiki-section":"wiki-not-listed",wikiUpdatedAt,mapUses}})};
 }
 
