@@ -1,7 +1,7 @@
 "use client";
 import {useEffect,useMemo,useState} from "react";
 import bundledCatalog from "./data/key-catalog.json";
-import {filterKeys,normalizeKeyText} from "./key-wiki-utils.mjs";
+import {filterKeys,mergeKeyCatalogWithBundled,normalizeKeyText} from "./key-wiki-utils.mjs";
 
 type KeyWikiProps={onOpenMap:(mapName:string,keyFocus?:any)=>void;onOpenTask:(taskId:string,trader:string)=>void;};
 const mapKindLabel:Record<string,string>={door:"施錠扉",access:"入場用",task:"タスク地点",wiki:"Wiki記載"};
@@ -11,7 +11,7 @@ const keyDecision=(key:any)=>{if(key.tasks?.length)return{tone:"keep",title:"タ
 export default function KeyWiki({onOpenMap,onOpenTask}:KeyWikiProps){
   const saved=useMemo(()=>{if(typeof window==="undefined")return{} as any;try{return JSON.parse(sessionStorage.getItem("tarkov-key-wiki-view")||"{}")}catch{return{} as any}},[]),initial:any=bundledCatalog;
   const [catalog,setCatalog]=useState<any>(initial),[query,setQuery]=useState(String(saved.query||"")),[mapFilter,setMapFilter]=useState(String(saved.mapFilter||"all")),[usage,setUsage]=useState<"all"|"task"|"other">((["all","task","other"].includes(saved.usage)?saved.usage:"all") as any),[selectedId,setSelectedId]=useState(String(saved.selectedId||initial.keys?.[0]?.id||"")),[loading,setLoading]=useState(false),[status,setStatus]=useState("同梱データを表示中"),[wikiTranslations,setWikiTranslations]=useState<Record<string,Record<string,string>>>({});
-  useEffect(()=>{let cancelled=false;const api=(window as any).stashAI;if(!api?.keys)return;setLoading(true);api.keys().then((value:any)=>{if(cancelled||!value?.keys?.length)return;setCatalog(value);setStatus(`${value.source||"保存済み"}データを表示中`)}).catch(()=>{}).finally(()=>{if(!cancelled)setLoading(false)});api.refreshKeys?.().then((value:any)=>{if(cancelled||!value?.keys?.length)return;setCatalog(value);setStatus("最新の鍵データに更新しました")}).catch(()=>{});return()=>{cancelled=true}},[]);
+  useEffect(()=>{let cancelled=false;const api=(window as any).stashAI;if(!api?.keys)return;setLoading(true);api.keys().then((value:any)=>{if(cancelled||!value?.keys?.length)return;setCatalog(mergeKeyCatalogWithBundled(value,initial));setStatus(`${value.source||"保存済み"}データを表示中`)}).catch(()=>{}).finally(()=>{if(!cancelled)setLoading(false)});api.refreshKeys?.().then((value:any)=>{if(cancelled||!value?.keys?.length)return;setCatalog(mergeKeyCatalogWithBundled(value,initial));setStatus("最新の鍵データに更新しました")}).catch(()=>{});return()=>{cancelled=true}},[]);
   useEffect(()=>{sessionStorage.setItem("tarkov-key-wiki-view",JSON.stringify({query:query.slice(0,100),mapFilter,usage,selectedId}))},[query,mapFilter,usage,selectedId]);
   const keys=Array.isArray(catalog.keys)?catalog.keys:[],mapOptions=useMemo(()=>[...new Map(keys.flatMap((key:any)=>key.mapUses||[]).map((map:any)=>[map.id,{id:map.id,name:map.name,nameEn:map.nameEn}])).values()].sort((a:any,b:any)=>String(a.name).localeCompare(String(b.name),"ja")),[keys]),visible=useMemo(()=>filterKeys(keys,{query,map:mapFilter,usage}),[keys,query,mapFilter,usage]),selected=keys.find((key:any)=>key.id===selectedId)||visible[0]||null,decision=selected?keyDecision(selected):null,taskKeyCount=keys.filter((key:any)=>key.tasks?.length).length,mapCount=new Set(keys.flatMap((key:any)=>(key.mapUses||[]).map((map:any)=>map.id))).size;
   useEffect(()=>{if(visible.length&&(!selectedId||!visible.some((key:any)=>key.id===selectedId)))setSelectedId(visible[0].id)},[visible,selectedId]);

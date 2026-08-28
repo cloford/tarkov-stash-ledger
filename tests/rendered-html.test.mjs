@@ -2,11 +2,11 @@ import assert from "node:assert/strict";
 import {readFile} from "node:fs/promises";
 import test from "node:test";
 import {selectTaskReferenceImages} from "../app/task-media.mjs";
-import {filterKeys} from "../app/key-wiki-utils.mjs";
+import {filterKeys,mergeKeyCatalogWithBundled} from "../app/key-wiki-utils.mjs";
 import {createRequire} from "node:module";
-const require=createRequire(import.meta.url),{variantKind}=require("../electron/map-variants.cjs"),{usableLockKey}=require("../electron/key-catalog.cjs"),{extractWikiSection,plainWikiText}=require("../electron/key-wiki-details.cjs");
+const require=createRequire(import.meta.url),{variantKind}=require("../electron/map-variants.cjs"),{usableLockKey}=require("../electron/key-catalog.cjs"),{KEY_CATALOG_SCHEMA_VERSION,extractWikiSection,mergeCatalogWikiDetails,plainWikiText}=require("../electron/key-wiki-details.cjs");
 
-const [page,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain,keyWikiV21,mapV21,keyWikiV22]=await Promise.all([
+const [page,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain,keyWikiV21,mapV21,keyWikiV22,packageJson]=await Promise.all([
  readFile(new URL("../app/page.tsx",import.meta.url),"utf8"),
  readFile(new URL("../app/map.css",import.meta.url),"utf8"),
  readFile(new URL("../electron/main.cjs",import.meta.url),"utf8"),
@@ -17,7 +17,8 @@ const [page,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain,keyWikiV21
  readFile(new URL("../desktop/main.tsx",import.meta.url),"utf8"),
  readFile(new URL("../app/key-wiki-v21.css",import.meta.url),"utf8"),
  readFile(new URL("../app/map-v21.css",import.meta.url),"utf8"),
- readFile(new URL("../app/key-wiki-v22.css",import.meta.url),"utf8")
+ readFile(new URL("../app/key-wiki-v22.css",import.meta.url),"utf8"),
+ readFile(new URL("../package.json",import.meta.url),"utf8")
 ]);
 
 test("タスク・マップ・鍵Wikiだけを表示する",()=>{
@@ -42,6 +43,7 @@ test("英語Wikiの別マップを機能付き基準版と分離する",()=>{
 
 test("鍵Wikiで鍵名・タスク名・マップ名を横断検索できる",()=>{
  const catalog=JSON.parse(keyCatalog),keys=catalog.keys;
+ assert.equal(catalog.catalogSchemaVersion,KEY_CATALOG_SCHEMA_VERSION);
  assert.ok(keys.length>=200);
  assert.ok(keys.some(key=>key.tasks.length>0));
  assert.ok(keys.some(key=>key.mapUses.length>0));
@@ -89,6 +91,24 @@ test("鍵Wikiで鍵名・タスク名・マップ名を横断検索できる",()
  assert.match(keyWikiV22,/\.keyWikiIntel/);
  assert.equal(extractWikiSection("==Lock Location==\nDoor on [[Customs]].\n==Behind the Lock==\n* 2x {{Item|Grenade box}}","Lock Location"),"Door on Customs.");
  assert.equal(plainWikiText("* 2x {{Item|Grenade box}}"),"・2x Grenade box");
+});
+
+test("古い鍵キャッシュでもBehind the Lockを保持する",()=>{
+ const catalog=JSON.parse(keyCatalog),keys=catalog.keys;
+ const stale={keys:keys.map(({id,name,nameEn,mapUses})=>({id,name,nameEn,mapUses:(mapUses||[]).filter(map=>map.kind!=="wiki")}))};
+ const clientMerged=mergeKeyCatalogWithBundled(stale,catalog);
+ const mainMerged=mergeCatalogWikiDetails(stale,catalog,stale);
+ const expectedBehind=keys.filter(key=>key.behindLockSource==="wiki-section").length;
+ assert.equal(clientMerged.keys.filter(key=>key.behindLockEn).length,keys.length);
+ assert.equal(clientMerged.keys.filter(key=>key.behindLockSource==="wiki-section").length,expectedBehind);
+ assert.equal(mainMerged.catalogSchemaVersion,KEY_CATALOG_SCHEMA_VERSION);
+ assert.equal(mainMerged.keys.filter(key=>key.behindLockEn).length,keys.length);
+ assert.equal(mainMerged.keys.filter(key=>key.behindLockSource==="wiki-section").length,expectedBehind);
+ assert.match(main,/wikiCoverage/);
+ assert.match(main,/mergeCatalogWikiDetails\(base,included,saved\)/);
+ assert.match(main,/mergeCatalogWikiDetails\(await fetchKeyCatalog\(\),included,saved\)/);
+ assert.match(keyWiki,/mergeKeyCatalogWithBundled\(value,initial\)/);
+ assert.ok(JSON.parse(packageJson).build.files.includes("app/data/key-catalog.json"));
 });
 
 test("鍵位置・安定したマップタイトル・タスク一覧への戻り先を保持する",()=>{
