@@ -6,7 +6,7 @@ import {filterKeys} from "../app/key-wiki-utils.mjs";
 import {createRequire} from "node:module";
 const require=createRequire(import.meta.url),{variantKind}=require("../electron/map-variants.cjs"),{usableLockKey}=require("../electron/key-catalog.cjs");
 
-const [page,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain]=await Promise.all([
+const [page,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain,keyWikiV21,mapV21]=await Promise.all([
  readFile(new URL("../app/page.tsx",import.meta.url),"utf8"),
  readFile(new URL("../app/map.css",import.meta.url),"utf8"),
  readFile(new URL("../electron/main.cjs",import.meta.url),"utf8"),
@@ -14,7 +14,9 @@ const [page,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain]=await Pro
  readFile(new URL("../app/key-wiki.tsx",import.meta.url),"utf8"),
  readFile(new URL("../app/data/maps-cache-v3.json",import.meta.url),"utf8"),
  readFile(new URL("../app/data/key-catalog.json",import.meta.url),"utf8"),
- readFile(new URL("../desktop/main.tsx",import.meta.url),"utf8")
+ readFile(new URL("../desktop/main.tsx",import.meta.url),"utf8"),
+ readFile(new URL("../app/key-wiki-v21.css",import.meta.url),"utf8"),
+ readFile(new URL("../app/map-v21.css",import.meta.url),"utf8")
 ]);
 
 test("タスク・マップ・鍵Wikiだけを表示する",()=>{
@@ -30,7 +32,7 @@ test("英語Wikiの別マップを機能付き基準版と分離する",()=>{
  assert.match(page,/マップ画像を切り替え/);
  assert.match(page,/脱出地点対応マップへ戻す/);
  assert.match(page,/activeVariant\.primary \? primaryVisual/);
- assert.match(page,/脱出地点の強調表示は基準版のみ/);
+ assert.match(page,/位置表示は基準版のみ/);
  assert.match(css,/\.mapVariantPicker\{/);
  assert.equal(variantKind("Reserve underground map.png"),"地下・屋内");
  assert.equal(variantKind("Customs 3D Map.jpg"),"3D");
@@ -56,9 +58,31 @@ test("鍵Wikiで鍵名・タスク名・マップ名を横断検索できる",()
  assert.match(main,/ipcMain\.handle\("keys:refresh-online"/);
  assert.match(preload,/keys:\(\)=>ipcRenderer\.invoke\("keys:latest"\)/);
  assert.match(keyWiki,/使用するタスク/);
+ assert.match(keyWiki,/QUICK DECISION/);
+ assert.match(keyWiki,/タスク用に保管/);
+ assert.match(keyWiki,/最大 \$\{selected\.uses\}回使用/);
+ assert.match(keyWiki,/位置を見る ›/);
  assert.match(keyWiki,/onOpenMap/);
  assert.match(keyWiki,/onOpenTask/);
  assert.match(desktopMain,/app\/key-wiki\.css/);
+ assert.match(desktopMain,/app\/key-wiki-v21\.css/);
+ assert.match(keyWikiV21,/\.keyDecision\.keep/);
+ const keysWithPositions=keys.filter(key=>key.mapUses.some(map=>map.positions?.length));
+ assert.ok(keysWithPositions.length>=100);
+});
+
+test("鍵位置・安定したマップタイトル・タスク一覧への戻り先を保持する",()=>{
+ assert.match(page,/type KeyMapFocus/);
+ assert.match(page,/className="keyLocationMarker"/);
+ assert.match(page,/鍵の使用場所/);
+ assert.match(page,/stableVariantTitle/);
+ assert.match(page,/位置表示は基準版のみ/);
+ assert.match(page,/selectedTrader \? openGuide\("list", "", selectedTrader\) : openGuide\("directory", "", ""\)/);
+ assert.match(page,/5704e4dad2720bb55b8b4567/);
+ assert.doesNotMatch(page,/5704e4dad2720bc5b8b4567/);
+ assert.match(mapV21,/\.keyLocationMarker/);
+ assert.match(mapV21,/\.keyMapPreview/);
+ assert.match(desktopMain,/app\/map-v21\.css/);
 });
 
 test("全マップ共通の強調表示修正を保持する",()=>{

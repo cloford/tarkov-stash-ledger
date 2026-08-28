@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-28T04:00:50.197Z",
+  "updatedAt": "2026-08-28T08:10:59.976Z",
   "source": "tarkov.dev",
   "keys": [
     {
@@ -33,7 +33,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 165.190643,
+              "y": 1.80979538,
+              "z": 165.050171,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -68,7 +76,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -133.4689,
+              "y": 9.712829,
+              "z": 272.9284,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -131,7 +147,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 80.078,
+              "y": 4.941001,
+              "z": 138.528229,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -166,7 +190,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 55.03196,
+              "y": 3.91900015,
+              "z": 332.649078,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -201,7 +233,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -130.730026,
+              "y": 3.37588024,
+              "z": 391.625732,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -222,7 +262,21 @@
           "id": "6733700029c367a3d40b02af",
           "name": "ラビリンス",
           "nameEn": "The Labyrinth",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 40.1832,
+              "y": 0.298618853,
+              "z": 19.1903,
+              "type": "switch"
+            },
+            {
+              "x": -49.34948,
+              "y": 1.70373631,
+              "z": -11.756073,
+              "type": "switch"
+            }
+          ]
         }
       ]
     },
@@ -257,7 +311,21 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -27.8065434,
+              "y": 10.6449995,
+              "z": -60.68869,
+              "type": "door"
+            },
+            {
+              "x": -19.6299133,
+              "y": 10.6449995,
+              "z": -64.1971359,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -348,7 +416,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 63.458,
+              "y": 7.8760004,
+              "z": 301.06,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -383,7 +459,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 66.86121,
+              "y": 7.935705,
+              "z": 310.662476,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -418,7 +502,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 83.19616,
+              "y": 3.714818,
+              "z": 296.5183,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -453,7 +545,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 107.048935,
+              "y": 7.51594162,
+              "z": 227.6278,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -474,7 +574,15 @@
           "id": "5704e4dad2720bb55b8b4567",
           "name": "ライトハウス",
           "nameEn": "Lighthouse",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -124.792175,
+              "y": 19.29507,
+              "z": -130.470322,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -509,7 +617,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 96.02269,
+              "y": 8.23889,
+              "z": -58.42183,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -558,7 +674,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 227.950821,
+              "y": 10.4074459,
+              "z": 406.04834,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -579,7 +703,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 268.4923,
+              "y": 7.4047513,
+              "z": 387.506958,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -600,7 +732,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 272.695129,
+              "y": 7.42808771,
+              "z": 378.9438,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -621,7 +761,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 274.5687,
+              "y": 7.404751,
+              "z": 383.686,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -642,7 +790,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 217.970627,
+              "y": 10.3969755,
+              "z": 400.558624,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -663,7 +819,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 224.331879,
+              "y": 10.4224167,
+              "z": 400.559326,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -698,7 +862,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 211.010635,
+              "y": -0.205347657,
+              "z": 406.72,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -719,7 +891,15 @@
           "id": "5704e4dad2720bb55b8b4567",
           "name": "ライトハウス",
           "nameEn": "Lighthouse",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 333.799683,
+              "y": 6.0705,
+              "z": 519.116943,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -740,7 +920,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 181.878967,
+              "y": 6.864965,
+              "z": 312.1157,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -761,7 +949,15 @@
           "id": "5704e4dad2720bb55b8b4567",
           "name": "ライトハウス",
           "nameEn": "Lighthouse",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -58.58714,
+              "y": 6.55418,
+              "z": -292.997253,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -796,7 +992,15 @@
           "id": "6733700029c367a3d40b02af",
           "name": "ラビリンス",
           "nameEn": "The Labyrinth",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 9.654029,
+              "y": 1.2547729,
+              "z": -11.1337557,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -831,7 +1035,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 102.534,
+              "y": -47.2578621,
+              "z": 102.731354,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -852,7 +1064,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 93.72075,
+              "y": -45.01455,
+              "z": 111.96933,
+              "type": "container"
+            }
+          ]
         }
       ]
     },
@@ -887,7 +1107,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 225.517258,
+              "y": 0.906600237,
+              "z": 138.366257,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -948,7 +1176,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 177.975342,
+              "y": 3.86800241,
+              "z": 165.392,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -969,7 +1205,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 175.733536,
+              "y": 0.820167542,
+              "z": 149.351379,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -990,7 +1234,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 230.101257,
+              "y": 0.901600242,
+              "z": 134.913879,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1011,7 +1263,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 227.877258,
+              "y": 0.9109994,
+              "z": 135.61264,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1032,7 +1292,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 177.472717,
+              "y": 0.8209934,
+              "z": 178.489243,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1053,7 +1321,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 231.0886,
+              "y": 0.9109994,
+              "z": 159.435349,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1088,7 +1364,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 233.553833,
+              "y": 0.904600263,
+              "z": 159.701385,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1109,7 +1393,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 194.794083,
+              "y": 0.810961366,
+              "z": 174.546783,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1144,7 +1436,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 176.041077,
+              "y": 3.84260249,
+              "z": 150.26828,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1165,7 +1465,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 173.379211,
+              "y": 3.83760285,
+              "z": 150.356216,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1200,7 +1508,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 230.641281,
+              "y": 3.86939979,
+              "z": 138.671631,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1235,7 +1551,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 178.105484,
+              "y": 3.83598375,
+              "z": 183.746643,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1256,7 +1580,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 190.211411,
+              "y": 3.86258245,
+              "z": 175.351563,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1304,7 +1636,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 193.957886,
+              "y": 3.831203,
+              "z": 174.821625,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1339,7 +1679,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 176.039612,
+              "y": 6.83900452,
+              "z": 150.268463,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1360,7 +1708,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 174.544632,
+              "y": 6.859604,
+              "z": 157.45575,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1381,7 +1737,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 177.4756,
+              "y": 6.850606,
+              "z": 178.488113,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1402,7 +1766,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 180.668991,
+              "y": 6.850605,
+              "z": 183.722778,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1423,7 +1795,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 179.284683,
+              "y": 6.830814,
+              "z": 174.810455,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1458,7 +1838,27 @@
           "id": "5714dbc024597771384a510d",
           "name": "インターチェンジ",
           "nameEn": "Interchange",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 34.14116,
+              "y": 28.4790325,
+              "z": -108.287651,
+              "type": "door"
+            },
+            {
+              "x": 24.136982,
+              "y": 28.4790325,
+              "z": -112.8551,
+              "type": "door"
+            },
+            {
+              "x": 6.732233,
+              "y": 28.4790344,
+              "z": -107.304314,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1506,19 +1906,79 @@
           "id": "55f2d3fd4bdc2d5f408b4567",
           "name": "ファクトリー",
           "nameEn": "Factory",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -19.077774,
+              "y": 1.44520187,
+              "z": -48.57139,
+              "type": "door"
+            },
+            {
+              "x": 66.8279953,
+              "y": -1.60700011,
+              "z": -29.3244076,
+              "type": "door"
+            },
+            {
+              "x": 29.1163082,
+              "y": 9.08,
+              "z": 36.51697,
+              "type": "door"
+            }
+          ]
         },
         {
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 356.052551,
+              "y": 2.34000254,
+              "z": -14.5693521,
+              "type": "door"
+            },
+            {
+              "x": 356.97995,
+              "y": 2.139563,
+              "z": -8.04321,
+              "type": "door"
+            },
+            {
+              "x": 198.925186,
+              "y": -1.77976811,
+              "z": -146.173477,
+              "type": "door"
+            }
+          ]
         },
         {
           "id": "59fc81d786f774390775787e",
           "name": "夜間ファクトリー",
           "nameEn": "Night Factory",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -19.077774,
+              "y": 1.44520187,
+              "z": -48.57139,
+              "type": "door"
+            },
+            {
+              "x": 66.8279953,
+              "y": -1.60700011,
+              "z": -29.3244076,
+              "type": "door"
+            },
+            {
+              "x": 29.1163082,
+              "y": 9.08,
+              "z": 36.51697,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1539,7 +1999,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -168.110764,
+              "y": 7.11500072,
+              "z": 230.025345,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1560,7 +2028,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -186.392975,
+              "y": 3.72240162,
+              "z": 229.271439,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1609,7 +2085,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 415.7806,
+              "y": 2.22258425,
+              "z": 38.5619659,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1644,7 +2128,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 415.4146,
+              "y": 2.224584,
+              "z": 35.64597,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1665,13 +2157,227 @@
           "id": "5714dbc024597771384a510d",
           "name": "インターチェンジ",
           "nameEn": "Interchange",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -83.51459,
+              "y": 27.7764988,
+              "z": -15.6399975,
+              "type": "container"
+            },
+            {
+              "x": -83.62959,
+              "y": 27.7765026,
+              "z": 7.08700657,
+              "type": "container"
+            },
+            {
+              "x": -83.40048,
+              "y": 27.7764912,
+              "z": -95.97089,
+              "type": "container"
+            },
+            {
+              "x": -83.62959,
+              "y": 27.7765026,
+              "z": 4.674012,
+              "type": "container"
+            },
+            {
+              "x": -82.9019852,
+              "y": 27.7764912,
+              "z": -108.0699,
+              "type": "container"
+            },
+            {
+              "x": -82.89711,
+              "y": 27.7764912,
+              "z": -72.61372,
+              "type": "container"
+            },
+            {
+              "x": -83.51459,
+              "y": 27.7764988,
+              "z": -32.6340027,
+              "type": "container"
+            },
+            {
+              "x": -83.40048,
+              "y": 27.7764912,
+              "z": -98.66789,
+              "type": "container"
+            },
+            {
+              "x": -83.62959,
+              "y": 27.7765026,
+              "z": 2.1070106,
+              "type": "container"
+            },
+            {
+              "x": -83.40048,
+              "y": 27.7764912,
+              "z": -104.292892,
+              "type": "container"
+            },
+            {
+              "x": -83.51459,
+              "y": 27.7764988,
+              "z": -18.1169949,
+              "type": "container"
+            },
+            {
+              "x": -83.26354,
+              "y": 27.7764835,
+              "z": -122.391174,
+              "type": "container"
+            },
+            {
+              "x": -83.62959,
+              "y": 27.7765,
+              "z": -0.466994464,
+              "type": "container"
+            },
+            {
+              "x": -83.62959,
+              "y": 27.7765026,
+              "z": 9.555013,
+              "type": "container"
+            },
+            {
+              "x": -84.46201,
+              "y": 27.7764912,
+              "z": -124.023407,
+              "type": "container"
+            },
+            {
+              "x": -84.3846,
+              "y": 27.7764835,
+              "z": -126.089035,
+              "type": "container"
+            },
+            {
+              "x": -83.86401,
+              "y": 27.7764912,
+              "z": -118.549377,
+              "type": "container"
+            },
+            {
+              "x": -83.40048,
+              "y": 27.7764912,
+              "z": -101.475891,
+              "type": "container"
+            },
+            {
+              "x": -87.5038452,
+              "y": 27.776495,
+              "z": -49.0153542,
+              "type": "container"
+            },
+            {
+              "x": -83.51459,
+              "y": 27.7764988,
+              "z": -25.3969936,
+              "type": "container"
+            },
+            {
+              "x": -84.3212,
+              "y": 27.776495,
+              "z": -66.45119,
+              "type": "container"
+            },
+            {
+              "x": -83.51459,
+              "y": 27.7764988,
+              "z": -30.1569958,
+              "type": "container"
+            },
+            {
+              "x": -83.51459,
+              "y": 27.7764988,
+              "z": -20.4,
+              "type": "container"
+            },
+            {
+              "x": -83.70695,
+              "y": 27.7764931,
+              "z": -50.30275,
+              "type": "container"
+            },
+            {
+              "x": -83.51459,
+              "y": 27.7764988,
+              "z": -27.873991,
+              "type": "container"
+            },
+            {
+              "x": -83.51459,
+              "y": 27.7764988,
+              "z": -22.876997,
+              "type": "container"
+            },
+            {
+              "x": -92.362114,
+              "y": 27.7764912,
+              "z": -104.179,
+              "type": "container"
+            },
+            {
+              "x": -80.73459,
+              "y": 27.776495,
+              "z": -68.17702,
+              "type": "container"
+            },
+            {
+              "x": -89.228,
+              "y": 28.1010017,
+              "z": 32.8160324,
+              "type": "container"
+            },
+            {
+              "x": -57.0515823,
+              "y": 27.8368759,
+              "z": -100.4599,
+              "type": "container"
+            },
+            {
+              "x": -95.88899,
+              "y": 28.1000023,
+              "z": 31.5300369,
+              "type": "container"
+            },
+            {
+              "x": -89.228,
+              "y": 28.101,
+              "z": 37.6970444,
+              "type": "container"
+            }
+          ]
         },
         {
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -208.95,
+              "y": 4.057,
+              "z": 179.655991,
+              "type": "container"
+            },
+            {
+              "x": -208.95,
+              "y": 4.059,
+              "z": 182.011,
+              "type": "container"
+            },
+            {
+              "x": -30.65358,
+              "y": 3.66407585,
+              "z": 468.8241,
+              "type": "container"
+            }
+          ]
         }
       ]
     },
@@ -1692,7 +2398,15 @@
           "id": "5714dbc024597771384a510d",
           "name": "インターチェンジ",
           "nameEn": "Interchange",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -199.786255,
+              "y": 22.3370018,
+              "z": -348.208038,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1713,7 +2427,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -333.766724,
+              "y": -2.70200348,
+              "z": -79.95804,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1748,7 +2470,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -281.6781,
+              "y": 0.137466431,
+              "z": -92.88776,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1769,7 +2499,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -285.843079,
+              "y": 0.127044678,
+              "z": -92.88776,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1832,7 +2570,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -343.397949,
+              "y": 0.127044678,
+              "z": -84.47623,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1853,7 +2599,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -351.925964,
+              "y": 0.127044678,
+              "z": -84.47623,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1888,7 +2642,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -285.843079,
+              "y": 3.02204132,
+              "z": -92.88776,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1923,7 +2685,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -294.37207,
+              "y": 3.02204132,
+              "z": -92.88776,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1944,7 +2714,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -303.3971,
+              "y": 3.02204132,
+              "z": -81.4607544,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1965,7 +2743,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -313.849976,
+              "y": 3.02204132,
+              "z": -84.47623,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -1986,7 +2772,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -318.006958,
+              "y": 3.02204132,
+              "z": -84.47623,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2007,7 +2801,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -323.375061,
+              "y": 3.02204132,
+              "z": -80.89276,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2056,7 +2858,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -357.289063,
+              "y": 3.02204132,
+              "z": -79.91577,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2077,7 +2887,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -266.105225,
+              "y": -0.321281433,
+              "z": -147.660675,
+              "type": "container"
+            }
+          ]
         }
       ]
     },
@@ -2098,7 +2916,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -242.461655,
+              "y": -0.321281433,
+              "z": -153.368744,
+              "type": "container"
+            }
+          ]
         }
       ]
     },
@@ -2133,7 +2959,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -323.5467,
+              "y": -2.70200348,
+              "z": -79.96103,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2154,7 +2988,21 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -142.569077,
+              "y": 3.05004883,
+              "z": -79.92575,
+              "type": "door"
+            },
+            {
+              "x": -142.569077,
+              "y": 0.15625,
+              "z": -79.91675,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2175,7 +3023,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -157.433334,
+              "y": -2.69580078,
+              "z": -85.4489746,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2210,7 +3066,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -189.173325,
+              "y": -2.69580078,
+              "z": -85.4489746,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2231,7 +3095,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -229.59407,
+              "y": 0.129249573,
+              "z": -92.90576,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2252,7 +3124,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -221.059067,
+              "y": 0.129249573,
+              "z": -92.90576,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2287,7 +3167,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -179.3651,
+              "y": 0.129249573,
+              "z": -80.91177,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2308,7 +3196,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -173.997971,
+              "y": 0.129249573,
+              "z": -84.50223,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2343,7 +3239,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -170.8391,
+              "y": 0.129249573,
+              "z": -80.91177,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2378,7 +3282,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -166.672073,
+              "y": 0.129249573,
+              "z": -80.91177,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2399,7 +3311,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -165.465927,
+              "y": 0.129249573,
+              "z": -84.50223,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2420,7 +3340,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -161.307968,
+              "y": 0.129249573,
+              "z": -84.50223,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2441,7 +3369,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -229.201767,
+              "y": 3.0230484,
+              "z": -100.165924,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2490,7 +3426,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -216.8911,
+              "y": 3.0230484,
+              "z": -92.92575,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2525,7 +3469,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -165.673386,
+              "y": 2.53000641,
+              "z": -89.0607,
+              "type": "container"
+            }
+          ]
         }
       ]
     },
@@ -2574,7 +3526,21 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -220.353775,
+              "y": -33.8510361,
+              "z": 185.899292,
+              "type": "door"
+            },
+            {
+              "x": -220.691269,
+              "y": -33.8470345,
+              "z": 193.70491,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2595,7 +3561,15 @@
           "id": "5704e4dad2720bb55b8b4567",
           "name": "ライトハウス",
           "nameEn": "Lighthouse",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -147.040451,
+              "y": 12.6704216,
+              "z": -243.324341,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2616,13 +3590,29 @@
           "id": "653e6760052c01c1c805532f",
           "name": "グラウンドゼロ",
           "nameEn": "Ground Zero",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 120.074966,
+              "y": 25.4368019,
+              "z": 149.382675,
+              "type": "door"
+            }
+          ]
         },
         {
           "id": "65b8d6f5cdde2479cb2a3125",
           "name": "Ground Zero 21+",
           "nameEn": "Ground Zero 21+",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 120.074966,
+              "y": 25.4368019,
+              "z": 149.382675,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2671,7 +3661,153 @@
           "id": "5714dbc024597771384a510d",
           "name": "インターチェンジ",
           "nameEn": "Interchange",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 26.5921783,
+              "y": 27.76,
+              "z": -256.549042,
+              "type": "container"
+            },
+            {
+              "x": 26.592186,
+              "y": 27.76,
+              "z": -236.455048,
+              "type": "container"
+            },
+            {
+              "x": 26.592186,
+              "y": 27.76,
+              "z": -243.03,
+              "type": "container"
+            },
+            {
+              "x": 26.592186,
+              "y": 27.76,
+              "z": -216.305969,
+              "type": "container"
+            },
+            {
+              "x": 26.5921783,
+              "y": 27.76,
+              "z": -249.899017,
+              "type": "container"
+            },
+            {
+              "x": 26.5921783,
+              "y": 27.76,
+              "z": -276.819061,
+              "type": "container"
+            },
+            {
+              "x": 26.592186,
+              "y": 27.76,
+              "z": -229.633026,
+              "type": "container"
+            },
+            {
+              "x": 26.592186,
+              "y": 27.76,
+              "z": -223.018,
+              "type": "container"
+            },
+            {
+              "x": 26.5921783,
+              "y": 27.76,
+              "z": -263.389,
+              "type": "container"
+            },
+            {
+              "x": 26.5921783,
+              "y": 27.76,
+              "z": -270.088959,
+              "type": "container"
+            },
+            {
+              "x": 24.6221828,
+              "y": 27.76,
+              "z": -256.030029,
+              "type": "container"
+            },
+            {
+              "x": 24.62219,
+              "y": 27.76,
+              "z": -235.93602,
+              "type": "container"
+            },
+            {
+              "x": 24.62219,
+              "y": 27.76,
+              "z": -242.510971,
+              "type": "container"
+            },
+            {
+              "x": 24.62219,
+              "y": 27.76,
+              "z": -215.786942,
+              "type": "container"
+            },
+            {
+              "x": 24.6221828,
+              "y": 27.76,
+              "z": -276.300049,
+              "type": "container"
+            },
+            {
+              "x": 24.6221828,
+              "y": 27.76,
+              "z": -249.37999,
+              "type": "container"
+            },
+            {
+              "x": 24.62219,
+              "y": 27.76,
+              "z": -229.114,
+              "type": "container"
+            },
+            {
+              "x": 24.62219,
+              "y": 27.76,
+              "z": -222.498978,
+              "type": "container"
+            },
+            {
+              "x": 24.6221828,
+              "y": 27.76,
+              "z": -262.87,
+              "type": "container"
+            },
+            {
+              "x": 24.6221828,
+              "y": 27.76,
+              "z": -269.569946,
+              "type": "container"
+            },
+            {
+              "x": 68.07676,
+              "y": 22.5304565,
+              "z": -257.210419,
+              "type": "container"
+            },
+            {
+              "x": 78.97584,
+              "y": 28.1008835,
+              "z": -294.297638,
+              "type": "container"
+            },
+            {
+              "x": 68.10306,
+              "y": 22.5304565,
+              "z": -258.82196,
+              "type": "container"
+            },
+            {
+              "x": 80.77603,
+              "y": 28.1008835,
+              "z": -294.292,
+              "type": "container"
+            }
+          ]
         }
       ]
     },
@@ -2706,7 +3842,27 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 131.168167,
+              "y": 10.5814857,
+              "z": 227.64386,
+              "type": "door"
+            },
+            {
+              "x": 132.49292,
+              "y": 10.5825262,
+              "z": 225.1011,
+              "type": "door"
+            },
+            {
+              "x": 126.369164,
+              "y": 10.5938711,
+              "z": 227.644852,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2727,7 +3883,15 @@
           "id": "6733700029c367a3d40b02af",
           "name": "ラビリンス",
           "nameEn": "The Labyrinth",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -31.014473,
+              "y": 1.75901747,
+              "z": 58.9146423,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2748,7 +3912,15 @@
           "id": "6733700029c367a3d40b02af",
           "name": "ラビリンス",
           "nameEn": "The Labyrinth",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -2.48107839,
+              "y": 2.29478168,
+              "z": -34.2012634,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2769,7 +3941,15 @@
           "id": "6733700029c367a3d40b02af",
           "name": "ラビリンス",
           "nameEn": "The Labyrinth",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -30.080019,
+              "y": 2.01908755,
+              "z": -15.5193338,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2790,7 +3970,15 @@
           "id": "6733700029c367a3d40b02af",
           "name": "ラビリンス",
           "nameEn": "The Labyrinth",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 17.1429634,
+              "y": 1.1481005,
+              "z": 62.8580856,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2839,7 +4027,15 @@
           "id": "5b0fc42d86f7744a585f9105",
           "name": "研究所",
           "nameEn": "The Lab",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -130.2688,
+              "y": 5.155606,
+              "z": -339.9442,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2874,7 +4070,15 @@
           "id": "5714dbc024597771384a510d",
           "name": "インターチェンジ",
           "nameEn": "Interchange",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -9.887001,
+              "y": 28.241,
+              "z": -33.76517,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2909,7 +4113,15 @@
           "id": "5714dbc024597771384a510d",
           "name": "インターチェンジ",
           "nameEn": "Interchange",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -9.444001,
+              "y": 28.241,
+              "z": -33.709,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2930,7 +4142,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -197.042252,
+              "y": -5.96400452,
+              "z": -79.9689941,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -2965,7 +4185,8 @@
           "id": "6733700029c367a3d40b02af",
           "name": "ラビリンス",
           "nameEn": "The Labyrinth",
-          "kind": "access"
+          "kind": "access",
+          "positions": []
         }
       ]
     },
@@ -2986,7 +4207,15 @@
           "id": "6733700029c367a3d40b02af",
           "name": "ラビリンス",
           "nameEn": "The Labyrinth",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -10.399806,
+              "y": 1.24885988,
+              "z": 39.65776,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3007,7 +4236,15 @@
           "id": "5704e4dad2720bb55b8b4567",
           "name": "ライトハウス",
           "nameEn": "Lighthouse",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -75.38922,
+              "y": 10.1256714,
+              "z": -290.638458,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3042,7 +4279,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 101.818909,
+              "y": 3.44780731,
+              "z": -5.54528046,
+              "type": "trunk"
+            }
+          ]
         }
       ]
     },
@@ -3063,7 +4308,15 @@
           "id": "5704e4dad2720bb55b8b4567",
           "name": "ライトハウス",
           "nameEn": "Lighthouse",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 91.1099854,
+              "y": 8.382998,
+              "z": -130.918991,
+              "type": "trunk"
+            }
+          ]
         }
       ]
     },
@@ -3112,7 +4365,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -250.477036,
+              "y": 3.98400116,
+              "z": 131.54567,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3147,7 +4408,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 186.180023,
+              "y": 0.849899948,
+              "z": 227.438339,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3168,7 +4437,15 @@
           "id": "5714dbc024597771384a510d",
           "name": "インターチェンジ",
           "nameEn": "Interchange",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 68.53717,
+              "y": 22.4921417,
+              "z": -255.450058,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3203,7 +4480,15 @@
           "id": "5714dbc024597771384a510d",
           "name": "インターチェンジ",
           "nameEn": "Interchange",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -51.91228,
+              "y": 22.29392,
+              "z": 45.8358765,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3251,7 +4536,15 @@
           "id": "5714dbc024597771384a510d",
           "name": "インターチェンジ",
           "nameEn": "Interchange",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 140.195663,
+              "y": 25.2079964,
+              "z": 263.315277,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3272,7 +4565,15 @@
           "id": "6733700029c367a3d40b02af",
           "name": "ラビリンス",
           "nameEn": "The Labyrinth",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 9.36803,
+              "y": 1.26510465,
+              "z": 7.66224,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3293,7 +4594,15 @@
           "id": "5704e3c2d2720bac5b8b4567",
           "name": "ウッズ",
           "nameEn": "Woods",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -655.1675,
+              "y": 8.68574,
+              "z": 183.086014,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3328,7 +4637,15 @@
           "id": "5714dbc024597771384a510d",
           "name": "インターチェンジ",
           "nameEn": "Interchange",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 85.18425,
+              "y": 28.1199989,
+              "z": 104.638214,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3349,7 +4666,117 @@
           "id": "5714dbc024597771384a510d",
           "name": "インターチェンジ",
           "nameEn": "Interchange",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 6.04089642,
+              "y": 27.77,
+              "z": 97.60002,
+              "type": "container"
+            },
+            {
+              "x": -22.5889874,
+              "y": 27.77,
+              "z": 97.60002,
+              "type": "container"
+            },
+            {
+              "x": -13.00903,
+              "y": 27.77,
+              "z": 97.60002,
+              "type": "container"
+            },
+            {
+              "x": -31.96905,
+              "y": 27.77,
+              "z": 97.60002,
+              "type": "container"
+            },
+            {
+              "x": -50.4790573,
+              "y": 27.77,
+              "z": 97.60002,
+              "type": "container"
+            },
+            {
+              "x": -3.62896442,
+              "y": 27.77,
+              "z": 97.60002,
+              "type": "container"
+            },
+            {
+              "x": 25.0009174,
+              "y": 27.77,
+              "z": 97.60002,
+              "type": "container"
+            },
+            {
+              "x": -41.09899,
+              "y": 27.77,
+              "z": 97.60002,
+              "type": "container"
+            },
+            {
+              "x": 15.4209623,
+              "y": 27.77,
+              "z": 97.60002,
+              "type": "container"
+            },
+            {
+              "x": 6.55998325,
+              "y": 27.77,
+              "z": 99.57,
+              "type": "container"
+            },
+            {
+              "x": -22.0699,
+              "y": 27.77,
+              "z": 99.57,
+              "type": "container"
+            },
+            {
+              "x": -12.4899435,
+              "y": 27.77,
+              "z": 99.57,
+              "type": "container"
+            },
+            {
+              "x": -31.4499626,
+              "y": 27.77,
+              "z": 99.57,
+              "type": "container"
+            },
+            {
+              "x": -49.9599724,
+              "y": 27.77,
+              "z": 99.57,
+              "type": "container"
+            },
+            {
+              "x": -3.10987759,
+              "y": 27.77,
+              "z": 99.57,
+              "type": "container"
+            },
+            {
+              "x": 25.5200043,
+              "y": 27.77,
+              "z": 99.57,
+              "type": "container"
+            },
+            {
+              "x": -40.5799065,
+              "y": 27.77,
+              "z": 99.57,
+              "type": "container"
+            },
+            {
+              "x": 15.9400492,
+              "y": 27.77,
+              "z": 99.57,
+              "type": "container"
+            }
+          ]
         }
       ]
     },
@@ -3384,7 +4811,15 @@
           "id": "5714dbc024597771384a510d",
           "name": "インターチェンジ",
           "nameEn": "Interchange",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 83.1990051,
+              "y": 28.1199989,
+              "z": 115.672775,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3405,7 +4840,15 @@
           "id": "5714dbc024597771384a510d",
           "name": "インターチェンジ",
           "nameEn": "Interchange",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -102.823753,
+              "y": 28.12,
+              "z": 80.48102,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3440,7 +4883,15 @@
           "id": "5704e4dad2720bb55b8b4567",
           "name": "ライトハウス",
           "nameEn": "Lighthouse",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 32.8992271,
+              "y": 5.93999767,
+              "z": -636.186,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3461,7 +4912,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 207.952087,
+              "y": 1.39300013,
+              "z": 140.712891,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3524,7 +4983,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -67.00622,
+              "y": 6.024556,
+              "z": 59.3249474,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3545,7 +5012,15 @@
           "id": "5704e4dad2720bb55b8b4567",
           "name": "ライトハウス",
           "nameEn": "Lighthouse",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 83.79875,
+              "y": 6.61100054,
+              "z": -553.2562,
+              "type": "trunk"
+            }
+          ]
         }
       ]
     },
@@ -3580,7 +5055,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 202.652176,
+              "y": 4.73782444,
+              "z": 11.72523,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3601,7 +5084,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -251.345978,
+              "y": 3.86396623,
+              "z": -221.926331,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3622,7 +5113,15 @@
           "id": "5714dbc024597771384a510d",
           "name": "インターチェンジ",
           "nameEn": "Interchange",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -223.114746,
+              "y": 22.554409,
+              "z": -271.34787,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3683,7 +5182,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 49.5526543,
+              "y": 12.7623,
+              "z": 147.7725,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3704,7 +5211,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 45.3423271,
+              "y": 6.742015,
+              "z": 151.0246,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3781,7 +5296,15 @@
           "id": "5704e4dad2720bb55b8b4567",
           "name": "ライトハウス",
           "nameEn": "Lighthouse",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 355.204041,
+              "y": 16.5450039,
+              "z": 549.387268,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3802,7 +5325,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -134.622208,
+              "y": -2.13919544,
+              "z": -12.8280449,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3823,7 +5354,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -133.28923,
+              "y": -5.13899755,
+              "z": -16.0926876,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3844,7 +5383,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 194.756668,
+              "y": -5.801999,
+              "z": -203.553162,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3865,7 +5412,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -157.877228,
+              "y": -8.156,
+              "z": 72.86957,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3886,7 +5441,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -62.8866959,
+              "y": -9.724004,
+              "z": 31.45763,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3907,7 +5470,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -2.507987,
+              "y": 23.420002,
+              "z": 174.911667,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3928,7 +5499,21 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -40.4494743,
+              "y": 19.6619987,
+              "z": 173.891632,
+              "type": "door"
+            },
+            {
+              "x": -44.2901,
+              "y": 19.6479969,
+              "z": 171.656,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3963,7 +5548,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -60.01454,
+              "y": -2.686668,
+              "z": -34.5074158,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -3984,7 +5577,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 8.266094,
+              "y": -3.00213671,
+              "z": -17.478508,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4005,7 +5606,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 8.245274,
+              "y": -5.851447,
+              "z": -17.522274,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4026,7 +5635,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 87.58351,
+              "y": -5.82550144,
+              "z": -37.0245056,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4047,7 +5664,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 10.96851,
+              "y": -2.993132,
+              "z": -7.38929558,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4068,7 +5693,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 87.59174,
+              "y": -3.006598,
+              "z": -37.00485,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4103,7 +5736,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -167.807846,
+              "y": 0.526002765,
+              "z": 34.482357,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4124,7 +5765,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -68.47784,
+              "y": -9.729001,
+              "z": 22.4142532,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4159,7 +5808,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -122.855309,
+              "y": 3.44399929,
+              "z": 97.5226746,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4194,7 +5851,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -123.01857,
+              "y": -2.355001,
+              "z": 98.53612,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4229,7 +5894,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -170.236115,
+              "y": -2.36000967,
+              "z": 33.9814758,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4250,7 +5923,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -120.251938,
+              "y": -13.483,
+              "z": 27.7041912,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4299,7 +5980,21 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 80.9147949,
+              "y": -11.128396,
+              "z": -124.269508,
+              "type": "door"
+            },
+            {
+              "x": 71.1099243,
+              "y": -11.1283951,
+              "z": -146.964935,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4320,7 +6015,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 83.53424,
+              "y": -11.1003962,
+              "z": -100.626518,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4341,7 +6044,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 50.8182335,
+              "y": -11.1003952,
+              "z": -91.86654,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4362,7 +6073,21 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 42.9957924,
+              "y": -11.1263895,
+              "z": -114.102486,
+              "type": "door"
+            },
+            {
+              "x": 38.3942223,
+              "y": -11.1283951,
+              "z": -138.199554,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4383,7 +6108,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -51.42916,
+              "y": 0.3399992,
+              "z": 19.69715,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4404,7 +6137,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -10.966012,
+              "y": 23.420002,
+              "z": 180.644669,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4425,7 +6166,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -0.7072835,
+              "y": 23.42,
+              "z": 182.247025,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4460,7 +6209,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -78.72693,
+              "y": -2.686668,
+              "z": -29.45641,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4521,7 +6278,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 100.776367,
+              "y": -5.596049,
+              "z": 43.67285,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4542,7 +6307,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -162.7659,
+              "y": -8.148003,
+              "z": 65.72441,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4563,7 +6336,15 @@
           "id": "5704e5fad2720bc05b8b4567",
           "name": "リザーブ",
           "nameEn": "Reserve",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 189.650925,
+              "y": -5.802998,
+              "z": -224.7897,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4598,7 +6379,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -62.3790436,
+              "y": 7.906067,
+              "z": 460.344482,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4633,7 +6422,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -208.164185,
+              "y": 4.28889942,
+              "z": 295.5338,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4696,7 +6493,8 @@
           "id": "65cc8f81a9aac3e77d0cfd3e",
           "name": "ターミナル",
           "nameEn": "Terminal",
-          "kind": "access"
+          "kind": "access",
+          "positions": []
         }
       ]
     },
@@ -4717,7 +6515,8 @@
           "id": "65cc8f81a9aac3e77d0cfd3e",
           "name": "ターミナル",
           "nameEn": "Terminal",
-          "kind": "access"
+          "kind": "access",
+          "positions": []
         }
       ]
     },
@@ -4752,7 +6551,8 @@
           "id": "65cc8f81a9aac3e77d0cfd3e",
           "name": "ターミナル",
           "nameEn": "Terminal",
-          "kind": "access"
+          "kind": "access",
+          "positions": []
         }
       ]
     },
@@ -4773,7 +6573,15 @@
           "id": "5704e4dad2720bb55b8b4567",
           "name": "ライトハウス",
           "nameEn": "Lighthouse",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -176.519272,
+              "y": 5.939992,
+              "z": -654.164063,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4794,7 +6602,15 @@
           "id": "5704e4dad2720bb55b8b4567",
           "name": "ライトハウス",
           "nameEn": "Lighthouse",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 47.375824,
+              "y": 5.68040466,
+              "z": -553.3833,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4815,7 +6631,15 @@
           "id": "5704e4dad2720bb55b8b4567",
           "name": "ライトハウス",
           "nameEn": "Lighthouse",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -168.674438,
+              "y": 5.80596256,
+              "z": -497.2994,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4864,7 +6688,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 177.724213,
+              "y": 6.86140871,
+              "z": 78.84773,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4885,7 +6717,15 @@
           "id": "5704e4dad2720bb55b8b4567",
           "name": "ライトハウス",
           "nameEn": "Lighthouse",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 328.6408,
+              "y": 6.041643,
+              "z": 487.2441,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4906,7 +6746,15 @@
           "id": "5704e3c2d2720bac5b8b4567",
           "name": "ウッズ",
           "nameEn": "Woods",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -513.1287,
+              "y": 16.562,
+              "z": -388.476959,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -4927,7 +6775,15 @@
           "id": "5704e3c2d2720bac5b8b4567",
           "name": "ウッズ",
           "nameEn": "Woods",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 25.1087952,
+              "y": -1.47199965,
+              "z": -29.5557251,
+              "type": "container"
+            }
+          ]
         }
       ]
     },
@@ -4948,7 +6804,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 157.352051,
+              "y": -47.3859329,
+              "z": 133.891,
+              "type": "trunk"
+            }
+          ]
         }
       ]
     },
@@ -4969,7 +6833,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 108.3958,
+              "y": 7.45609,
+              "z": 224.57489,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5004,7 +6876,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 119.953995,
+              "y": 7.776001,
+              "z": 290.826782,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5039,7 +6919,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 57.6156349,
+              "y": 6.847,
+              "z": 334.707062,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5060,7 +6948,21 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 66.95923,
+              "y": 3.841999,
+              "z": 231.536,
+              "type": "door"
+            },
+            {
+              "x": 68.86824,
+              "y": 3.841999,
+              "z": 231.536,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5108,7 +7010,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -205.5246,
+              "y": 8.09788,
+              "z": -109.997055,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5143,7 +7053,8 @@
           "id": "5b0fc42d86f7744a585f9105",
           "name": "研究所",
           "nameEn": "The Lab",
-          "kind": "access"
+          "kind": "access",
+          "positions": []
         }
       ]
     },
@@ -5164,7 +7075,15 @@
           "id": "5b0fc42d86f7744a585f9105",
           "name": "研究所",
           "nameEn": "The Lab",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -250.839066,
+              "y": 5.097125,
+              "z": -326.758667,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5212,7 +7131,21 @@
           "id": "5b0fc42d86f7744a585f9105",
           "name": "研究所",
           "nameEn": "The Lab",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -128.794,
+              "y": 1.41431475,
+              "z": -349.91507,
+              "type": "door"
+            },
+            {
+              "x": -132.893,
+              "y": 1.41231537,
+              "z": -348.72,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5233,7 +7166,15 @@
           "id": "5b0fc42d86f7744a585f9105",
           "name": "研究所",
           "nameEn": "The Lab",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -123.229034,
+              "y": 1.036344,
+              "z": -406.5244,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5254,7 +7195,15 @@
           "id": "5b0fc42d86f7744a585f9105",
           "name": "研究所",
           "nameEn": "The Lab",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -135.899185,
+              "y": 5.185731,
+              "z": -346.966156,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5275,7 +7224,15 @@
           "id": "5b0fc42d86f7744a585f9105",
           "name": "研究所",
           "nameEn": "The Lab",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -257.222015,
+              "y": 5.248032,
+              "z": -322.925018,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5296,7 +7253,15 @@
           "id": "5b0fc42d86f7744a585f9105",
           "name": "研究所",
           "nameEn": "The Lab",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -261.993042,
+              "y": 5.147805,
+              "z": -317.240326,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5317,7 +7282,15 @@
           "id": "5b0fc42d86f7744a585f9105",
           "name": "研究所",
           "nameEn": "The Lab",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -212.694672,
+              "y": 5.145301,
+              "z": -376.538025,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5338,7 +7311,21 @@
           "id": "5b0fc42d86f7744a585f9105",
           "name": "研究所",
           "nameEn": "The Lab",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -165.246277,
+              "y": 5.155924,
+              "z": -349.215729,
+              "type": "door"
+            },
+            {
+              "x": -165.242874,
+              "y": 5.152924,
+              "z": -338.104736,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5359,7 +7346,15 @@
           "id": "5b0fc42d86f7744a585f9105",
           "name": "研究所",
           "nameEn": "The Lab",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -117.3155,
+              "y": 1.12753034,
+              "z": -439.54068,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5394,7 +7389,21 @@
           "id": "5b0fc42d86f7744a585f9105",
           "name": "研究所",
           "nameEn": "The Lab",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -179.8631,
+              "y": 1.38076448,
+              "z": -310.331,
+              "type": "door"
+            },
+            {
+              "x": -181.967865,
+              "y": 1.38050318,
+              "z": -318.212524,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5429,7 +7438,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 46.6896172,
+              "y": 1.30449045,
+              "z": -59.40806,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5450,13 +7467,29 @@
           "id": "653e6760052c01c1c805532f",
           "name": "グラウンドゼロ",
           "nameEn": "Ground Zero",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -17.9758759,
+              "y": 30.7062054,
+              "z": 58.55322,
+              "type": "door"
+            }
+          ]
         },
         {
           "id": "65b8d6f5cdde2479cb2a3125",
           "name": "Ground Zero 21+",
           "nameEn": "Ground Zero 21+",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -17.9758759,
+              "y": 30.7062054,
+              "z": 58.55322,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5477,7 +7510,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 60.7050056,
+              "y": 1.29402184,
+              "z": -79.9520645,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5512,13 +7553,29 @@
           "id": "55f2d3fd4bdc2d5f408b4567",
           "name": "ファクトリー",
           "nameEn": "Factory",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -20.4309616,
+              "y": -1.51576364,
+              "z": 44.06125,
+              "type": "door"
+            }
+          ]
         },
         {
           "id": "59fc81d786f774390775787e",
           "name": "夜間ファクトリー",
           "nameEn": "Night Factory",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -20.4309616,
+              "y": -1.51576364,
+              "z": 44.06125,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5539,7 +7596,15 @@
           "id": "6733700029c367a3d40b02af",
           "name": "ラビリンス",
           "nameEn": "The Labyrinth",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 17.53276,
+              "y": 1.25286007,
+              "z": 6.93186951,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5574,7 +7639,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -194.566467,
+              "y": 2.35296464,
+              "z": -207.386185,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5595,7 +7668,15 @@
           "id": "5714dbc024597771384a510d",
           "name": "インターチェンジ",
           "nameEn": "Interchange",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 67.55801,
+              "y": 37.60174,
+              "z": 40.891,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5616,13 +7697,29 @@
           "id": "653e6760052c01c1c805532f",
           "name": "グラウンドゼロ",
           "nameEn": "Ground Zero",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 107.046982,
+              "y": 13.4994726,
+              "z": 50.6362534,
+              "type": "door"
+            }
+          ]
         },
         {
           "id": "65b8d6f5cdde2479cb2a3125",
           "name": "Ground Zero 21+",
           "nameEn": "Ground Zero 21+",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 107.046982,
+              "y": 13.4994726,
+              "z": 50.6362534,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5657,13 +7754,29 @@
           "id": "653e6760052c01c1c805532f",
           "name": "グラウンドゼロ",
           "nameEn": "Ground Zero",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 58.2430344,
+              "y": 24.5026741,
+              "z": 172.438,
+              "type": "door"
+            }
+          ]
         },
         {
           "id": "65b8d6f5cdde2479cb2a3125",
           "name": "Ground Zero 21+",
           "nameEn": "Ground Zero 21+",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 58.2430344,
+              "y": 24.5026741,
+              "z": 172.438,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5698,7 +7811,15 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 370.013336,
+              "y": 2.160964,
+              "z": -50.10124,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5719,7 +7840,15 @@
           "id": "5704e4dad2720bb55b8b4567",
           "name": "ライトハウス",
           "nameEn": "Lighthouse",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -81.35248,
+              "y": 22.326931,
+              "z": -90.72273,
+              "type": "trunk"
+            }
+          ]
         }
       ]
     },
@@ -5740,7 +7869,15 @@
           "id": "5704e4dad2720bb55b8b4567",
           "name": "ライトハウス",
           "nameEn": "Lighthouse",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -110.222015,
+              "y": 21.9626656,
+              "z": -14.4071732,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5761,13 +7898,47 @@
           "id": "5704e4dad2720bb55b8b4567",
           "name": "ライトハウス",
           "nameEn": "Lighthouse",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -81.349,
+              "y": 22.329998,
+              "z": -57.3692856,
+              "type": "trunk"
+            }
+          ]
         },
         {
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 174.021866,
+              "y": 1.1396122,
+              "z": 163.47966,
+              "type": "trunk"
+            },
+            {
+              "x": -67.94217,
+              "y": 5.31681347,
+              "z": 53.4976959,
+              "type": "trunk"
+            },
+            {
+              "x": -77.5275,
+              "y": 5.395488,
+              "z": 53.20376,
+              "type": "trunk"
+            },
+            {
+              "x": -49.4515076,
+              "y": 5.272647,
+              "z": 64.02682,
+              "type": "trunk"
+            }
+          ]
         }
       ]
     },
@@ -5788,7 +7959,21 @@
           "id": "56f40101d2720b2a4d8b45d6",
           "name": "カスタム",
           "nameEn": "Customs",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 568.747131,
+              "y": 2.193743,
+              "z": -50.8581467,
+              "type": "door"
+            },
+            {
+              "x": 562.780945,
+              "y": 2.216743,
+              "z": -58.9465446,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5809,7 +7994,15 @@
           "id": "6733700029c367a3d40b02af",
           "name": "ラビリンス",
           "nameEn": "The Labyrinth",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 2.659,
+              "y": 2.109861,
+              "z": -31.705,
+              "type": "switch"
+            }
+          ]
         }
       ]
     },
@@ -5844,7 +8037,15 @@
           "id": "5704e554d2720bac5b8b456e",
           "name": "ショアライン",
           "nameEn": "Shoreline",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -239.810715,
+              "y": -39.7787323,
+              "z": 197.051773,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5865,7 +8066,15 @@
           "id": "5704e4dad2720bb55b8b4567",
           "name": "ライトハウス",
           "nameEn": "Lighthouse",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": -120.901733,
+              "y": 5.93898,
+              "z": -736.4641,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5928,7 +8137,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 184.997513,
+              "y": 2.828705,
+              "z": 100.691765,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5963,7 +8180,15 @@
           "id": "5704e3c2d2720bac5b8b4567",
           "name": "ウッズ",
           "nameEn": "Woods",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 448.6235,
+              "y": -13.2669172,
+              "z": 65.5839844,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -5984,7 +8209,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 104.269142,
+              "y": 4.996416,
+              "z": 129.209885,
+              "type": "door"
+            }
+          ]
         }
       ]
     },
@@ -6019,7 +8252,15 @@
           "id": "5714dc692459777137212e12",
           "name": "ストリート・オブ・タルコフ",
           "nameEn": "Streets of Tarkov",
-          "kind": "door"
+          "kind": "door",
+          "positions": [
+            {
+              "x": 124.252106,
+              "y": 14.595788,
+              "z": 143.39122,
+              "type": "door"
+            }
+          ]
         }
       ]
     }

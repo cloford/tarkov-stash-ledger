@@ -1,0 +1,42 @@
+.zoomMapCard > header > div:first-child { min-width: 0; }
+.zoomMapCard > header > div:first-child > b {
+  min-height: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.keyLocationMarker {
+  position: absolute;
+  z-index: 9;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 3px solid #f5d348;
+  border-radius: 50%;
+  background: #17170de8;
+  color: #fff5b8;
+  box-shadow: 0 0 0 7px #f5d34838, 0 0 28px 12px #f5d34882;
+  pointer-events: none;
+  animation: keyMarkerPulse 1.5s ease-out infinite;
+}
+.keyLocationMarker i { font: 700 7px monospace; letter-spacing: .08em; }
+.keyLocationMarker b { font: 800 15px monospace; line-height: 1; }
+.keyMapPreview {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 11px 13px;
+  border-top: 1px solid #766d2f;
+  border-bottom: 1px solid #766d2f;
+  background: linear-gradient(90deg, #302b12, #17170f);
+}
+.keyMapPreview > div { min-width: 0; }
+.keyMapPreview small, .keyMapPreview strong, .keyMapPreview span { display: block; }
+.keyMapPreview small { color: #cdbb5c; font: 8px monospace; }
+.keyMapPreview strong { margin-top: 3px; color: #fff3af; font-size: 14px; }
+.keyMapPreview span { margin-top: 3px; color: #aaa485; font-size: 9px; }
+.keyMapPreview > button { margin-left: auto; padding: 9px 11px; border: 1px solid #aa963a; background: #393116; color: #ffe774; font: 700 9px monospace; cursor: pointer; white-space: nowrap; }
+@keyframes keyMarkerPulse { 0%, 100% { box-shadow: 0 0 0 5px #f5d34825, 0 0 22px 8px #f5d34870; } 50% { box-shadow: 0 0 0 11px #f5d34810, 0 0 36px 16px #f5d348a0; } }
+@media (max-width: 700px) { .keyMapPreview { align-items: flex-start; flex-direction: column; } .keyMapPreview > button { margin-left: 0; } }

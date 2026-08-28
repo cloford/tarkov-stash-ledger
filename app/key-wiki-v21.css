@@ -1,0 +1,29 @@
+.keyDecision {
+  display: grid;
+  grid-template-columns: 105px minmax(0, 1fr) auto;
+  gap: 15px;
+  align-items: center;
+  padding: 16px 18px;
+  border-bottom: 1px solid #47503b;
+  background: linear-gradient(110deg, #1d2518, #11150f);
+}
+.keyDecision > small { color: var(--acid); font: 8px monospace; letter-spacing: .14em; }
+.keyDecision > div > span, .keyDecision > div > strong, .keyDecision > div > p { display: block; }
+.keyDecision > div > span { color: #77806c; font-size: 8px; }
+.keyDecision > div > strong { margin-top: 4px; color: #ecf2df; font-size: 18px; }
+.keyDecision > div > p { margin: 5px 0 0; color: #9ca492; font-size: 9px; line-height: 1.6; }
+.keyDecision dl { display: flex; margin: 0; border: 1px solid #465039; }
+.keyDecision dl > div { min-width: 70px; padding: 8px; border-left: 1px solid #465039; text-align: center; }
+.keyDecision dl > div:first-child { border-left: 0; }
+.keyDecision dt { color: #747d6a; font-size: 7px; }
+.keyDecision dd { margin: 3px 0 0; color: #dce5cf; font: 10px monospace; }
+.keyDecision.keep { box-shadow: inset 4px 0 var(--acid); }
+.keyDecision.use { box-shadow: inset 4px 0 #b8a852; }
+.keyDecision.unknown { box-shadow: inset 4px 0 #777; }
+.keyMapUses button span small + small { margin-top: 5px; color: #9ba67d; font-size: 8px; }
+
+@media (max-width: 700px) {
+  .keyDecision { grid-template-columns: 1fr; }
+  .keyDecision dl { width: 100%; }
+  .keyDecision dl > div { flex: 1; }
+}
