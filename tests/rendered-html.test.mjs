@@ -203,6 +203,7 @@ test("タスク詳細では関連マップと攻略リンクをタスク単位�
  assert.doesNotMatch(page,/objective\.maps\?\.length > 0/);
  assert.doesNotMatch(page,/className="rewardSection"/);
  assert.doesNotMatch(page,/rewardSummary|rewardItems/);
+ assert.doesNotMatch(page,/XP ·/);
  assert.doesNotMatch(css,/rewardSection|liveReward/);
 });
 
