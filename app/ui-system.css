@@ -1,0 +1,162 @@
+:root {
+  --surface: #171916;
+  --surface-raised: #1d201b;
+  --surface-selected: #293022;
+  --border-subtle: #363a33;
+  --border-strong: #667049;
+  --focus-ring: #d8e87a;
+}
+
+/* Readability is a baseline, including the compact metadata used throughout the app. */
+small { font-size: 10px !important; }
+button, input, select { font-size: 12px !important; }
+
+button:not(.annotationHitTarget),
+select,
+input:not([type="checkbox"]):not([type="radio"]) {
+  min-height: 44px;
+}
+
+button { border-radius: 0; }
+
+:where(button, a, input, select, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.mainNav button,
+.tabs button,
+.guideTabs button,
+.taskViewSwitch button,
+.keyUsageSwitch button,
+.mapVariantPicker button,
+.taskMapButton,
+.taskMapList button,
+.mapOpenButton,
+.mapBack,
+.guideHomeButton {
+  border: 1px solid var(--border-subtle);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.mainNav button.active,
+.tabs button.active,
+.guideTabs button.active,
+.taskViewSwitch button.active,
+.keyUsageSwitch button.active,
+.mapVariantPicker button.active,
+.taskMapButton.active,
+.taskMapList button.active,
+.mapOpenButton.active {
+  border-color: var(--border-strong);
+  background: var(--surface-selected);
+  color: #f2f3e9;
+  box-shadow: inset 3px 0 var(--acid);
+}
+
+.guideTaskDirectory,
+.taskDetail,
+.mapHub,
+.zoomMapCard,
+.extractPanel,
+.keyResults,
+.keyDetail,
+.taskMaps,
+.taskMapList {
+  border-color: var(--border-subtle);
+}
+
+.guideTaskCards > button,
+.taskGroup,
+.taskGroupRows > button,
+.mapSelectionCards > button,
+.stageHotspot,
+.keyResults > button,
+.keyTasks button,
+.taskMapButton,
+.taskMapList button {
+  border-color: var(--border-subtle);
+  background-color: var(--surface);
+}
+
+.guideTaskCards > button.active,
+.taskGroupRows > button.active,
+.mapSelectionCards > button.active,
+.stageHotspot.active,
+.keyResults > button.active,
+.keyTasks button.active,
+.taskMapButton.active,
+.taskMapList button.active {
+  border-color: var(--border-strong);
+  background-color: var(--surface-selected);
+}
+
+.guideLayout,
+.mapInfoLayout,
+.keyWikiLayout,
+.taskMaps {
+  gap: 16px;
+}
+
+.guideTaskDirectory,
+.taskDetail,
+.mapHub,
+.keyWiki,
+.keyDetail,
+.zoomMapCard {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.keyWikiToolbar,
+.guideSearch,
+.taskDirectoryControls,
+.mapZoomControls,
+.keyUsageSwitch {
+  gap: 8px;
+}
+
+.keySearch input,
+.guideSearch input,
+.questHomeSearch input,
+select {
+  min-height: 44px;
+}
+
+@media (max-width: 760px) {
+  main { width: min(100% - 24px, 1380px); }
+
+  .guideLayout,
+  .mapInfoLayout,
+  .keyWikiLayout,
+  .taskMaps,
+  .taskMapList {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .keyWikiToolbar,
+  .taskDirectoryControls,
+  .guideSearch {
+    align-items: stretch;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .keyUsageSwitch,
+  .taskViewSwitch,
+  .guideTabs,
+  .mapZoomControls {
+    flex-wrap: wrap;
+  }
+
+  .mapVariantPicker > div:last-child,
+  .taskMapList {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .keyWikiHero,
+  .mapHub > header,
+  .zoomMapCard > header {
+    gap: 14px;
+  }
+}

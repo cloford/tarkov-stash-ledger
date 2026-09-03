@@ -8,6 +8,7 @@ import "./map-v21.css";
 import "./key-wiki.css";
 import "./key-wiki-v21.css";
 import "./key-wiki-v22.css";
+import "./ui-system.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
