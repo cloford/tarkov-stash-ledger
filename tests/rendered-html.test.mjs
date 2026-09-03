@@ -47,8 +47,10 @@ const [page,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain,keyWikiV21
 
 test("正規化したマップを一覧・詳細データ照合・目的地座標へ適用する",()=>{
  assert.match(page,/function taskLocations\(task: any\) \{[^\n]+normalizeMapEntries\(entries\)/);
+ assert.match(page,/function taskMapReferences\(task: any\) \{[^\n]+normalizeMapEntries\(entries\)/);
  assert.match(page,/latest\.find\(x => sameMapLocation\(x, selected\)\)/);
- assert.match(page,/const mapIds = map\.sourceIds \|\| \[map\.id\]/);
+ assert.match(page,/objective\.maps \|\| \[\]\)\.some\(\(candidate: any\) => sameMapLocation\(candidate, map\)\)/);
+ assert.match(page,/mapIds = map\.sourceIds \|\| \[map\.id\]/);
 });
 
 test("タスク・マップ・鍵Wikiだけを表示する",()=>{
@@ -222,6 +224,19 @@ test("サブタスク検索とマップ表示の回帰を防ぐ",()=>{
  assert.match(page,/normalizeSearchText\(search\)/);
  assert.ok(page.includes('.replace(/[^\\p{L}\\p{N}]/gu, "")'));
  assert.match(page,/zones:\s*Array\.isArray\(o\.zones\)[^\n]+oldObjective\.zones/);
+});
+
+test("タスク詳細では関連マップと攻略リンクをタスク単位に集約する",()=>{
+ assert.match(page,/function taskMapReferences\(/);
+ assert.match(page,/className="taskMaps"/);
+ assert.match(page,/className="taskMapButton"/);
+ assert.match(page,/対象手順/);
+ assert.match(page,/className="taskSpecificMap"/);
+ assert.doesNotMatch(page,/objective\.maps\?\.length > 0/);
+ assert.doesNotMatch(page,/className="rewardSection"/);
+ assert.doesNotMatch(page,/rewardSummary|rewardItems/);
+ assert.doesNotMatch(page,/XP ·/);
+ assert.doesNotMatch(css,/rewardSection|liveReward/);
 });
 
 test("Wikiの地点画像をタスク名・目的文・略称から選べる",()=>{
