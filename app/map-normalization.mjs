@@ -19,9 +19,9 @@ function knownMap(reference) {
 export function mapLocation(reference) {
   const map = typeof reference === "string" ? {name: reference} : (reference || {});
   const canonical = knownMap(map);
-  if (canonical) return {id: canonical.id, name: canonical.name, label: canonical.nameJa, slug: canonical.slug, sourceIds: [String(map.id || ""), canonical.id].filter((value, index, all) => value && all.indexOf(value) === index)};
+  if (canonical) return {id: canonical.id, name: canonical.name, nameJa: canonical.nameJa, label: canonical.nameJa, slug: canonical.slug, sourceIds: [String(map.id || ""), canonical.id].filter((value, index, all) => value && all.indexOf(value) === index)};
   const id = String(map.id || ""), name = String(map.name || map.nameJa || map.normalizedName || map.slug || "");
-  return {id, name, label: String(map.nameJa || name), slug: String(map.slug || ""), sourceIds: id ? [id] : []};
+  return {id, name, nameJa: String(map.nameJa || ""), label: String(map.nameJa || name), slug: String(map.slug || ""), sourceIds: id ? [id] : []};
 }
 
 export function normalizeMapEntries(entries) {

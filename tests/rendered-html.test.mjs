@@ -17,15 +17,16 @@ test("派生マップを基準マップへ正規化し、未知IDは統合しな
   {id:"5b0fc42d86f7744a585f9105",name:"The Lab"},
   {id:"6a294a5b5eb5f9a1700417b7",name:"The Lab (Dark)"}
  ]);
- assert.deepEqual(entries.map(map=>[map.id,map.name,map.label]),[
-  ["55f2d3fd4bdc2d5f408b4567","Factory","ファクトリー"],
-  ["653e6760052c01c1c805532f","Ground Zero","グラウンドゼロ"],
-  ["5b0fc42d86f7744a585f9105","The Lab","研究所"]
+ assert.deepEqual(entries.map(map=>[map.id,map.name,map.nameJa,map.label]),[
+  ["55f2d3fd4bdc2d5f408b4567","Factory","ファクトリー","ファクトリー"],
+  ["653e6760052c01c1c805532f","Ground Zero","グラウンドゼロ","グラウンドゼロ"],
+  ["5b0fc42d86f7744a585f9105","The Lab","研究所","研究所"]
  ]);
+ assert.deepEqual(entries.map(map=>map.nameJa || map.name),["ファクトリー","グラウンドゼロ","研究所"]);
  assert.deepEqual(entries[0].sourceIds.sort(),["55f2d3fd4bdc2d5f408b4567","59fc81d786f774390775787e"].sort());
  assert.equal(sameMapLocation({id:"59fc81d786f774390775787e"},{id:"55f2d3fd4bdc2d5f408b4567"}),true);
  assert.equal(sameMapLocation({id:"future-map",name:"Factory"},{id:"55f2d3fd4bdc2d5f408b4567"}),false);
- assert.equal(mapLocation({id:"future-map",name:"Factory"}).id,"future-map");
+ assert.deepEqual(mapLocation({id:"future-map",name:"Factory",nameJa:"未来の工場"}),{id:"future-map",name:"Factory",nameJa:"未来の工場",label:"未来の工場",slug:"",sourceIds:["future-map"]});
  assert.equal(sameMapLocation({id:"future-terminal",name:"Terminal"},{name:"Terminal"}),true);
 });
 
