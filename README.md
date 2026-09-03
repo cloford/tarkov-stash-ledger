@@ -107,9 +107,8 @@ npm run desktop:build
 
 生成物は `package.json` の `build.directories.output` で指定したフォルダに出力されます。
 
-- `win-unpacked/`: ビルド時に生成される確認用の展開済みポータブル版
-
-現在のビルドスクリプトはインストーラーやZIPを自動生成しません。配布時は `win-unpacked/` の内容を版名フォルダ直下へ配置してZIP化します。
+- ビルド時は `win-unpacked/` の展開済みポータブル版のみを生成します（インストーラーは生成しません）。
+- 配布時は `win-unpacked/` の内容を版名フォルダ直下へ配置し、その版名フォルダをZIP化します。
 
 ## データと保存先
 
