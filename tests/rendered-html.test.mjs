@@ -3,8 +3,31 @@ import {readFile} from "node:fs/promises";
 import test from "node:test";
 import {selectTaskReferenceImages} from "../app/task-media.mjs";
 import {filterKeys,mergeKeyCatalogWithBundled} from "../app/key-wiki-utils.mjs";
+import {mapLocation,normalizeMapEntries,sameMapLocation} from "../app/map-normalization.mjs";
 import {createRequire} from "node:module";
 const require=createRequire(import.meta.url),{variantKind}=require("../electron/map-variants.cjs"),{usableLockKey}=require("../electron/key-catalog.cjs"),{KEY_CATALOG_SCHEMA_VERSION,extractWikiSection,mergeCatalogWikiDetails,plainWikiText}=require("../electron/key-wiki-details.cjs");
+
+test("派生マップを基準マップへ正規化し、未知IDは統合しない",()=>{
+ const entries=normalizeMapEntries([
+  {id:"55f2d3fd4bdc2d5f408b4567",name:"Factory",nameJa:"Factory"},
+  {id:"59fc81d786f774390775787e",name:"Night Factory",nameJa:"Night Factory"},
+  {id:"653e6760052c01c1c805532f",name:"Ground Zero"},
+  {id:"65b8d6f5cdde2479cb2a3125",name:"Ground Zero 21+"},
+  {id:"68236e8153654e8c1200798a",name:"Ground Zero Tutorial"},
+  {id:"5b0fc42d86f7744a585f9105",name:"The Lab"},
+  {id:"6a294a5b5eb5f9a1700417b7",name:"The Lab (Dark)"}
+ ]);
+ assert.deepEqual(entries.map(map=>[map.id,map.name,map.label]),[
+  ["55f2d3fd4bdc2d5f408b4567","Factory","ファクトリー"],
+  ["653e6760052c01c1c805532f","Ground Zero","グラウンドゼロ"],
+  ["5b0fc42d86f7744a585f9105","The Lab","研究所"]
+ ]);
+ assert.deepEqual(entries[0].sourceIds.sort(),["55f2d3fd4bdc2d5f408b4567","59fc81d786f774390775787e"].sort());
+ assert.equal(sameMapLocation({id:"59fc81d786f774390775787e"},{id:"55f2d3fd4bdc2d5f408b4567"}),true);
+ assert.equal(sameMapLocation({id:"future-map",name:"Factory"},{id:"55f2d3fd4bdc2d5f408b4567"}),false);
+ assert.equal(mapLocation({id:"future-map",name:"Factory"}).id,"future-map");
+ assert.equal(sameMapLocation({id:"future-terminal",name:"Terminal"},{name:"Terminal"}),true);
+});
 
 const [page,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain,keyWikiV21,mapV21,keyWikiV22,packageJson]=await Promise.all([
  readFile(new URL("../app/page.tsx",import.meta.url),"utf8"),
@@ -20,6 +43,12 @@ const [page,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain,keyWikiV21
  readFile(new URL("../app/key-wiki-v22.css",import.meta.url),"utf8"),
  readFile(new URL("../package.json",import.meta.url),"utf8")
 ]);
+
+test("正規化したマップを一覧・詳細データ照合・目的地座標へ適用する",()=>{
+ assert.match(page,/function taskLocations\(task: any\) \{[^\n]+normalizeMapEntries\(entries\)/);
+ assert.match(page,/latest\.find\(x => sameMapLocation\(x, selected\)\)/);
+ assert.match(page,/const mapIds = map\.sourceIds \|\| \[map\.id\]/);
+});
 
 test("タスク・マップ・鍵Wikiだけを表示する",()=>{
  assert.match(page,/\[\["guide",\s*"タスク情報"\],\s*\["maps",\s*"MAP"\],\s*\["keys",\s*"鍵WIKI"\]\]/);
@@ -209,7 +238,7 @@ test("Wikiの地点画像をタスク名・目的文・略称から選べる",()
 });
 
 test("対応マップの全脱出地点に注釈データがある",()=>{
- const match=page.match(/const printedLabelAnchors:[^=]+\s*=\s*(\{[\s\S]*?\n\});\nconst unprintedLabelKeys/);
+ const match=page.match(/const printedLabelAnchors:[^=]+\s*=\s*(\{[\s\S]*?\r?\n\})\;\r?\nconst unprintedLabelKeys(?:[^=]+)?/);
  assert.ok(match,"注釈カタログを解析できる");
  const anchors=Function(`return (${match[1]})`)();
  const unprinted={"5714dbc024597771384a510d":new Set(["holeinthefence"]),"5b0fc42d86f7744a585f9105":new Set(["ストリートオブタルコフへ移動"])};
