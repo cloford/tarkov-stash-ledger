@@ -194,6 +194,21 @@ test("サブタスク検索とマップ表示の回帰を防ぐ",()=>{
  assert.match(page,/zones:\s*Array\.isArray\(o\.zones\)[^\n]+oldObjective\.zones/);
 });
 
+test("タスク詳細では関連マップと攻略リンクをタスク単位に集約する",()=>{
+ assert.match(page,/function taskMapReferences\(/);
+ assert.match(page,/className="taskMaps"/);
+ assert.match(page,/className="taskMapButton"/);
+ assert.match(page,/対象手順/);
+ assert.match(page,/className="taskSpecificMap"/);
+ assert.match(page,/目的・準備・場所をひとつの画面で確認。/);
+ assert.doesNotMatch(page,/目的・準備・場所・報酬をひとつの画面で確認。/);
+ assert.doesNotMatch(page,/objective\.maps\?\.length > 0/);
+ assert.doesNotMatch(page,/className="rewardSection"/);
+ assert.doesNotMatch(page,/rewardSummary|rewardItems/);
+ assert.doesNotMatch(page,/XP ·/);
+ assert.doesNotMatch(css,/rewardSection|liveReward/);
+});
+
 test("Wikiの地点画像をタスク名・目的文・略称から選べる",()=>{
  const task={name:"Health Care Privacy - Part 1",objectives:[{description:"Locate and mark the first ambulance with an MS2000 Marker on Shoreline"}]};
  const images=[
@@ -209,7 +224,7 @@ test("Wikiの地点画像をタスク名・目的文・略称から選べる",()
 });
 
 test("対応マップの全脱出地点に注釈データがある",()=>{
- const match=page.match(/const printedLabelAnchors:[^=]+\s*=\s*(\{[\s\S]*?\n\});\nconst unprintedLabelKeys/);
+ const match=page.match(/const printedLabelAnchors:[^=]+\s*=\s*(\{[\s\S]*?\r?\n\});\r?\nconst unprintedLabelKeys/);
  assert.ok(match,"注釈カタログを解析できる");
  const anchors=Function(`return (${match[1]})`)();
  const unprinted={"5714dbc024597771384a510d":new Set(["holeinthefence"]),"5b0fc42d86f7744a585f9105":new Set(["ストリートオブタルコフへ移動"])};
