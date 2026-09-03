@@ -8,4 +8,5 @@ import "../app/map-v21.css";
 import "../app/key-wiki.css";
 import "../app/key-wiki-v21.css";
 import "../app/key-wiki-v22.css";
+import "../app/ui-system.css";
 createRoot(document.getElementById("root")!).render(<Home />);
