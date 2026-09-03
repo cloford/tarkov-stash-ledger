@@ -11,7 +11,7 @@
 small { font-size: 10px !important; }
 button, input, select { font-size: 12px !important; }
 
-button:not(.annotationHitTarget),
+button:not(.annotationHitTarget):not(.stageHotspot),
 select,
 input:not([type="checkbox"]):not([type="radio"]) {
   min-height: 44px;
@@ -71,7 +71,6 @@ button { border-radius: 0; }
 .taskGroup,
 .taskGroupRows > button,
 .mapSelectionCards > button,
-.stageHotspot,
 .keyResults > button,
 .keyTasks button,
 .taskMapButton,
@@ -83,7 +82,6 @@ button { border-radius: 0; }
 .guideTaskCards > button.active,
 .taskGroupRows > button.active,
 .mapSelectionCards > button.active,
-.stageHotspot.active,
 .keyResults > button.active,
 .keyTasks button.active,
 .taskMapButton.active,

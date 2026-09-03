@@ -63,7 +63,7 @@ test("タスクのマップcombobox候補を既知マップ単位で一意化す
  assert.equal(options.filter(map=>map.name==="Customs").length,1);
 });
 
-const [page,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain,keyWikiV21,mapV21,keyWikiV22,packageJson,webLayout]=await Promise.all([
+const [page,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain,keyWikiV21,mapV21,keyWikiV22,packageJson,webLayout,uiSystem]=await Promise.all([
  readFile(new URL("../app/page.tsx",import.meta.url),"utf8"),
  readFile(new URL("../app/map.css",import.meta.url),"utf8"),
  readFile(new URL("../electron/main.cjs",import.meta.url),"utf8"),
@@ -76,12 +76,15 @@ const [page,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain,keyWikiV21
  readFile(new URL("../app/map-v21.css",import.meta.url),"utf8"),
  readFile(new URL("../app/key-wiki-v22.css",import.meta.url),"utf8"),
  readFile(new URL("../package.json",import.meta.url),"utf8"),
- readFile(new URL("../app/layout.tsx",import.meta.url),"utf8")
+ readFile(new URL("../app/layout.tsx",import.meta.url),"utf8"),
+ readFile(new URL("../app/ui-system.css",import.meta.url),"utf8")
 ]);
 
 test("共通UIスタイルをWeb版とElectron版の双方へ適用する",()=>{
  assert.match(webLayout,/import "\.\/ui-system\.css"/);
  assert.match(desktopMain,/import "\.\.\/app\/ui-system\.css"/);
+ assert.match(uiSystem,/button:not\(\.annotationHitTarget\):not\(\.stageHotspot\)/,"全体マップの選択枠を共通のボタン高さから除外する");
+ assert.doesNotMatch(uiSystem,/(?:^|\r?\n)\.stageHotspot(?:\.active)?(?:,|\s*\{)/m,"全体マップの透明な選択枠を共通カード背景で覆わない");
 });
 
 test("正規化したマップを一覧・詳細データ照合・目的地座標へ適用する",()=>{
