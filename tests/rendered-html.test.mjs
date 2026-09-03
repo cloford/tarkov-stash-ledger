@@ -6,6 +6,7 @@ import {filterKeys,mergeKeyCatalogWithBundled} from "../app/key-wiki-utils.mjs";
 import {mapLocation,normalizeMapEntries,sameMapLocation} from "../app/map-normalization.mjs";
 import {createRequire} from "node:module";
 const require=createRequire(import.meta.url),{variantKind}=require("../electron/map-variants.cjs"),{usableLockKey}=require("../electron/key-catalog.cjs"),{KEY_CATALOG_SCHEMA_VERSION,extractWikiSection,mergeCatalogWikiDetails,plainWikiText}=require("../electron/key-wiki-details.cjs");
+const taskGuideData=require("../app/data/task-guide.json");
 
 test("派生マップを基準マップへ正規化し、未知IDは統合しない",()=>{
  const entries=normalizeMapEntries([
@@ -28,6 +29,38 @@ test("派生マップを基準マップへ正規化し、未知IDは統合しな
  assert.equal(sameMapLocation({id:"future-map",name:"Factory"},{id:"55f2d3fd4bdc2d5f408b4567"}),false);
  assert.deepEqual(mapLocation({id:"future-map",name:"Factory",nameJa:"未来の工場"}),{id:"future-map",name:"Factory",nameJa:"未来の工場",label:"未来の工場",slug:"",sourceIds:["future-map"]});
  assert.equal(sameMapLocation({id:"future-terminal",name:"Terminal"},{name:"Terminal"}),true);
+});
+
+test("通常マップもIDあり・なしの同名データを一意化する",()=>{
+ const entries=normalizeMapEntries([
+  {name:"Customs"},{id:"56f40101d2720b2a4d8b45d6",name:"Customs"},
+  {name:"Icebreaker"},{id:"69af492a4819ea4ba10a69c5",name:"Icebreaker"},
+  {name:"Interchange"},{id:"5714dbc024597771384a510d",name:"Interchange"},
+  {name:"Lighthouse"},{id:"5704e4dad2720bb55b8b4567",name:"Lighthouse"},
+  {name:"Reserve"},{id:"5704e5fad2720bc05b8b4567",name:"Reserve"},
+  {name:"Shoreline"},{id:"5704e554d2720bac5b8b456e",name:"Shoreline"},
+  {name:"Streets of Tarkov"},{id:"5714dc692459777137212e12",name:"Streets of Tarkov"},
+  {name:"The Labyrinth"},{id:"6733700029c367a3d40b02af",name:"The Labyrinth"},
+  {name:"Woods"},{id:"5704e3c2d2720bac5b8b4567",name:"Woods"}
+ ]);
+ assert.deepEqual(entries.map(map=>map.name),["Customs","Icebreaker","Interchange","Lighthouse","Reserve","Shoreline","Streets of Tarkov","The Labyrinth","Woods"]);
+ assert.equal(entries.every(map=>map.sourceIds.length===1),true);
+ assert.equal(sameMapLocation({id:"future-customs",name:"Customs"},{id:"56f40101d2720b2a4d8b45d6",name:"Customs"}),false);
+});
+
+test("Health Care Privacy - Part 1 のタスクカードと関連マップを一意化する",()=>{
+ const task=taskGuideData.tasks.find(task=>task.name==="Health Care Privacy - Part 1");
+ assert.ok(task);
+ const entries=[...(task.objectives || []).flatMap(objective=>objective.maps || []), {id:task.mapId, name:task.map, nameJa:task.mapJa}];
+ const maps=normalizeMapEntries(entries);
+ assert.deepEqual(maps.map(map=>[map.id,map.name,map.nameJa]),[["5704e554d2720bac5b8b456e","Shoreline","ショアライン"]]);
+});
+
+test("タスクのマップcombobox候補を既知マップ単位で一意化する",()=>{
+ const options=[...new Map(taskGuideData.tasks.flatMap(task=>normalizeMapEntries([...(task.map ? [{id:task.mapId,name:task.map,nameJa:task.mapJa}] : []),...(task.objectives || []).flatMap(objective=>objective.maps || [])])).map(map=>[map.id || map.name,map])).values()];
+ assert.equal(options.filter(map=>["Customs","Icebreaker","Interchange","Lighthouse","Reserve","Shoreline","Streets of Tarkov","The Labyrinth","Woods"].includes(map.name)).length,9);
+ assert.equal(options.filter(map=>map.name==="Shoreline").length,1);
+ assert.equal(options.filter(map=>map.name==="Customs").length,1);
 });
 
 const [page,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain,keyWikiV21,mapV21,keyWikiV22,packageJson]=await Promise.all([
