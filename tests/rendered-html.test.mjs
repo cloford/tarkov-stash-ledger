@@ -200,6 +200,8 @@ test("タスク詳細では関連マップと攻略リンクをタスク単位�
  assert.match(page,/className="taskMapButton"/);
  assert.match(page,/対象手順/);
  assert.match(page,/className="taskSpecificMap"/);
+ assert.match(page,/目的・準備・場所をひとつの画面で確認。/);
+ assert.doesNotMatch(page,/目的・準備・場所・報酬をひとつの画面で確認。/);
  assert.doesNotMatch(page,/objective\.maps\?\.length > 0/);
  assert.doesNotMatch(page,/className="rewardSection"/);
  assert.doesNotMatch(page,/rewardSummary|rewardItems/);
