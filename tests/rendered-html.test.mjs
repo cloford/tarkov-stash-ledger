@@ -4,10 +4,31 @@ import test from "node:test";
 import {selectTaskReferenceImages} from "../app/task-media.mjs";
 import {filterKeys,mergeKeyCatalogWithBundled} from "../app/key-wiki-utils.mjs";
 import {mapLocation,normalizeMapEntries,sameMapLocation} from "../app/map-normalization.mjs";
+import {createRetryableRequestCache,translationRequestKey} from "../app/task-request-cache.mjs";
 import {createRequire} from "node:module";
 const require=createRequire(import.meta.url),{variantKind}=require("../electron/map-variants.cjs"),{usableLockKey}=require("../electron/key-catalog.cjs"),{KEY_CATALOG_SCHEMA_VERSION,extractWikiSection,mergeCatalogWikiDetails,plainWikiText}=require("../electron/key-wiki-details.cjs");
 const {createRequestCache}=await import("../app/map-request-cache.mjs");
 const taskGuideData=require("../app/data/task-guide.json");
+
+test("タスク詳細の同一リクエストを共有し、失敗結果は次回に再試行する",async()=>{
+ const cache=createRetryableRequestCache();
+ let calls=0;
+ const load=async()=>{calls++; return {verified:true,calls};};
+ const [first,second]=await Promise.all([cache.get("requirements:task",load,value=>value.verified),cache.get("requirements:task",load,value=>value.verified)]);
+ assert.equal(calls,1);
+ assert.equal(first,second);
+ await assert.rejects(cache.get("weapon-build:task",async()=>{calls++; return {verified:false};},value=>value.verified));
+ const retried=await cache.get("weapon-build:task",async()=>{calls++; return {verified:true};},value=>value.verified);
+ assert.equal(retried.verified,true);
+ assert.equal(calls,3);
+ let time=0;
+ const expiring=createRetryableRequestCache({ttlMs:100,now:()=>time});
+ await expiring.get("translate:task",async()=>{calls++; return {translated:true};});
+ time=101;
+ await expiring.get("translate:task",async()=>{calls++; return {translated:true};});
+ assert.equal(calls,5);
+ assert.equal(translationRequestKey(["second","first","second"]),translationRequestKey(["first","second"]));
+});
 
 test("派生マップを基準マップへ正規化し、未知IDは統合しない",()=>{
  const entries=normalizeMapEntries([
@@ -31,7 +52,6 @@ test("派生マップを基準マップへ正規化し、未知IDは統合しな
  assert.deepEqual(mapLocation({id:"future-map",name:"Factory",nameJa:"未来の工場"}),{id:"future-map",name:"Factory",nameJa:"未来の工場",label:"未来の工場",slug:"",sourceIds:["future-map"]});
  assert.equal(sameMapLocation({id:"future-terminal",name:"Terminal"},{name:"Terminal"}),true);
 });
-
 test("通常マップもIDあり・なしの同名データを一意化する",()=>{
  const entries=normalizeMapEntries([
   {name:"Customs"},{id:"56f40101d2720b2a4d8b45d6",name:"Customs"},
@@ -64,8 +84,11 @@ test("タスクのマップcombobox候補を既知マップ単位で一意化す
  assert.equal(options.filter(map=>map.name==="Customs").length,1);
 });
 
-const [page,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain,keyWikiV21,mapV21,keyWikiV22,packageJson,webLayout,uiSystem]=await Promise.all([
+const [pageShell,mapTab,taskGuidePage,appTypes,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain,keyWikiV21,mapV21,keyWikiV22,packageJson,webLayout,uiSystem,mapImageCache]=await Promise.all([
  readFile(new URL("../app/page.tsx",import.meta.url),"utf8"),
+ readFile(new URL("../app/map-tab.tsx",import.meta.url),"utf8"),
+ readFile(new URL("../app/task-guide-page.tsx",import.meta.url),"utf8"),
+ readFile(new URL("../app/app-types.ts",import.meta.url),"utf8"),
  readFile(new URL("../app/map.css",import.meta.url),"utf8"),
  readFile(new URL("../electron/main.cjs",import.meta.url),"utf8"),
  readFile(new URL("../electron/preload.cjs",import.meta.url),"utf8"),
@@ -78,8 +101,37 @@ const [page,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain,keyWikiV21
  readFile(new URL("../app/key-wiki-v22.css",import.meta.url),"utf8"),
  readFile(new URL("../package.json",import.meta.url),"utf8"),
  readFile(new URL("../app/layout.tsx",import.meta.url),"utf8"),
- readFile(new URL("../app/ui-system.css",import.meta.url),"utf8")
+ readFile(new URL("../app/ui-system.css",import.meta.url),"utf8"),
+ readFile(new URL("../electron/map-image-cache.cjs",import.meta.url),"utf8")
 ]);
+const page=[pageShell,mapTab,taskGuidePage,appTypes].join("\n");
+
+test("未選択のMAP・鍵Wikiを初期JavaScriptから分離する",()=>{
+ assert.match(pageShell,/import TaskGuidePage from "\.\/task-guide-page"/);
+ assert.match(pageShell,/lazy\(loadMapTab\)/);
+ assert.match(pageShell,/lazy\(loadKeyWiki\)/);
+ assert.match(pageShell,/import\("\.\/map-tab"\)/);
+ assert.match(pageShell,/import\("\.\/key-wiki"\)/);
+ assert.doesNotMatch(pageShell,/maps-cache-v3\.json/);
+ assert.doesNotMatch(pageShell,/import KeyWiki from/);
+ assert.match(pageShell,/Suspense fallback=\{<TabLoading label="MAP"/);
+ assert.match(pageShell,/Suspense fallback=\{<TabLoading label="鍵WIKI"/);
+ assert.match(pageShell,/role="status" aria-live="polite"/);
+ assert.match(pageShell,/onPointerEnter=\{\(\) => warmTab\(key\)\}/);
+ assert.match(mapTab,/import bundledMapData from "\.\/data\/maps-cache-v3\.json"/);
+});
+
+test("Electronの保存済みマップ画像をIPC外で安全に配信する",()=>{
+ assert.match(main,/registerMapCacheScheme\(protocol\)/);
+ assert.match(main,/protocol\.handle\(MAP_CACHE_SCHEME/);
+ assert.match(mapImageCache,/MAP_CACHE_SCHEME="stash-map"/);
+ assert.match(mapImageCache,/cacheUrl=\(id,sha256\)=>`\$\{MAP_CACHE_SCHEME\}:\/\/cache\/\$\{id\}\?v=\$\{sha256\}`/);
+ assert.match(mapImageCache,/Readable\.toWeb\(fs\.createReadStream\(image\)\)/);
+ assert.match(mapImageCache,/staysInside\(root,image\)/);
+ assert.doesNotMatch(main,/toString\("base64"\)|data:\$\{mime\};base64/);
+ assert.doesNotMatch(mapImageCache,/toString\("base64"\)|data:\$\{mime\};base64/);
+ assert.match(page,/保存済み画像を読み込めなかったためオンライン画像を表示中/);
+});
 
 test("共通UIスタイルをWeb版とElectron版の双方へ適用する",()=>{
  assert.match(webLayout,/import "\.\/ui-system\.css"/);
@@ -154,8 +206,8 @@ test("高解像度の保存画像を解決後の共有キャッシュへ残さ�
 test("高解像度マップの取得・再描画・ドラッグ状態を軽量化する",()=>{
  assert.match(page,/mapVariantRequests\.get\(requestKey/);
  assert.match(page,/mapImageCacheChecks\.get\(cacheKey/);
- assert.match(page,/const mapCanvas = useMemo/);
- assert.match(page,/setImageSize\(current => current\?\.\[0\] === next\[0\]/);
+ assert.match(page,/primaryVariant = useMemo/);
+ assert.match(page,/const selectedPoint = useMemo/);
  assert.match(page,/viewport\.classList\.add\("panning"\)/);
  assert.doesNotMatch(page,/setPanning/);
 });
@@ -290,7 +342,7 @@ test("全マップ共通の強調表示修正を保持する",()=>{
  assert.match(main,/ipcMain\.handle\("task:media"/);
  assert.match(main,/iiprop=url\|mime\|size/);
  assert.match(main,/names\.map\(name=>"File:"\+name\)\.join\("\|"\)/);
- assert.match(main,/createHash\("sha256"\)/);
+ assert.match(mapImageCache,/createHash\("sha256"\)/);
  const bundled=JSON.parse(mapsCache);
  assert.ok(Array.isArray(bundled.maps) && bundled.maps.length >= 13);
  assert.ok(bundled.maps.every(map=>Array.isArray(map.extracts)));
@@ -340,6 +392,16 @@ test("Wikiの地点画像をタスク名・目的文・略称から選べる",()
  assert.deepEqual(selectTaskReferenceImages(images,task).map(image=>image.caption),["HCPP1.png","Ambulance1.png","Ambulance2.png"]);
  assert.equal(selectTaskReferenceImages([{url:"https://static.wikia/Rigged.png",caption:"AnesthesiaxRiggedGameLocation1.png"}],{name:"Rigged Game",objectives:[]}).length,1);
  assert.equal(selectTaskReferenceImages([{url:"https://static.wikia/Trouble.png",caption:"TroubleBigCity MarkSpot.png"}],{name:"Trouble in the Big City",objectives:[]}).length,1);
+});
+
+test("画面外の画像は遅延読み込みし、主要画像は即時表示する",()=>{
+ assert.match(keyWiki,/loading=\{index===0\?"eager":"lazy"\} decoding="async"/);
+ assert.match(keyWiki,/alt=\{`\$\{selected\.name\}の画像`\} loading="eager" decoding="async"/);
+ assert.match(page,/必要な鍵[\s\S]+loading="lazy" decoding="async"/);
+ assert.match(page,/className="locationMedia"[\s\S]+loading="lazy"/);
+ assert.match(page,/className="taskLandmarks"[\s\S]+loading="lazy" decoding="async"/);
+ assert.match(page,/alt=\{`\$\{selected\.name\} \$\{stableVariantTitle\}`\} loading="eager" decoding="async"/);
+ assert.match(page,/world-select\.png[\s\S]+loading="eager" decoding="async"/);
 });
 
 test("対応マップの全脱出地点に注釈データがある",()=>{

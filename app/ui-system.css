@@ -158,3 +158,9 @@ select {
     gap: 14px;
   }
 }
+
+.tabLoading{min-height:52vh;display:grid;place-content:center;justify-items:center;gap:12px;text-align:center;color:#dce4e7;background:linear-gradient(180deg,rgba(20,25,27,.96),rgba(11,14,15,.98));border:1px solid rgba(255,255,255,.08)}
+.tabLoading i{width:30px;height:30px;border:3px solid rgba(255,255,255,.18);border-top-color:#d9b660;border-radius:50%;animation:tabLoadingSpin .8s linear infinite}
+.tabLoading strong{font-size:1rem;letter-spacing:.04em}
+.tabLoading span{font-size:.82rem;color:#93a0a5}
+@keyframes tabLoadingSpin{to{transform:rotate(360deg)}}
