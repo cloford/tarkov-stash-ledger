@@ -4,9 +4,30 @@ import test from "node:test";
 import {selectTaskReferenceImages} from "../app/task-media.mjs";
 import {filterKeys,mergeKeyCatalogWithBundled} from "../app/key-wiki-utils.mjs";
 import {mapLocation,normalizeMapEntries,sameMapLocation} from "../app/map-normalization.mjs";
+import {createRetryableRequestCache,translationRequestKey} from "../app/task-request-cache.mjs";
 import {createRequire} from "node:module";
 const require=createRequire(import.meta.url),{variantKind}=require("../electron/map-variants.cjs"),{usableLockKey}=require("../electron/key-catalog.cjs"),{KEY_CATALOG_SCHEMA_VERSION,extractWikiSection,mergeCatalogWikiDetails,plainWikiText}=require("../electron/key-wiki-details.cjs");
 const taskGuideData=require("../app/data/task-guide.json");
+
+test("タスク詳細の同一リクエストを共有し、失敗結果は次回に再試行する",async()=>{
+ const cache=createRetryableRequestCache();
+ let calls=0;
+ const load=async()=>{calls++; return {verified:true,calls};};
+ const [first,second]=await Promise.all([cache.get("requirements:task",load,value=>value.verified),cache.get("requirements:task",load,value=>value.verified)]);
+ assert.equal(calls,1);
+ assert.equal(first,second);
+ await assert.rejects(cache.get("weapon-build:task",async()=>{calls++; return {verified:false};},value=>value.verified));
+ const retried=await cache.get("weapon-build:task",async()=>{calls++; return {verified:true};},value=>value.verified);
+ assert.equal(retried.verified,true);
+ assert.equal(calls,3);
+ let time=0;
+ const expiring=createRetryableRequestCache({ttlMs:100,now:()=>time});
+ await expiring.get("translate:task",async()=>{calls++; return {translated:true};});
+ time=101;
+ await expiring.get("translate:task",async()=>{calls++; return {translated:true};});
+ assert.equal(calls,5);
+ assert.equal(translationRequestKey(["second","first","second"]),translationRequestKey(["first","second"]));
+});
 
 test("派生マップを基準マップへ正規化し、未知IDは統合しない",()=>{
  const entries=normalizeMapEntries([
