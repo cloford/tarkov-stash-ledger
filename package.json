@@ -10,7 +10,7 @@
     "dev": "vinext dev",
     "build": "vinext build",
     "start": "vinext start",
-    "test": "npm run build && node --test tests/rendered-html.test.mjs",
+    "test": "npm run build && node --test tests/rendered-html.test.mjs tests/electron-map-cache.test.mjs",
     "media:audit": "node scripts/audit-task-media.mjs",
     "keys:update": "node scripts/update-key-catalog.cjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
