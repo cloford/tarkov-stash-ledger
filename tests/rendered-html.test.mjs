@@ -7,10 +7,32 @@ import {normalizeMapRuntime,normalizeTaskGuideRuntime} from "../app/runtime-data
 import {createStartupRequestCache} from "../app/startup-data.mjs";
 import {mapLocation,normalizeMapEntries,sameMapLocation} from "../app/map-normalization.mjs";
 import {createRetryableRequestCache,translationRequestKey} from "../app/task-request-cache.mjs";
+import {arrayOrEmpty,parseStoredRecord} from "../app/render-safety.mjs";
 import {createRequire} from "node:module";
 const require=createRequire(import.meta.url),{variantKind}=require("../electron/map-variants.cjs"),{usableLockKey}=require("../electron/key-catalog.cjs"),{KEY_CATALOG_SCHEMA_VERSION,extractWikiSection,mergeCatalogWikiDetails,plainWikiText}=require("../electron/key-wiki-details.cjs");
 const {createRequestCache}=await import("../app/map-request-cache.mjs");
 const taskGuideData=require("../app/data/task-guide.json");
+
+test("破損した保存済み画面状態を空の設定として扱う",()=>{
+ assert.deepEqual(parseStoredRecord(null),{});
+ assert.deepEqual(parseStoredRecord("null"),{});
+ assert.deepEqual(parseStoredRecord("[]"),{});
+ assert.deepEqual(parseStoredRecord("{invalid"),{});
+ assert.deepEqual(parseStoredRecord('{"selected":"Woods"}'),{selected:"Woods"});
+ assert.deepEqual(arrayOrEmpty("not-an-array"),[]);
+ assert.deepEqual(arrayOrEmpty(["valid"]),["valid"]);
+});
+
+test("異常型を含む鍵データでも検索処理を継続する",()=>{
+ const malformed=[null,{id:"safe",name:"Safe key",tasks:"invalid",mapUses:"invalid"}];
+ assert.deepEqual(filterKeys(malformed,{query:"safe"}).map(key=>key.id),["safe"]);
+ assert.deepEqual(filterKeys(malformed,{map:"factory"}),[]);
+ const bundled={catalogSchemaVersion:1,keys:[{id:"bundled",name:"同梱鍵",mapUses:[]}]};
+ for(const keys of [{length:1},"x",null]){
+  const merged=mergeKeyCatalogWithBundled({keys},bundled);
+  assert.deepEqual(merged.keys.map(key=>key.id),["bundled"]);
+ }
+});
 
 test("タスク詳細の同一リクエストを共有し、失敗結果は次回に再試行する",async()=>{
  const cache=createRetryableRequestCache();
@@ -394,6 +416,15 @@ test("サブタスク検索とマップ表示の回帰を防ぐ",()=>{
  assert.match(page,/normalizeSearchText\(search\)/);
  assert.ok(page.includes('.replace(/[^\\p{L}\\p{N}]/gu, "")'));
  assert.match(page,/zones:\s*Array\.isArray\(o\.zones\)[^\n]+oldObjective\.zones/);
+});
+
+test("主要画面は保存状態と表示配列の異常型を描画前に正規化する",()=>{
+ assert.match(taskGuidePage,/parseStoredRecord\(sessionStorage\.getItem\("tarkov-task-last-view"\)\)/);
+ assert.match(mapTab,/parseStoredRecord\(sessionStorage\.getItem\("tarkov-map-last-view"\)\)/);
+ assert.match(keyWiki,/parseStoredRecord\(sessionStorage\.getItem\("tarkov-key-wiki-view"\)\)/);
+ assert.match(mapTab,/if \(!stage\) return null/);
+ assert.match(keyWiki,/const keys=arrayOrEmpty\(catalog\?\.keys\)/);
+ assert.equal((keyWiki.match(/Array\.isArray\(value\?\.keys\)/g)||[]).length,2);
 });
 
 test("サブタスク検索は正規化済みインデックスを再利用し、詳細表示を再描画しない",()=>{
