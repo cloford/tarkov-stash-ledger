@@ -3,6 +3,7 @@ import {readFile} from "node:fs/promises";
 import test from "node:test";
 import {selectTaskReferenceImages} from "../app/task-media.mjs";
 import {filterKeys,mergeKeyCatalogWithBundled} from "../app/key-wiki-utils.mjs";
+import {normalizeMapRuntime,normalizeTaskGuideRuntime} from "../app/runtime-data.mjs";
 import {createStartupRequestCache} from "../app/startup-data.mjs";
 import {mapLocation,normalizeMapEntries,sameMapLocation} from "../app/map-normalization.mjs";
 import {createRetryableRequestCache,translationRequestKey} from "../app/task-request-cache.mjs";
@@ -166,6 +167,21 @@ test("タスク・マップ・鍵Wikiだけを表示する",()=>{
  assert.doesNotMatch(page,/このタスクを完了済にする|アイテム情報|ハイドアウト/);
  assert.doesNotMatch(page,/function MapHub\s*\(/);
  assert.doesNotMatch(page,/extractFieldNote|方角・階層|画像でたどる脱出ルート|周辺の目印/);
+});
+
+test("破損・旧形式の保存データで主要画面の描画を止めない",()=>{
+ const fallback={tasks:[{id:"bundled",objectives:[]}],story:[{id:"story"}],battlePass:[{id:"pass"}]};
+ assert.deepEqual(normalizeTaskGuideRuntime(null,fallback).tasks,[{id:"bundled",objectives:[],prerequisites:[]}]);
+ assert.deepEqual(normalizeTaskGuideRuntime([],fallback).story,[{id:"story"}]);
+ const guide=normalizeTaskGuideRuntime({tasks:[{id:"safe",objectives:null,prerequisites:"old-format"}],story:null,battlePass:{}},fallback);
+ assert.deepEqual(guide.tasks,[{id:"safe",objectives:[],prerequisites:[]}]);
+ assert.deepEqual(guide.story,[]);
+ assert.deepEqual(guide.battlePass,[]);
+ const maps=normalizeMapRuntime({maps:[{id:"customs",extracts:{},transits:null},null]});
+ assert.deepEqual(maps.maps,[{id:"customs",extracts:[],transits:[]}]);
+ assert.deepEqual(normalizeMapRuntime(null).maps,[]);
+ assert.match(page,/normalizeTaskGuideRuntime\(value, taskGuide\)/);
+ assert.match(mapTab,/normalizeMapRuntime\(value\)/);
 });
 
 test("英語Wikiの別マップを機能付き基準版と分離する",()=>{
