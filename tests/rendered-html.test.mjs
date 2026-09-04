@@ -27,6 +27,11 @@ test("異常型を含む鍵データでも検索処理を継続する",()=>{
  const malformed=[null,{id:"safe",name:"Safe key",tasks:"invalid",mapUses:"invalid"}];
  assert.deepEqual(filterKeys(malformed,{query:"safe"}).map(key=>key.id),["safe"]);
  assert.deepEqual(filterKeys(malformed,{map:"factory"}),[]);
+ const bundled={catalogSchemaVersion:1,keys:[{id:"bundled",name:"同梱鍵",mapUses:[]}]};
+ for(const keys of [{length:1},"x",null]){
+  const merged=mergeKeyCatalogWithBundled({keys},bundled);
+  assert.deepEqual(merged.keys.map(key=>key.id),["bundled"]);
+ }
 });
 
 test("タスク詳細の同一リクエストを共有し、失敗結果は次回に再試行する",async()=>{
@@ -419,6 +424,7 @@ test("主要画面は保存状態と表示配列の異常型を描画前に正�
  assert.match(keyWiki,/parseStoredRecord\(sessionStorage\.getItem\("tarkov-key-wiki-view"\)\)/);
  assert.match(mapTab,/if \(!stage\) return null/);
  assert.match(keyWiki,/const keys=arrayOrEmpty\(catalog\?\.keys\)/);
+ assert.equal((keyWiki.match(/Array\.isArray\(value\?\.keys\)/g)||[]).length,2);
 });
 
 test("サブタスク検索は正規化済みインデックスを再利用し、詳細表示を再描画しない",()=>{
