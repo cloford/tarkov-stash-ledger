@@ -1,6 +1,6 @@
 {
   "name": "tarkov-task-extract-navi",
-  "version": "1.1.0-test.30",
+  "version": "1.1.0-test.31",
   "description": "Escape from Tarkovのタスク・マップ・鍵用途を素早く確認する日本語デスクトップアプリ",
   "private": true,
   "engines": {
@@ -57,7 +57,7 @@
     "appId": "jp.tarkov.taskextractnavi",
     "productName": "タルコフ タスク・脱出ナビ",
     "directories": {
-      "output": "outputs/Tarkov-Task-Extract-Navi-test-v30"
+      "output": "outputs/Tarkov-Task-Extract-Navi-test-v31"
     },
     "files": [
       "desktop-dist/**/*",
