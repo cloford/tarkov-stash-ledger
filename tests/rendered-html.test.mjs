@@ -328,6 +328,16 @@ test("Wikiの地点画像をタスク名・目的文・略称から選べる",()
  assert.equal(selectTaskReferenceImages([{url:"https://static.wikia/Trouble.png",caption:"TroubleBigCity MarkSpot.png"}],{name:"Trouble in the Big City",objectives:[]}).length,1);
 });
 
+test("画面外の画像は遅延読み込みし、主要画像は即時表示する",()=>{
+ assert.match(keyWiki,/loading=\{index===0\?"eager":"lazy"\} decoding="async"/);
+ assert.match(keyWiki,/alt=\{`\$\{selected\.name\}の画像`\} loading="eager" decoding="async"/);
+ assert.match(page,/必要な鍵[\s\S]+loading="lazy" decoding="async"/);
+ assert.match(page,/className="locationMedia"[\s\S]+loading="lazy"/);
+ assert.match(page,/className="taskLandmarks"[\s\S]+loading="lazy" decoding="async"/);
+ assert.match(page,/alt=\{`\$\{selected\.name\} \$\{stableVariantTitle\}`\} loading="eager" decoding="async"/);
+ assert.match(page,/world-select\.png[\s\S]+loading="eager" decoding="async"/);
+});
+
 test("対応マップの全脱出地点に注釈データがある",()=>{
  const match=page.match(/const printedLabelAnchors:[^=]+\s*=\s*(\{[\s\S]*?\r?\n\})\;\r?\nconst unprintedLabelKeys(?:[^=]+)?/);
  assert.ok(match,"注釈カタログを解析できる");
