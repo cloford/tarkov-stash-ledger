@@ -6,6 +6,7 @@ import {filterKeys,mergeKeyCatalogWithBundled} from "../app/key-wiki-utils.mjs";
 import {mapLocation,normalizeMapEntries,sameMapLocation} from "../app/map-normalization.mjs";
 import {createRequire} from "node:module";
 const require=createRequire(import.meta.url),{variantKind}=require("../electron/map-variants.cjs"),{usableLockKey}=require("../electron/key-catalog.cjs"),{KEY_CATALOG_SCHEMA_VERSION,extractWikiSection,mergeCatalogWikiDetails,plainWikiText}=require("../electron/key-wiki-details.cjs");
+const {createRequestCache}=await import("../app/map-request-cache.mjs");
 const taskGuideData=require("../app/data/task-guide.json");
 
 test("派生マップを基準マップへ正規化し、未知IDは統合しない",()=>{
@@ -115,6 +116,50 @@ test("英語Wikiの別マップを機能付き基準版と分離する",()=>{
  assert.equal(variantKind("Factory plan map.png"),"ゲーム内地図");
 });
 
+test("マップ取得を同じキーごとに共有し、失敗時は再試行できる",async()=>{
+ const cache=createRequestCache(),pending=[];
+ let calls=0;
+ const load=()=>{calls++;return new Promise(resolve=>pending.push(resolve));};
+ const first=cache.get("woods",load),second=cache.get("woods",load);
+ assert.equal(first,second);
+ assert.equal(calls,1);
+ pending[0]({variants:["one"]});
+ assert.deepEqual(await first,{variants:["one"]});
+ assert.equal(await cache.get("woods",load),await first);
+ assert.equal(calls,1);
+
+ let failures=0;
+ const retryCache=createRequestCache();
+ await assert.rejects(retryCache.get("reserve",()=>{failures++;return Promise.reject(Error("offline"));}),/offline/);
+ assert.equal(await retryCache.get("reserve",()=>{failures++;return "retry";}),"retry");
+ assert.equal(failures,2);
+});
+
+test("高解像度の保存画像を解決後の共有キャッシュへ残さない",async()=>{
+ const cache=createRequestCache({retain:result=>!result.cached});
+ const pending=[];
+ let calls=0;
+ const first=cache.get("customs",()=>{calls++;return new Promise(resolve=>pending.push(resolve));});
+ const second=cache.get("customs",()=>{calls++;return Promise.resolve({cached:true});});
+ assert.equal(first,second);
+ pending[0]({cached:true,url:"data:image/png;base64,large"});
+ await first;
+ await Promise.resolve();
+ assert.equal(cache.size,0);
+ await cache.get("customs",()=>{calls++;return {cached:false};});
+ assert.equal(cache.size,1);
+ assert.equal(calls,2);
+});
+
+test("高解像度マップの取得・再描画・ドラッグ状態を軽量化する",()=>{
+ assert.match(page,/mapVariantRequests\.get\(requestKey/);
+ assert.match(page,/mapImageCacheChecks\.get\(cacheKey/);
+ assert.match(page,/const mapCanvas = useMemo/);
+ assert.match(page,/setImageSize\(current => current\?\.\[0\] === next\[0\]/);
+ assert.match(page,/viewport\.classList\.add\("panning"\)/);
+ assert.doesNotMatch(page,/setPanning/);
+});
+
 test("鍵Wikiで鍵名・タスク名・マップ名を横断検索できる",()=>{
  const catalog=JSON.parse(keyCatalog),keys=catalog.keys;
  assert.equal(catalog.catalogSchemaVersion,KEY_CATALOG_SCHEMA_VERSION);
@@ -203,7 +248,7 @@ test("鍵位置・安定したマップタイトル・タスク一覧への戻�
  assert.match(page,/鍵の使用場所/);
  assert.match(page,/stableVariantTitle/);
  assert.match(page,/位置表示は基準版のみ/);
- assert.match(page,/selectedTrader \? openGuide\("list", "", selectedTrader\) : openGuide\("directory", "", ""\)/);
+ assert.match(page,/if \(selectedTrader\) openGuide\("list", "", selectedTrader\); else openGuide\("directory", "", ""\)/);
  assert.match(page,/5704e4dad2720bb55b8b4567/);
  assert.doesNotMatch(page,/5704e4dad2720bc5b8b4567/);
  assert.match(mapV21,/\.keyLocationMarker/);
