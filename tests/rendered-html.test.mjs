@@ -28,6 +28,7 @@ test("タスク詳細の同一リクエストを共有し、失敗結果は次�
  await expiring.get("translate:task",async()=>{calls++; return {translated:true};});
  assert.equal(calls,5);
  assert.equal(translationRequestKey(["second","first","second"]),translationRequestKey(["first","second"]));
+});
 test("初期データ取得は同一セッションで重複実行しない",async()=>{
  const requests=createStartupRequestCache(),calls={maps:0,refreshMaps:0,keys:0,refreshKeys:0},api={
   maps:async()=>{calls.maps++;return{maps:[1]}},refreshMaps:async()=>{calls.refreshMaps++;return{maps:[2]}},
