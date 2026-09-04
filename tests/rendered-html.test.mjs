@@ -8,6 +8,7 @@ import {mapLocation,normalizeMapEntries,sameMapLocation} from "../app/map-normal
 import {createRetryableRequestCache,translationRequestKey} from "../app/task-request-cache.mjs";
 import {createRequire} from "node:module";
 const require=createRequire(import.meta.url),{variantKind}=require("../electron/map-variants.cjs"),{usableLockKey}=require("../electron/key-catalog.cjs"),{KEY_CATALOG_SCHEMA_VERSION,extractWikiSection,mergeCatalogWikiDetails,plainWikiText}=require("../electron/key-wiki-details.cjs");
+const {createRequestCache}=await import("../app/map-request-cache.mjs");
 const taskGuideData=require("../app/data/task-guide.json");
 
 test("タスク詳細の同一リクエストを共有し、失敗結果は次回に再試行する",async()=>{
@@ -178,6 +179,50 @@ test("英語Wikiの別マップを機能付き基準版と分離する",()=>{
  assert.equal(variantKind("Reserve underground map.png"),"地下・屋内");
  assert.equal(variantKind("Customs 3D Map.jpg"),"3D");
  assert.equal(variantKind("Factory plan map.png"),"ゲーム内地図");
+});
+
+test("マップ取得を同じキーごとに共有し、失敗時は再試行できる",async()=>{
+ const cache=createRequestCache(),pending=[];
+ let calls=0;
+ const load=()=>{calls++;return new Promise(resolve=>pending.push(resolve));};
+ const first=cache.get("woods",load),second=cache.get("woods",load);
+ assert.equal(first,second);
+ assert.equal(calls,1);
+ pending[0]({variants:["one"]});
+ assert.deepEqual(await first,{variants:["one"]});
+ assert.equal(await cache.get("woods",load),await first);
+ assert.equal(calls,1);
+
+ let failures=0;
+ const retryCache=createRequestCache();
+ await assert.rejects(retryCache.get("reserve",()=>{failures++;return Promise.reject(Error("offline"));}),/offline/);
+ assert.equal(await retryCache.get("reserve",()=>{failures++;return "retry";}),"retry");
+ assert.equal(failures,2);
+});
+
+test("高解像度の保存画像を解決後の共有キャッシュへ残さない",async()=>{
+ const cache=createRequestCache({retain:result=>!result.cached});
+ const pending=[];
+ let calls=0;
+ const first=cache.get("customs",()=>{calls++;return new Promise(resolve=>pending.push(resolve));});
+ const second=cache.get("customs",()=>{calls++;return Promise.resolve({cached:true});});
+ assert.equal(first,second);
+ pending[0]({cached:true,url:"data:image/png;base64,large"});
+ await first;
+ await Promise.resolve();
+ assert.equal(cache.size,0);
+ await cache.get("customs",()=>{calls++;return {cached:false};});
+ assert.equal(cache.size,1);
+ assert.equal(calls,2);
+});
+
+test("高解像度マップの取得・再描画・ドラッグ状態を軽量化する",()=>{
+ assert.match(page,/mapVariantRequests\.get\(requestKey/);
+ assert.match(page,/mapImageCacheChecks\.get\(cacheKey/);
+ assert.match(page,/primaryVariant = useMemo/);
+ assert.match(page,/const selectedPoint = useMemo/);
+ assert.match(page,/viewport\.classList\.add\("panning"\)/);
+ assert.doesNotMatch(page,/setPanning/);
 });
 
 test("鍵Wikiで鍵名・タスク名・マップ名を横断検索できる",()=>{
