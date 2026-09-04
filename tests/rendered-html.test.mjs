@@ -62,7 +62,7 @@ test("タスクのマップcombobox候補を既知マップ単位で一意化す
  assert.equal(options.filter(map=>map.name==="Customs").length,1);
 });
 
-const [pageShell,mapTab,taskGuidePage,appTypes,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain,keyWikiV21,mapV21,keyWikiV22,packageJson,webLayout,uiSystem]=await Promise.all([
+const [pageShell,mapTab,taskGuidePage,appTypes,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain,keyWikiV21,mapV21,keyWikiV22,packageJson,webLayout,uiSystem,mapImageCache]=await Promise.all([
  readFile(new URL("../app/page.tsx",import.meta.url),"utf8"),
  readFile(new URL("../app/map-tab.tsx",import.meta.url),"utf8"),
  readFile(new URL("../app/task-guide-page.tsx",import.meta.url),"utf8"),
@@ -79,7 +79,8 @@ const [pageShell,mapTab,taskGuidePage,appTypes,css,main,preload,keyWiki,mapsCach
  readFile(new URL("../app/key-wiki-v22.css",import.meta.url),"utf8"),
  readFile(new URL("../package.json",import.meta.url),"utf8"),
  readFile(new URL("../app/layout.tsx",import.meta.url),"utf8"),
- readFile(new URL("../app/ui-system.css",import.meta.url),"utf8")
+ readFile(new URL("../app/ui-system.css",import.meta.url),"utf8"),
+ readFile(new URL("../electron/map-image-cache.cjs",import.meta.url),"utf8")
 ]);
 const page=[pageShell,mapTab,taskGuidePage,appTypes].join("\n");
 
@@ -96,6 +97,18 @@ test("未選択のMAP・鍵Wikiを初期JavaScriptから分離する",()=>{
  assert.match(pageShell,/role="status" aria-live="polite"/);
  assert.match(pageShell,/onPointerEnter=\{\(\) => warmTab\(key\)\}/);
  assert.match(mapTab,/import bundledMapData from "\.\/data\/maps-cache-v3\.json"/);
+});
+
+test("Electronの保存済みマップ画像をIPC外で安全に配信する",()=>{
+ assert.match(main,/registerMapCacheScheme\(protocol\)/);
+ assert.match(main,/protocol\.handle\(MAP_CACHE_SCHEME/);
+ assert.match(mapImageCache,/MAP_CACHE_SCHEME="stash-map"/);
+ assert.match(mapImageCache,/cacheUrl=\(id,sha256\)=>`\$\{MAP_CACHE_SCHEME\}:\/\/cache\/\$\{id\}\?v=\$\{sha256\}`/);
+ assert.match(mapImageCache,/Readable\.toWeb\(fs\.createReadStream\(image\)\)/);
+ assert.match(mapImageCache,/staysInside\(root,image\)/);
+ assert.doesNotMatch(main,/toString\("base64"\)|data:\$\{mime\};base64/);
+ assert.doesNotMatch(mapImageCache,/toString\("base64"\)|data:\$\{mime\};base64/);
+ assert.match(page,/保存済み画像を読み込めなかったためオンライン画像を表示中/);
 });
 
 test("共通UIスタイルをWeb版とElectron版の双方へ適用する",()=>{
@@ -263,7 +276,7 @@ test("全マップ共通の強調表示修正を保持する",()=>{
  assert.match(main,/ipcMain\.handle\("task:media"/);
  assert.match(main,/iiprop=url\|mime\|size/);
  assert.match(main,/names\.map\(name=>"File:"\+name\)\.join\("\|"\)/);
- assert.match(main,/createHash\("sha256"\)/);
+ assert.match(mapImageCache,/createHash\("sha256"\)/);
  const bundled=JSON.parse(mapsCache);
  assert.ok(Array.isArray(bundled.maps) && bundled.maps.length >= 13);
  assert.ok(bundled.maps.every(map=>Array.isArray(map.extracts)));
