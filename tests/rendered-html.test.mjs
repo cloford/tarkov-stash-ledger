@@ -333,6 +333,15 @@ test("サブタスク検索とマップ表示の回帰を防ぐ",()=>{
  assert.match(page,/zones:\s*Array\.isArray\(o\.zones\)[^\n]+oldObjective\.zones/);
 });
 
+test("サブタスク検索は正規化済みインデックスを再利用し、詳細表示を再描画しない",()=>{
+ assert.match(page,/const taskSearchIndex = useMemo\(\(\) => guide\.tasks\.map/);
+ assert.match(page,/searchText: normalizeSearchText\(/);
+ assert.match(page,/taskSearchIndex\.filter\(entry => entry\.searchText\.includes\(q\)\)/);
+ assert.match(page,/const TaskDetail = memo\(function TaskDetail/);
+ assert.match(page,/const active = useMemo\(\(\) => guide\.tasks\.find/);
+ assert.match(page,/searchedEntries[\s\S]+filteredEntries/);
+});
+
 test("タスク詳細では関連マップと攻略リンクをタスク単位に集約する",()=>{
  assert.match(page,/function taskMapReferences\(/);
  assert.match(page,/className="taskMaps"/);
