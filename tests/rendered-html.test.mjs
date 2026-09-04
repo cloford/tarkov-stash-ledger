@@ -30,7 +30,6 @@ test("派生マップを基準マップへ正規化し、未知IDは統合しな
  assert.deepEqual(mapLocation({id:"future-map",name:"Factory",nameJa:"未来の工場"}),{id:"future-map",name:"Factory",nameJa:"未来の工場",label:"未来の工場",slug:"",sourceIds:["future-map"]});
  assert.equal(sameMapLocation({id:"future-terminal",name:"Terminal"},{name:"Terminal"}),true);
 });
-
 test("通常マップもIDあり・なしの同名データを一意化する",()=>{
  const entries=normalizeMapEntries([
   {name:"Customs"},{id:"56f40101d2720b2a4d8b45d6",name:"Customs"},
@@ -63,8 +62,11 @@ test("タスクのマップcombobox候補を既知マップ単位で一意化す
  assert.equal(options.filter(map=>map.name==="Customs").length,1);
 });
 
-const [page,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain,keyWikiV21,mapV21,keyWikiV22,packageJson,webLayout,uiSystem]=await Promise.all([
+const [pageShell,mapTab,taskGuidePage,appTypes,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain,keyWikiV21,mapV21,keyWikiV22,packageJson,webLayout,uiSystem]=await Promise.all([
  readFile(new URL("../app/page.tsx",import.meta.url),"utf8"),
+ readFile(new URL("../app/map-tab.tsx",import.meta.url),"utf8"),
+ readFile(new URL("../app/task-guide-page.tsx",import.meta.url),"utf8"),
+ readFile(new URL("../app/app-types.ts",import.meta.url),"utf8"),
  readFile(new URL("../app/map.css",import.meta.url),"utf8"),
  readFile(new URL("../electron/main.cjs",import.meta.url),"utf8"),
  readFile(new URL("../electron/preload.cjs",import.meta.url),"utf8"),
@@ -79,6 +81,22 @@ const [page,css,main,preload,keyWiki,mapsCache,keyCatalog,desktopMain,keyWikiV21
  readFile(new URL("../app/layout.tsx",import.meta.url),"utf8"),
  readFile(new URL("../app/ui-system.css",import.meta.url),"utf8")
 ]);
+const page=[pageShell,mapTab,taskGuidePage,appTypes].join("\n");
+
+test("未選択のMAP・鍵Wikiを初期JavaScriptから分離する",()=>{
+ assert.match(pageShell,/import TaskGuidePage from "\.\/task-guide-page"/);
+ assert.match(pageShell,/lazy\(loadMapTab\)/);
+ assert.match(pageShell,/lazy\(loadKeyWiki\)/);
+ assert.match(pageShell,/import\("\.\/map-tab"\)/);
+ assert.match(pageShell,/import\("\.\/key-wiki"\)/);
+ assert.doesNotMatch(pageShell,/maps-cache-v3\.json/);
+ assert.doesNotMatch(pageShell,/import KeyWiki from/);
+ assert.match(pageShell,/Suspense fallback=\{<TabLoading label="MAP"/);
+ assert.match(pageShell,/Suspense fallback=\{<TabLoading label="鍵WIKI"/);
+ assert.match(pageShell,/role="status" aria-live="polite"/);
+ assert.match(pageShell,/onPointerEnter=\{\(\) => warmTab\(key\)\}/);
+ assert.match(mapTab,/import bundledMapData from "\.\/data\/maps-cache-v3\.json"/);
+});
 
 test("共通UIスタイルをWeb版とElectron版の双方へ適用する",()=>{
  assert.match(webLayout,/import "\.\/ui-system\.css"/);
@@ -203,7 +221,7 @@ test("鍵位置・安定したマップタイトル・タスク一覧への戻�
  assert.match(page,/鍵の使用場所/);
  assert.match(page,/stableVariantTitle/);
  assert.match(page,/位置表示は基準版のみ/);
- assert.match(page,/selectedTrader \? openGuide\("list", "", selectedTrader\) : openGuide\("directory", "", ""\)/);
+ assert.match(page,/if \(selectedTrader\) openGuide\("list", "", selectedTrader\); else openGuide\("directory", "", ""\)/);
  assert.match(page,/5704e4dad2720bb55b8b4567/);
  assert.doesNotMatch(page,/5704e4dad2720bc5b8b4567/);
  assert.match(mapV21,/\.keyLocationMarker/);
