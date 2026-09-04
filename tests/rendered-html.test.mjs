@@ -223,6 +223,7 @@ test("高解像度マップの取得・再描画・ドラッグ状態を軽量�
  assert.match(page,/const selectedPoint = useMemo/);
  assert.match(page,/viewport\.classList\.add\("panning"\)/);
  assert.doesNotMatch(page,/setPanning/);
+ assert.doesNotMatch(page,/panning \? "panning"/,"DOMクラスへ移行済みのドラッグ状態を、未定義のReact状態として参照しない");
 });
 
 test("鍵Wikiで鍵名・タスク名・マップ名を横断検索できる",()=>{
