@@ -3,6 +3,7 @@ import {readFile} from "node:fs/promises";
 import test from "node:test";
 import {selectTaskReferenceImages} from "../app/task-media.mjs";
 import {filterKeys,mergeKeyCatalogWithBundled} from "../app/key-wiki-utils.mjs";
+import {createStartupRequestCache} from "../app/startup-data.mjs";
 import {mapLocation,normalizeMapEntries,sameMapLocation} from "../app/map-normalization.mjs";
 import {createRetryableRequestCache,translationRequestKey} from "../app/task-request-cache.mjs";
 import {createRequire} from "node:module";
@@ -27,6 +28,18 @@ test("タスク詳細の同一リクエストを共有し、失敗結果は次�
  await expiring.get("translate:task",async()=>{calls++; return {translated:true};});
  assert.equal(calls,5);
  assert.equal(translationRequestKey(["second","first","second"]),translationRequestKey(["first","second"]));
+});
+test("初期データ取得は同一セッションで重複実行しない",async()=>{
+ const requests=createStartupRequestCache(),calls={maps:0,refreshMaps:0,keys:0,refreshKeys:0},api={
+  maps:async()=>{calls.maps++;return{maps:[1]}},refreshMaps:async()=>{calls.refreshMaps++;return{maps:[2]}},
+  keys:async()=>{calls.keys++;return{keys:[1]}},refreshKeys:async()=>{calls.refreshKeys++;return{keys:[2]}}
+ };
+ const [savedMapA,savedMapB,refreshMapA,refreshMapB,savedKeyA,savedKeyB,refreshKeyA,refreshKeyB]=await Promise.all([
+  requests.savedMaps(api),requests.savedMaps(api),requests.refreshMaps(api),requests.refreshMaps(api),
+  requests.savedKeys(api),requests.savedKeys(api),requests.refreshKeys(api),requests.refreshKeys(api)
+ ]);
+ assert.deepEqual([savedMapA,savedMapB,refreshMapA,refreshMapB,savedKeyA,savedKeyB,refreshKeyA,refreshKeyB],[{maps:[1]},{maps:[1]},{maps:[2]},{maps:[2]},{keys:[1]},{keys:[1]},{keys:[2]},{keys:[2]}]);
+ assert.deepEqual(calls,{maps:1,refreshMaps:1,keys:1,refreshKeys:1});
 });
 
 test("派生マップを基準マップへ正規化し、未知IDは統合しない",()=>{
