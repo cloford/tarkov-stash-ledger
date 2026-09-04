@@ -4,6 +4,7 @@ import taskGuide from "./data/task-guide.json";
 import {selectTaskReferenceImages} from "./task-media.mjs";
 import {normalizeMapEntries, sameMapLocation} from "./map-normalization.mjs";
 import {taskDetailRequestCache, translationRequestKey} from "./task-request-cache.mjs";
+import {normalizeTaskGuideRuntime} from "./runtime-data.mjs";
 import type {TaskMedia} from "./app-types";
 
 const asset = (path: string) => typeof window !== "undefined" && window.location.protocol === "file:" ? `./${path}` : `/${path}`;
@@ -46,7 +47,7 @@ const liveTaskCorrections: Record<string, {verifiedAt: string; note: string; rem
   "66aa74571e5e199ecd094f18": {verifiedAt: "2026-08-18", note: "ゲーム内タスク画面（Patch 1.1）で確認", removeObjectives: ["66ab97d56cb6e3bfd7c79fbc"]}
 };
 function applyLiveTaskCorrections(task: any) {const correction = liveTaskCorrections[String(task?.id || "")]; if (!correction) return task; const remove = new Set(correction.removeObjectives || []); return {...task, objectives: (task.objectives || []).filter((objective: any) => !remove.has(String(objective.id))), liveVerification: {verifiedAt: correction.verifiedAt, note: correction.note, revision: taskDataRevision}};}
-function normalizeTaskGuide(value: any) {if (!value || !Array.isArray(value.tasks)) return value; return {...value, dataRevision: taskDataRevision, tasks: value.tasks.map((rawTask: any) => {const task = applyLiveTaskCorrections(rawTask); return {...task, objectives: (task.objectives || []).map((objective: any) => ({...objective, maps: objectiveMapsFor(task, objective)}))};})};}
+function normalizeTaskGuide(value: any) {const safe = normalizeTaskGuideRuntime(value, taskGuide); return {...safe, dataRevision: taskDataRevision, tasks: safe.tasks.map((rawTask: any) => {const task = applyLiveTaskCorrections(rawTask); return {...task, objectives: task.objectives.map((objective: any) => ({...objective, maps: objectiveMapsFor(task, objective)}))};})};}
 const mapStages = [
   {name: "Ground Zero", ja: "グラウンドゼロ", id: "653e6760052c01c1c805532f", desc: "市街地中心部。建物内と地下通路が多く、初心者は現在地の確認が重要です。", exits: ["Emercom Checkpoint", "Mira Ave", "Nakatani Basement Stairs"]},
   {name: "Streets of Tarkov", ja: "ストリート・オブ・タルコフ", id: "5714dc692459777137212e12", desc: "広大な市街地。通り名と大きな建物を目印に移動します。", exits: ["Damaged House", "Evacuation Zone", "Klimov Street"]},
