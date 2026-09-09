@@ -6,6 +6,8 @@ export const normalizeQuickSearchText = normalizeKeyText;
 const list = value => Array.isArray(value) ? value : [];
 const text = values => values.filter(Boolean).join(" ");
 const mapSummary = entries => {const maps = normalizeMapEntries(entries); return maps.length === 1 ? {map: maps[0], mapLabel: maps[0].label} : maps.length > 1 ? {map: null, mapLabel: "複数マップ"} : {map: null, mapLabel: ""};};
+const taskMaps = task => [...list(task?.objectives).flatMap(objective => list(objective?.maps)), ...(task?.map ? [{id: task.mapId, name: task.map, nameJa: task.mapJa, slug: task.mapSlug, aliases: task.mapAliases}] : [])];
+const mapSearchValues = entries => normalizeMapEntries(entries).flatMap(map => [map.name, map.nameJa, map.slug, map.nameId, ...list(map.aliases)]);
 
 export function createQuickSearchCatalog({tasks, keys, maps} = {}) {
   const unavailable = [];
@@ -14,8 +16,8 @@ export function createQuickSearchCatalog({tasks, keys, maps} = {}) {
   if (!Array.isArray(maps)) unavailable.push("脱出地点");
   const entries = [
     ...list(tasks).filter(task => task && task.id).map(task => ({
-      id: `task:${task.id}`, kind: "task", label: "タスク", title: task.nameJa || task.name || "名称未登録", subtitle: task.nameJa && task.name && normalizeKeyText(task.nameJa) !== normalizeKeyText(task.name) ? task.name : "", taskId: task.id, trader: task.trader || "", ...mapSummary([...list(task.objectives).flatMap(objective => list(objective?.maps)), ...(task.map ? [{id: task.mapId, name: task.map, nameJa: task.mapJa}] : [])]),
-      searchText: normalizeKeyText(text([task.nameJa, task.name, task.shortName, task.trader, ...list(task.aliases), ...list(task.objectives).flatMap(objective => [objective?.description, objective?.descriptionJa])]))
+      id: `task:${task.id}`, kind: "task", label: "タスク", title: task.nameJa || task.name || "名称未登録", subtitle: task.nameJa && task.name && normalizeKeyText(task.nameJa) !== normalizeKeyText(task.name) ? task.name : "", taskId: task.id, trader: task.trader || "", ...mapSummary(taskMaps(task)),
+      searchText: normalizeKeyText(text([task.nameJa, task.name, task.shortName, task.trader, ...list(task.aliases), ...mapSearchValues(taskMaps(task)), ...list(task.objectives).flatMap(objective => [objective?.description, objective?.descriptionJa])]))
     })),
     ...list(keys).filter(key => key && key.id).map(key => ({
       id: `key:${key.id}`, kind: "key", label: "鍵", title: key.name || key.nameEn || "名称未登録", subtitle: key.name && key.nameEn && normalizeKeyText(key.name) !== normalizeKeyText(key.nameEn) ? key.nameEn : "", keyId: key.id, ...mapSummary(list(key.mapUses)),

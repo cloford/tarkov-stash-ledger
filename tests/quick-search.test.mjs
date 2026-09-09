@@ -13,6 +13,8 @@ test("NFKC・大文字小文字・空白記号を省略して検索できる", (
   assert.equal(normalizeQuickSearchText(" ＺＢ- １０１１ "), "zb1011");
   assert.equal(findQuickSearchResults(catalog, "zb 1011")[0].label, "脱出地点");
   assert.equal(findQuickSearchResults(catalog, "チェ ック")[0].taskId, "task-1");
+  assert.equal(findQuickSearchResults(catalog, "カスタム")[0].taskId, "task-1");
+  assert.equal(findQuickSearchResults(catalog, "customs")[0].taskId, "task-1");
 });
 
 test("タスク・鍵・脱出地点を種類と正しい遷移情報付きで返す", () => {
