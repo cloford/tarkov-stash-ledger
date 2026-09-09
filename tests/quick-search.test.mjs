@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {readFile} from "node:fs/promises";
-import {clampQuickSearchActive, createQuickSearchCatalog, findQuickSearchResults, normalizeQuickSearchText, resolveQuickSearchCatalog} from "../app/quick-search-utils.mjs";
+import {clampQuickSearchActive, createQuickSearchCatalog, findQuickSearchResults, findRequestedExtract, normalizeQuickSearchText, resolveQuickSearchCatalog} from "../app/quick-search-utils.mjs";
 
 const catalog = createQuickSearchCatalog({
   tasks: [{id: "task-1", name: "Checking", nameJa: "チェック中", trader: "Prapor", objectives: [{maps: [{id: "56f40101d2720b2a4d8b45d6", name: "Customs", nameJa: "カスタム"}]}]}],
@@ -47,6 +47,15 @@ test("保存済み鍵・マップを優先し、取得失敗時も同梱検索�
   const fallbackOnly = resolveQuickSearchCatalog(fallback);
   assert.equal(findQuickSearchResults(fallbackOnly, "fallback key").length, 1);
   assert.equal(findQuickSearchResults(fallbackOnly, "fallback exit").length, 1);
+});
+
+test("脱出地点データが後から到着した場合だけ一致する地点を強調対象にする", async () => {
+  const requested = {map: {name: "Customs"}, name: "ZB-1011"};
+  assert.equal(findRequestedExtract([], requested), null, "初期読込中に要求を失わない");
+  assert.equal(findRequestedExtract([{name: "ZB-1011"}], requested)?.name, "ZB-1011");
+  assert.equal(findRequestedExtract([{name: "Crossroads"}], requested), null, "未登録地点を誤って強調しない");
+  const mapTab = await readFile(new URL("../app/map-tab.tsx", import.meta.url), "utf8");
+  assert.match(mapTab, /if \(matched\) \{setExtract\(matched\); setRequestedExtract\(null\);\}/, "一致した場合だけ要求を消去する");
 });
 
 test("共通検索はキーボード操作と3種類の遷移を提供する", async () => {

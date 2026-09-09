@@ -43,3 +43,9 @@ export function resolveQuickSearchCatalog({fallbackTasks, fallbackKeys, fallback
   const usable = value => Array.isArray(value) && value.length;
   return createQuickSearchCatalog({tasks: usable(cachedTasks) ? cachedTasks : fallbackTasks, keys: usable(savedKeys?.keys) ? savedKeys.keys : fallbackKeys, maps: usable(savedMaps?.maps) ? savedMaps.maps : fallbackMaps});
 }
+
+export function findRequestedExtract(extracts, requestedExtract) {
+  if (!requestedExtract?.name) return null;
+  const target = normalizeKeyText(requestedExtract.name);
+  return list(extracts).find(extract => normalizeKeyText(extract?.name) === target) || null;
+}
