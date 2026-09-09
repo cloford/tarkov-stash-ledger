@@ -261,8 +261,25 @@ test("高解像度マップの取得・再描画・ドラッグ状態を軽量�
  assert.match(page,/const selectedPoint = useMemo/);
  assert.match(page,/viewport\.classList\.add\("panning"\)/);
  assert.doesNotMatch(page,/setPanning/);
+ assert.match(page,/className="zoomMapViewport"/,"個別マップ表示時に未定義のReact状態を参照しない");
+ assert.doesNotMatch(page,/className=\{`zoomMapViewport \$\{panning \?/,"削除済みpanning状態の参照を再混入させない");
 assert.match(page,/const arrayValue = \(value: any\): any\[\] => Array\.isArray\(value\) \? value : \[\];/);
 assert.match(page,/const printedFileKey = \(url: string\) => \{try \{return printedLabelKey\(decodeURIComponent/);
+});
+
+test("全体マップの各選択枠は個別マップ表示へ到達できる",()=>{
+ const stageNames=[...page.matchAll(/const stageHotspots = \[([\s\S]*?)\];/g)][0]?.[1] || "";
+ const mapStages=page.match(/const mapStages = \[([\s\S]*?)\];/s)?.[1] || "";
+ assert.ok(stageNames.length,"全体マップの選択枠定義が存在する");
+ assert.ok(mapStages.length,"個別マップ定義が存在する");
+ assert.match(page,/onClick=\{\(\) => openStage\(stage\)\}/,"選択枠が個別マップ表示処理を呼び出す");
+ assert.match(page,/if \(!stage\) return null;/,"不正な選択枠で描画を停止しない");
+ const names=[...stageNames.matchAll(/name: "([^"]+)"/g)].map(match=>match[1]);
+ const allStages=[...mapStages.matchAll(/name: "([^"]+)"/g)].map(match=>match[1]);
+ assert.ok(names.length>=10,`全体マップの選択枠数: ${names.length}`);
+ assert.ok(allStages.length>=13,`個別マップ定義数: ${allStages.length}`);
+ for (const name of names) assert.match(mapStages,new RegExp(`name: "${name.replace(/[.*+?^${}()|[\\]\\]/g,"\\$&")}"`),`${name}の個別マップ定義が存在する`);
+ assert.match(page,/mapStages\.filter\(stage => !stageHotspots\.some\(x => x\.name === stage\.name\)\)\.map\(stage => <button[^>]+onClick=\{\(\) => openStage\(stage\)\}/,"全体図にない個別マップも同じ遷移処理を使う");
 });
 
 test("鍵Wikiで鍵名・タスク名・マップ名を横断検索できる",()=>{
