@@ -262,6 +262,9 @@ test("高解像度マップの取得・再描画・ドラッグ状態を軽量�
  assert.match(page,/mapImageCacheChecks\.get\(cacheKey/);
  assert.match(page,/saved\.cached \? saved : cacheImage\(remoteUrl, cacheId, true\)/,"未保存画像は初回表示時に自動保存する");
  assert.match(page,/setImageUrl\(""\); setResolvingImage\(true\)/,"保存確認前にオンライン画像を読み始めない");
+ assert.match(page,/setImageUrl\(remoteUrl\); setMessage\("保存できなかったためオンライン画像を表示中"\)/,"自動保存に失敗してもオンライン画像へ切り替える");
+ assert.match(page,/setMessage\(result\.error \? "更新できなかったため保存済み画像を維持しています" : "オフライン保存完了"\)/,"保存済み画像の手動更新結果を表示する");
+ assert.match(page,/setMessage\("保存できませんでした。現在の画像を維持します"\)/,"未保存画像の手動更新に失敗しても現在の表示を維持する");
  assert.match(page,/primaryVariant = useMemo/);
  assert.match(page,/const selectedPoint = useMemo/);
  assert.match(page,/viewport\.classList\.add\("panning"\)/);
