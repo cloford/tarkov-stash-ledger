@@ -14,7 +14,9 @@
     "media:audit": "node scripts/audit-task-media.mjs",
     "keys:update": "node scripts/update-key-catalog.cjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
-    "desktop:build": "vite build --config vite.desktop.config.ts && electron-builder --win --dir",
+    "desktop:bundle": "node scripts/prepare-desktop-build.mjs && vite build --config vite.desktop.config.ts && node scripts/write-desktop-build-manifest.mjs",
+    "desktop:smoke-map": "node scripts/smoke-desktop-map-render.mjs",
+    "desktop:build": "npm run desktop:bundle && npm run desktop:smoke-map && electron-builder --win --dir && node scripts/verify-desktop-bundle.mjs",
     "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
