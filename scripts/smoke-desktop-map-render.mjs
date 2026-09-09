@@ -91,7 +91,6 @@ try {
     if (!await evaluate(cdp, waitFor(".interactiveWorld"))) throw new Error("全体マップへ戻れませんでした");
   }
 
-  await evaluate(cdp, "window.close()");
   cdp.socket.close();
   console.log("Electron個別マップ描画: Interchange / Customs 成功");
 } catch (error) {

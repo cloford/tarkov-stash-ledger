@@ -21,7 +21,7 @@ export function createRequestCache({maxEntries = 32, retain = () => true} = {}) 
 
 export const mapVariantRequests = createRequestCache();
 
-// Cached images are base64 data URLs and can be tens of megabytes. Keep only
-// negative cache checks; successful checks are shared while in flight and then
-// released so navigating across maps does not retain every high-resolution image.
-export const mapImageCacheChecks = createRequestCache({retain: result => !result?.cached});
+// The resolved value is only a short stash-map URL; the image bytes remain on
+// disk. Retain successful lookups for instant reuse, but discard failures so a
+// later visit can retry after the connection recovers.
+export const mapImageCacheChecks = createRequestCache({retain: result => Boolean(result?.cached)});
