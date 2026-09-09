@@ -1,4 +1,5 @@
 import { createRoot } from "react-dom/client";
+import { desktopBuildInputFingerprint } from "./build-input-fingerprint";
 import Home from "../app/page";
 import "../app/globals.css";
 import "../app/navigation.css";
@@ -9,4 +10,5 @@ import "../app/key-wiki.css";
 import "../app/key-wiki-v21.css";
 import "../app/key-wiki-v22.css";
 import "../app/ui-system.css";
+document.documentElement.dataset.desktopBuildFingerprint = desktopBuildInputFingerprint;
 createRoot(document.getElementById("root")!).render(<Home />);
