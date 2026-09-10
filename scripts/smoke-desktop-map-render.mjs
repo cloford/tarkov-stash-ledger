@@ -72,12 +72,63 @@ const child = spawn(electronPath, [`--remote-debugging-port=${port}`, entry], {
 let processOutput = "";
 child.stdout.on("data", chunk => {processOutput += chunk;});
 child.stderr.on("data", chunk => {processOutput += chunk;});
+let cdp, previousRaidIds, previousGuideView;
 
 try {
   const page = await waitForPage(port);
-  const cdp = await connectCdp(page.webSocketDebuggerUrl);
+  cdp = await connectCdp(page.webSocketDebuggerUrl);
   await cdp.call("Runtime.enable");
+  await cdp.call("Page.enable");
   if (!await evaluate(cdp, waitFor(".mainNav"))) throw new Error("アプリの初期画面を表示できませんでした");
+  previousRaidIds = await evaluate(cdp, `localStorage.getItem("tarkov-raid-prep-task-ids")`);
+  previousGuideView = await evaluate(cdp, `sessionStorage.getItem("tarkov-task-last-view")`);
+  await evaluate(cdp, `localStorage.setItem("tarkov-raid-prep-task-ids","[]");sessionStorage.removeItem("tarkov-task-last-view")`);
+  await cdp.call("Page.reload", {ignoreCache: true});
+  if (!await evaluate(cdp, waitFor(".traderPortraitGrid"))) throw new Error("今回のレイド検証用にタスクTOPを表示できませんでした");
+  await evaluate(cdp, `localStorage.setItem("tarkov-raid-prep-task-ids",JSON.stringify(["missing-task-id"]))`);
+  await cdp.call("Page.reload", {ignoreCache: true});
+  if (!await evaluate(cdp, waitFor(".raidPrepTrigger"))) throw new Error("欠損タスクIDを復元できませんでした");
+  await evaluate(cdp, `document.querySelector(".raidPrepTrigger")?.click()`);
+  if (!await evaluate(cdp, waitFor(".raidPrepMissing"))) throw new Error("欠損タスクIDの確認不能表示を確認できませんでした");
+  await evaluate(cdp, `document.querySelector(".raidPrepMissing>button")?.click();document.querySelector(".raidPrepHeader>button")?.click()`);
+  if (!String(await evaluate(cdp, `document.querySelector(".raidPrepTrigger")?.textContent||""`)).includes("0件")) throw new Error("欠損タスクIDを解除できませんでした");
+  await evaluate(cdp, `Array.from(document.querySelectorAll(".taskViewSwitch button")).find(button=>button.textContent.includes("全タスク"))?.click()`);
+  if (!await evaluate(cdp, waitFor(".guideTaskCards button"))) throw new Error("今回のレイドへ追加するタスクを表示できませんでした");
+  await evaluate(cdp, `document.querySelector(".guideTaskCards button")?.click()`);
+  if (!await evaluate(cdp, waitFor(".taskRaidToggle"))) throw new Error("タスク詳細の今回のレイドボタンを表示できませんでした");
+  await evaluate(cdp, `document.querySelector(".taskRaidToggle")?.click()`);
+  if (!String(await evaluate(cdp, `document.querySelector(".raidPrepTrigger")?.textContent||""`)).includes("1件")) throw new Error("今回のレイド件数へ追加結果が反映されませんでした");
+  await evaluate(cdp, `document.querySelector(".raidPrepTrigger")?.click()`);
+  if (!await evaluate(cdp, waitFor(".raidPrepDrawer .raidPrepSelected article"))) throw new Error("今回のレイドパネルに選択タスクを表示できませんでした");
+  await evaluate(cdp, `document.querySelector(".raidPrepHeader>button")?.click()`);
+  await cdp.call("Page.reload", {ignoreCache: true});
+  if (!await evaluate(cdp, waitFor(".raidPrepTrigger"))) throw new Error("今回のレイド保存後に再表示できませんでした");
+  if (!String(await evaluate(cdp, `document.querySelector(".raidPrepTrigger")?.textContent||""`)).includes("1件")) throw new Error("再起動相当の再読み込みで今回のレイド件数を復元できませんでした");
+  await evaluate(cdp, `document.querySelector(".raidPrepTrigger")?.click()`);
+  await evaluate(cdp, `document.querySelector(".raidPrepSelected article>button:first-child")?.click()`);
+  if (!await evaluate(cdp, waitFor(".taskRaidToggle.inRaid"))) throw new Error("今回のレイドからタスク詳細へ移動できませんでした");
+  await evaluate(cdp, `document.querySelector(".taskRaidToggle.inRaid")?.click()`);
+  if (!String(await evaluate(cdp, `document.querySelector(".raidPrepTrigger")?.textContent||""`)).includes("0件")) throw new Error("今回のレイドから個別解除できませんでした");
+  await evaluate(cdp, `document.querySelector(".taskRaidToggle")?.click();document.querySelector(".raidPrepTrigger")?.click()`);
+  if (!await evaluate(cdp, waitFor(".raidPrepDrawer"))) throw new Error("狭い幅の確認用パネルを開けませんでした");
+  await cdp.call("Emulation.setDeviceMetricsOverride", {width: 480, height: 800, deviceScaleFactor: 1, mobile: false});
+  const narrowLayout = await evaluate(cdp, `({pageWidth:document.documentElement.scrollWidth,viewport:document.documentElement.clientWidth,drawerWidth:document.querySelector(".raidPrepDrawer")?.getBoundingClientRect().width||0})`);
+  if (narrowLayout.pageWidth > narrowLayout.viewport + 1 || narrowLayout.drawerWidth > narrowLayout.viewport + 1) throw new Error(`狭い幅で横スクロールが発生しました: ${JSON.stringify(narrowLayout)}`);
+  await evaluate(cdp, `document.querySelector(".raidPrepSelected>header button")?.click()`);
+  if (!await evaluate(cdp, waitFor(".raidPrepEmpty"))) throw new Error("今回のレイドを全件解除できませんでした");
+  await cdp.call("Emulation.clearDeviceMetricsOverride");
+  await evaluate(cdp, `document.querySelector(".raidPrepHeader>button")?.click()`);
+  await evaluate(cdp, `localStorage.setItem("tarkov-raid-prep-task-ids",JSON.stringify(["5936da9e86f7742d65037edf"]))`);
+  await cdp.call("Page.reload", {ignoreCache: true});
+  if (!await evaluate(cdp, waitFor(".raidPrepTrigger"))) throw new Error("Background Checkの今回のレイド登録を復元できませんでした");
+  await evaluate(cdp, `document.querySelector(".raidPrepTrigger")?.click()`);
+  if (!await evaluate(cdp, waitFor(".raidPrepKeyList button", 25000))) throw new Error("Background Checkの必要鍵を取得できませんでした");
+  const backgroundKey = await evaluate(cdp, `({text:document.querySelector(".raidPrepKeyList button")?.textContent||"",count:document.querySelectorAll(".raidPrepKeyList button").length})`);
+  if (backgroundKey.count !== 1 || !/Machinery|特殊車両/.test(backgroundKey.text) || /交渉室/.test(backgroundKey.text)) throw new Error(`Background Checkの必要鍵がMachinery keyではありません: ${JSON.stringify(backgroundKey)}`);
+  await evaluate(cdp, `document.querySelector(".raidPrepKeyList button")?.click()`);
+  if (!await evaluate(cdp, waitFor(".keyDetail h2"))) throw new Error("Machinery keyの鍵詳細へ移動できませんでした");
+  const backgroundKeyDetail = await evaluate(cdp, `({id:history.state?.keySelected||"",text:document.querySelector(".keyDetail>header")?.textContent||""})`);
+  if (backgroundKeyDetail.id !== "5937ee6486f77408994ba448" || !/Machinery|特殊車両/.test(backgroundKeyDetail.text)) throw new Error(`Machinery keyの鍵詳細ではありません: ${JSON.stringify(backgroundKeyDetail)}`);
   await evaluate(cdp, `window.dispatchEvent(new KeyboardEvent("keydown", {key:"k", ctrlKey:true, bubbles:true}))`);
   if (!await evaluate(cdp, waitFor(".quickSearchDialog"))) throw new Error("クイック検索を開けませんでした");
   await evaluate(cdp, `(()=>{const input=document.querySelector(".quickSearchDialog input"),setter=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,"value")?.set;if(!input||!setter)return;setter.call(input,"ZB-1011");input.dispatchEvent(new Event("input",{bubbles:true}));})()`);
@@ -101,11 +152,18 @@ try {
     if (!await evaluate(cdp, waitFor(".interactiveWorld"))) throw new Error("全体マップへ戻れませんでした");
   }
 
-  cdp.socket.close();
-  console.log("Electronクイック検索・個別マップ描画: ZB-1011強調 / Interchange / Customs 成功");
+  console.log("Electron今回のレイド・クイック検索・個別マップ描画: 保存復元 / 狭い幅 / Background Check→Machinery key / ZB-1011強調 / Interchange / Customs 成功");
 } catch (error) {
   const suffix = processOutput.trim() ? `\nElectron出力:\n${processOutput.trim()}` : "";
   throw new Error(`${error.message}${suffix}`, {cause: error});
 } finally {
+  if (cdp) {
+    try {
+      const raidValue = previousRaidIds === null ? `localStorage.removeItem("tarkov-raid-prep-task-ids")` : `localStorage.setItem("tarkov-raid-prep-task-ids",${JSON.stringify(previousRaidIds)})`;
+      const guideValue = previousGuideView === null ? `sessionStorage.removeItem("tarkov-task-last-view")` : `sessionStorage.setItem("tarkov-task-last-view",${JSON.stringify(previousGuideView)})`;
+      await evaluate(cdp, `${raidValue};${guideValue}`);
+    } catch {}
+    cdp.socket.close();
+  }
   if (!child.killed) child.kill();
 }
