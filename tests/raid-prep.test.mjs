@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import {readFile} from "node:fs/promises";
 import test from "node:test";
-import {buildRaidPrepSummary, loadRaidKeyRequirements, parseRaidTaskIds, resolveRaidTasks, sanitizeRaidTaskIds, updateRaidTaskIds} from "../app/raid-prep-utils.mjs";
+import {buildRaidPrepSummary, loadRaidKeyRequirements, parseRaidTaskIds, resolveRaidTasks, sanitizeRaidTaskIds, taskMapReferences, updateRaidTaskIds} from "../app/raid-prep-utils.mjs";
 import {createRetryableRequestCache} from "../app/task-request-cache.mjs";
 
 test("今回のレイド保存値をタスクIDだけにsanitizeし再起動相当で復元する", () => {
@@ -26,6 +26,13 @@ test("現データにない保存IDを保持し、確認不能のまま解除対
   const entries = resolveRaidTasks(["missing-task", "task-a"], [{id: "task-a", name: "確認可能"}]);
   assert.deepEqual(entries.map(entry => [entry.id, entry.task?.name || null]), [["missing-task", null], ["task-a", "確認可能"]]);
   assert.deepEqual(updateRaidTaskIds(entries.map(entry => entry.id), "missing-task", false), ["task-a"]);
+});
+
+test("選択タスクの対象マップは既存の正規化を通し、指定がなければ空のままにする", () => {
+  const task = {id: "task-a", map: "Night Factory", mapId: "59fc81d786f774390775787e", objectives: [{id: "visit", maps: [{id: "55f2d3fd4bdc2d5f408b4567", name: "Factory"}, {id: "56f40101d2720b2a4d8b45d6", name: "Customs"}]}]};
+  assert.deepEqual(taskMapReferences(task).map(map => map.name), ["Factory", "Customs"]);
+  assert.deepEqual(taskMapReferences({id: "unknown", objectives: []}), []);
+  assert.deepEqual(buildRaidPrepSummary(resolveRaidTasks(["task-a"], [task])).maps.map(map => map.name), ["Factory", "Customs"]);
 });
 
 test("鍵をIDで重複排除し利用タスクを併記する", () => {
@@ -136,14 +143,20 @@ test("今回のレイドUIからタスク・鍵・マップへ既存state形式�
     readFile(new URL("../app/raid-prep.css", import.meta.url), "utf8")
   ]);
   assert.match(shell, /guideSelected: taskId/);
+  assert.match(shell, /guideRaidReturn: true/);
   assert.match(shell, /keySelected: keyId/);
   assert.match(shell, /mapStage: map\?\.name \|\| map\?\.nameJa/);
   assert.match(panel, /onOpenTask\(entry\.id, entry\.task\.trader\)/);
+  assert.match(panel, /対象マップ：/);
+  assert.match(panel, /構造化データで確認できません/);
   assert.match(panel, /onOpenKey\(entry\.id\)/);
   assert.match(panel, /onOpenMap\(map\)/);
   assert.match(panel, /タスク詳細の「今回のレイドに追加」から、次の出撃で確認したいタスクを登録できます。/);
   assert.match(detail, /今回のレイドに追加/);
   assert.match(detail, /今回のレイドから外す/);
+  assert.match(detail, /今回のレイドへ戻る/);
+  assert.match(detail, /guideRaidRegistered/);
+  assert.match(detail, /guideRaidReturn: false/);
   assert.doesNotMatch(panel, /position\.x|position\.z|marker/i, "パネルは未検証座標を表示しない");
   assert.match(css, /@media\(max-width:650px\)/);
 });

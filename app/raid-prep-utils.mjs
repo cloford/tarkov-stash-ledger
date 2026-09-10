@@ -9,6 +9,11 @@ const itemKey = item => text(item?.id) || text(item?.name) || text(item?.shortNa
 const taskLabel = task => text(task?.nameJa) || text(task?.name) || "名称不明のタスク";
 const objectiveLabel = objective => text(objective?.descriptionJa) || text(objective?.description) || `目的（${text(objective?.type) || "種類不明"}）`;
 
+export function taskMapReferences(task) {
+  const entries = [...array(task?.objectives).flatMap(objective => array(objective?.maps)), ...(task?.map ? [{id: task.mapId, name: task.map, nameJa: task.mapJa}] : [])];
+  return normalizeMapEntries(entries).filter(map => text(map.name));
+}
+
 export function sanitizeRaidTaskIds(value, {limit = 50} = {}) {
   if (!Array.isArray(value)) return [];
   const result = [], seen = new Set();
@@ -77,8 +82,7 @@ export function buildRaidPrepSummary(entries, requirementStates = {}) {
   const handled = new Set(["visit", "giveItem", "giveQuestItem", "findItem", "findQuestItem", "shoot", "extract", "plantItem", "plantQuestItem", "mark", "buildWeapon", "buildItem", "useItem"]);
 
   for (const {task} of resolved) {
-    maps.push(...array(task.objectives).flatMap(objective => array(objective?.maps)));
-    if (task.map) maps.push({id: task.mapId, name: task.map, nameJa: task.mapJa});
+    maps.push(...taskMapReferences(task));
     for (const objective of array(task.objectives)) {
       if (!objective || typeof objective !== "object") {
         notices.push({taskId: task.id, taskName: taskLabel(task), objectiveId: "", kind: "invalid-objective", message: "目的データを確認できません。"});

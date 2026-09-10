@@ -20,6 +20,7 @@
 .taskMeta .liveVerified{border-color:#8cab3c;background:#27351d;color:#d7ff64;font-weight:700}
 .taskMaps{padding:18px;border-bottom:1px solid var(--line);background:#171a14}.taskMaps .detailTitle p{margin:0;color:#74796c;font-size:10px;line-height:1.55}.taskMapList{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px;margin-top:13px}.taskMapButton{display:grid;grid-template-columns:auto 1fr;gap:5px 9px;align-items:center;padding:12px;border:1px solid #596331;background:#10130d;color:#e6e8dc;text-align:left;cursor:pointer}.taskMapButton:hover{border-color:var(--acid);background:#252c19}.taskMapButton>span{grid-row:span 2;color:var(--acid);font:700 9px monospace}.taskMapButton strong{font-size:12px}.taskMapButton small{grid-column:2;color:#9ba579;font:8px monospace}.taskSpecificMap{display:inline-block;margin-top:12px;color:var(--acid);font:700 10px monospace;text-decoration:none}.taskSpecificMap:hover{text-decoration:underline}@media(max-width:700px){.taskMapList{grid-template-columns:1fr}}
 .taskPreparation .preparationGrid{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.guideNavButtons>.guideRaidReturn{border-color:#a4bb3f;background:#39451b;color:#e5f56d;box-shadow:inset 0 0 0 1px #161b0e}.guideTaskCards>button.inRaid{background:#202719;box-shadow:inset 3px 0 #a4bb3f}.guideTaskCards .guideRaidRegistered{margin-top:5px;color:#dce98f;font:700 8px monospace;letter-spacing:.04em}
 
 /* Trader selection: five cards on the first row and four centered below. */
 .questBrowser:has(.traderPortraitGrid){
