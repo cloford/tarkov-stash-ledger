@@ -178,7 +178,7 @@ test("共通UIスタイルをWeb版とElectron版の双方へ適用する",()=>{
 
 test("正規化したマップを一覧・詳細データ照合・目的地座標へ適用する",()=>{
  assert.match(page,/function taskLocations\(task: any\) \{[^\n]+normalizeMapEntries\(entries\)/);
- assert.match(page,/function taskMapReferences\(task: any\) \{[^\n]+normalizeMapEntries\(entries\)/);
+ assert.match(page,/import \{taskMapReferences\} from "\.\/raid-prep-utils\.mjs"/);
  assert.match(page,/latest\.find\(x => sameMapLocation\(x, selected\)\)/);
  assert.match(page,/objective\.maps \|\| \[\]\)\.some\(\(candidate: any\) => sameMapLocation\(candidate, map\)\)/);
  assert.match(page,/mapIds = map\.sourceIds \|\| \[map\.id\]/);
@@ -462,7 +462,7 @@ test("サブタスク検索は正規化済みインデックスを再利用し�
 });
 
 test("タスク詳細では関連マップと攻略リンクをタスク単位に集約する",()=>{
- assert.match(page,/function taskMapReferences\(/);
+ assert.match(page,/import \{taskMapReferences\} from "\.\/raid-prep-utils\.mjs"/);
  assert.match(page,/className="taskMaps"/);
  assert.match(page,/className="taskMapButton"/);
  assert.match(page,/対象手順/);
