@@ -78,6 +78,16 @@ try {
   const cdp = await connectCdp(page.webSocketDebuggerUrl);
   await cdp.call("Runtime.enable");
   if (!await evaluate(cdp, waitFor(".mainNav"))) throw new Error("アプリの初期画面を表示できませんでした");
+  await evaluate(cdp, `window.dispatchEvent(new KeyboardEvent("keydown", {key:"k", ctrlKey:true, bubbles:true}))`);
+  if (!await evaluate(cdp, waitFor(".quickSearchDialog"))) throw new Error("クイック検索を開けませんでした");
+  await evaluate(cdp, `(()=>{const input=document.querySelector(".quickSearchDialog input"),setter=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,"value")?.set;if(!input||!setter)return;setter.call(input,"ZB-1011");input.dispatchEvent(new Event("input",{bubbles:true}));})()`);
+  if (!await evaluate(cdp, waitFor(".quickSearchResults button"))) throw new Error("脱出地点の検索候補を表示できませんでした");
+  await evaluate(cdp, `Array.from(document.querySelectorAll(".quickSearchResults button")).find(button=>button.textContent.includes("ZB-1011"))?.click()`);
+  if (!await evaluate(cdp, waitFor(".mapDetail .extractMapPreview"))) throw new Error("ZB-1011の強調表示を確認できませんでした");
+  const extractTitle = await evaluate(cdp, `document.querySelector(".extractMapPreview strong")?.textContent || ""`);
+  if (extractTitle !== "ZB-1011") throw new Error(`ZB-1011ではない脱出地点が強調されました: ${extractTitle}`);
+  await evaluate(cdp, `document.querySelector(".mapBack")?.click()`);
+  if (!await evaluate(cdp, waitFor(".interactiveWorld"))) throw new Error("ZB-1011確認後に全体マップへ戻れませんでした");
   await evaluate(cdp, `Array.from(document.querySelectorAll(".mainNav button")).find(button=>button.textContent.includes("MAP"))?.click()`);
   if (!await evaluate(cdp, waitFor(".interactiveWorld"))) throw new Error("全体マップを表示できませんでした");
 
@@ -92,7 +102,7 @@ try {
   }
 
   cdp.socket.close();
-  console.log("Electron個別マップ描画: Interchange / Customs 成功");
+  console.log("Electronクイック検索・個別マップ描画: ZB-1011強調 / Interchange / Customs 成功");
 } catch (error) {
   const suffix = processOutput.trim() ? `\nElectron出力:\n${processOutput.trim()}` : "";
   throw new Error(`${error.message}${suffix}`, {cause: error});
