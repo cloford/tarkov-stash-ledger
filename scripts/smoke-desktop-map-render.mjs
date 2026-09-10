@@ -118,6 +118,17 @@ try {
   if (!await evaluate(cdp, waitFor(".raidPrepEmpty"))) throw new Error("今回のレイドを全件解除できませんでした");
   await cdp.call("Emulation.clearDeviceMetricsOverride");
   await evaluate(cdp, `document.querySelector(".raidPrepHeader>button")?.click()`);
+  await evaluate(cdp, `localStorage.setItem("tarkov-raid-prep-task-ids",JSON.stringify(["5936da9e86f7742d65037edf"]))`);
+  await cdp.call("Page.reload", {ignoreCache: true});
+  if (!await evaluate(cdp, waitFor(".raidPrepTrigger"))) throw new Error("Background Checkの今回のレイド登録を復元できませんでした");
+  await evaluate(cdp, `document.querySelector(".raidPrepTrigger")?.click()`);
+  if (!await evaluate(cdp, waitFor(".raidPrepKeyList button", 25000))) throw new Error("Background Checkの必要鍵を取得できませんでした");
+  const backgroundKey = await evaluate(cdp, `({text:document.querySelector(".raidPrepKeyList button")?.textContent||"",count:document.querySelectorAll(".raidPrepKeyList button").length})`);
+  if (backgroundKey.count !== 1 || !/Machinery|特殊車両/.test(backgroundKey.text) || /交渉室/.test(backgroundKey.text)) throw new Error(`Background Checkの必要鍵がMachinery keyではありません: ${JSON.stringify(backgroundKey)}`);
+  await evaluate(cdp, `document.querySelector(".raidPrepKeyList button")?.click()`);
+  if (!await evaluate(cdp, waitFor(".keyDetail h2"))) throw new Error("Machinery keyの鍵詳細へ移動できませんでした");
+  const backgroundKeyDetail = await evaluate(cdp, `({id:history.state?.keySelected||"",text:document.querySelector(".keyDetail>header")?.textContent||""})`);
+  if (backgroundKeyDetail.id !== "5937ee6486f77408994ba448" || !/Machinery|特殊車両/.test(backgroundKeyDetail.text)) throw new Error(`Machinery keyの鍵詳細ではありません: ${JSON.stringify(backgroundKeyDetail)}`);
   await evaluate(cdp, `window.dispatchEvent(new KeyboardEvent("keydown", {key:"k", ctrlKey:true, bubbles:true}))`);
   if (!await evaluate(cdp, waitFor(".quickSearchDialog"))) throw new Error("クイック検索を開けませんでした");
   await evaluate(cdp, `(()=>{const input=document.querySelector(".quickSearchDialog input"),setter=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,"value")?.set;if(!input||!setter)return;setter.call(input,"ZB-1011");input.dispatchEvent(new Event("input",{bubbles:true}));})()`);
@@ -141,7 +152,7 @@ try {
     if (!await evaluate(cdp, waitFor(".interactiveWorld"))) throw new Error("全体マップへ戻れませんでした");
   }
 
-  console.log("Electron今回のレイド・クイック検索・個別マップ描画: 保存復元 / 狭い幅 / ZB-1011強調 / Interchange / Customs 成功");
+  console.log("Electron今回のレイド・クイック検索・個別マップ描画: 保存復元 / 狭い幅 / Background Check→Machinery key / ZB-1011強調 / Interchange / Customs 成功");
 } catch (error) {
   const suffix = processOutput.trim() ? `\nElectron出力:\n${processOutput.trim()}` : "";
   throw new Error(`${error.message}${suffix}`, {cause: error});
