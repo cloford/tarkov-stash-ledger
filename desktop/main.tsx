@@ -10,5 +10,7 @@ import "../app/key-wiki.css";
 import "../app/key-wiki-v21.css";
 import "../app/key-wiki-v22.css";
 import "../app/ui-system.css";
+import "../app/quick-search.css";
+import "../app/raid-prep.css";
 document.documentElement.dataset.desktopBuildFingerprint = desktopBuildInputFingerprint;
 createRoot(document.getElementById("root")!).render(<Home />);
