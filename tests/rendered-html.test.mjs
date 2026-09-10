@@ -238,25 +238,33 @@ test("マップ取得を同じキーごとに共有し、失敗時は再試行�
  assert.equal(failures,2);
 });
 
-test("高解像度の保存画像を解決後の共有キャッシュへ残さない",async()=>{
- const cache=createRequestCache({retain:result=>!result.cached});
+test("保存画像の短いローカルURLだけを共有キャッシュへ残す",async()=>{
+ const cache=createRequestCache({retain:result=>Boolean(result.cached)});
  const pending=[];
  let calls=0;
  const first=cache.get("customs",()=>{calls++;return new Promise(resolve=>pending.push(resolve));});
  const second=cache.get("customs",()=>{calls++;return Promise.resolve({cached:true});});
  assert.equal(first,second);
- pending[0]({cached:true,url:"data:image/png;base64,large"});
+ pending[0]({cached:true,url:"stash-map://cache/customs?v=hash"});
  await first;
  await Promise.resolve();
- assert.equal(cache.size,0);
- await cache.get("customs",()=>{calls++;return {cached:false};});
  assert.equal(cache.size,1);
- assert.equal(calls,2);
+ assert.equal(await cache.get("customs",()=>{calls++;return {cached:false};}),await first);
+ assert.equal(calls,1);
+ const failed=await cache.get("woods",()=>({cached:false,url:"https://example.com/woods.png"}));
+ assert.equal(failed.cached,false);
+ await Promise.resolve();
+ assert.equal(cache.size,1,"保存失敗は残さず次回再試行できる");
 });
 
 test("高解像度マップの取得・再描画・ドラッグ状態を軽量化する",()=>{
  assert.match(page,/mapVariantRequests\.get\(requestKey/);
  assert.match(page,/mapImageCacheChecks\.get\(cacheKey/);
+ assert.match(page,/saved\.cached \? saved : cacheImage\(remoteUrl, cacheId, true\)/,"未保存画像は初回表示時に自動保存する");
+ assert.match(page,/setImageUrl\(""\); setResolvingImage\(true\)/,"保存確認前にオンライン画像を読み始めない");
+ assert.match(page,/setImageUrl\(remoteUrl\); setMessage\("保存できなかったためオンライン画像を表示中"\)/,"自動保存に失敗してもオンライン画像へ切り替える");
+ assert.match(page,/setMessage\(result\.error \? "更新できなかったため保存済み画像を維持しています" : "オフライン保存完了"\)/,"保存済み画像の手動更新結果を表示する");
+ assert.match(page,/setMessage\("保存できませんでした。現在の画像を維持します"\)/,"未保存画像の手動更新に失敗しても現在の表示を維持する");
  assert.match(page,/primaryVariant = useMemo/);
  assert.match(page,/const selectedPoint = useMemo/);
  assert.match(page,/viewport\.classList\.add\("panning"\)/);
