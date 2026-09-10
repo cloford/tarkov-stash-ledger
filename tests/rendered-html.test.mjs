@@ -260,10 +260,10 @@ test("保存画像の短いローカルURLだけを共有キャッシュへ残�
 test("高解像度マップの取得・再描画・ドラッグ状態を軽量化する",()=>{
  assert.match(page,/mapVariantRequests\.get\(requestKey/);
  assert.match(page,/mapImageCacheChecks\.get\(cacheKey/);
- assert.match(page,/saved\.cached \? saved : cacheImage\(remoteUrl, cacheId, true\)/,"未保存画像は初回表示時に自動保存する");
+  assert.match(page,/saved\.cached && !saved\.stale \? saved : cacheImage\(remoteUrl, cacheId, true\)/,"未保存・旧版画像は初回表示時に自動保存する");
  assert.match(page,/setImageUrl\(""\); setResolvingImage\(true\)/,"保存確認前にオンライン画像を読み始めない");
  assert.match(page,/setImageUrl\(remoteUrl\); setMessage\("保存できなかったためオンライン画像を表示中"\)/,"自動保存に失敗してもオンライン画像へ切り替える");
- assert.match(page,/setMessage\(result\.error \? "更新できなかったため保存済み画像を維持しています" : "オフライン保存完了"\)/,"保存済み画像の手動更新結果を表示する");
+  assert.match(page,/更新できなかったため旧版の保存画像を維持しています/,"保存済み画像の手動更新失敗時は旧版維持を表示する");
  assert.match(page,/setMessage\("保存できませんでした。現在の画像を維持します"\)/,"未保存画像の手動更新に失敗しても現在の表示を維持する");
  assert.match(page,/primaryVariant = useMemo/);
  assert.match(page,/const selectedPoint = useMemo/);
@@ -417,7 +417,11 @@ test("全マップ共通の強調表示修正を保持する",()=>{
  assert.doesNotMatch(css,/\.printedLabelMarker|inset 0 0 8px/);
  assert.match(main,/ipcMain\.handle\("maps:latest"/);
  assert.match(main,/ipcMain\.handle\("maps:refresh-online"/);
- assert.match(main,/ipcMain\.handle\("task:media"/);
+  assert.match(main,/ipcMain\.handle\("task:media"/);
+  assert.match(main,/ipcMain\.handle\("task:media-status"/);
+  assert.match(main,/task-media-index\.json/);
+  assert.match(taskGuidePage,/taskMediaCacheId\(taskId,image\)/);
+  assert.match(taskGuidePage,/旧版の保存画像/);
  assert.match(main,/iiprop=url\|mime\|size/);
  assert.match(main,/names\.map\(name=>"File:"\+name\)\.join\("\|"\)/);
  assert.match(mapImageCache,/createHash\("sha256"\)/);

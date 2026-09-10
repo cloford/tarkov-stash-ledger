@@ -7,13 +7,14 @@ declare global {
   interface Window {
     stashAI?: {
       media: (url: string) => Promise<TaskMedia[]>;
+      mediaStatus: (url: string) => Promise<{images: TaskMedia[]; status: "ready" | "stale" | "failed" | "unsupported"; error?: string;}>;
       requirements: (id: string) => Promise<{keys: any[]; verified: boolean;}>;
       weaponBuild: (id: string) => Promise<{builds: any[]; verified: boolean;}>;
       translate: (texts: string[]) => Promise<Record<string, string>>;
       traderPortraits: (names: string[]) => Promise<Record<string, string>>;
       maps: () => Promise<MapDataResult | any[]>;
       refreshMaps: () => Promise<MapDataResult | any[]>;
-      cacheMapImage: (url: string, mapId: string, refresh?: boolean) => Promise<{url: string; cached: boolean; updatedAt?: string; sha256?: string; error?: string;}>;
+      cacheMapImage: (url: string, mapId: string, refresh?: boolean) => Promise<{url: string; cached: boolean; updatedAt?: string; sha256?: string; stale?: boolean; source?: string; error?: string; errorKind?: string;}>;
       mapVariants: (map: string) => Promise<{variants: MapVariant[]; sourceUrl: string; error?: string;}>;
       keys: () => Promise<any>;
       refreshKeys: () => Promise<any>;
