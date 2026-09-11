@@ -198,3 +198,5 @@ try {
   }
   if (!child.killed) child.kill();
 }
+
+await import("./smoke-raid-image-render.mjs");

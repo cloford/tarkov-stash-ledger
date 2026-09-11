@@ -420,8 +420,11 @@ test("全マップ共通の強調表示修正を保持する",()=>{
   assert.match(main,/ipcMain\.handle\("task:media"/);
   assert.match(main,/ipcMain\.handle\("task:media-status"/);
   assert.match(main,/task-media-index\.json/);
-  assert.match(taskGuidePage,/taskMediaCacheId\(taskId,image\)/);
-  assert.match(taskGuidePage,/旧版の保存画像/);
+	  assert.match(taskGuidePage,/taskMediaCacheId\(taskId,image\)/);
+	  assert.match(taskGuidePage,/mapImageCacheId\(view\.map,"extraction"\)/);
+	  assert.match(taskGuidePage,/taskMediaCacheId\(view\.taskId,item\)/);
+	  assert.doesNotMatch(taskGuidePage,/<img src=\{item\.url\}/);
+	  assert.match(taskGuidePage,/旧版の保存画像/);
  assert.match(main,/iiprop=url\|mime\|size/);
  assert.match(main,/names\.map\(name=>"File:"\+name\)\.join\("\|"\)/);
  assert.match(mapImageCache,/createHash\("sha256"\)/);
@@ -499,7 +502,8 @@ test("画面外の画像は遅延読み込みし、主要画像は即時表示�
  assert.match(keyWiki,/alt=\{`\$\{selected\.name\}の画像`\} loading="eager" decoding="async"/);
  assert.match(page,/必要な鍵[\s\S]+loading="lazy" decoding="async"/);
  assert.match(page,/className="locationMedia"[\s\S]+loading="lazy"/);
- assert.match(page,/className="taskLandmarks"[\s\S]+loading="lazy" decoding="async"/);
+ assert.match(page,/className="taskLandmarks"[\s\S]+CachedGuideImage[\s\S]+loading="lazy"/);
+ assert.match(page,/function CachedGuideImage[\s\S]+decoding="async"/);
  assert.match(page,/alt=\{`\$\{selected\.name\} \$\{stableVariantTitle\}`\} loading="eager" decoding="async"/);
  assert.match(page,/world-select\.png[\s\S]+loading="eager" decoding="async"/);
 });

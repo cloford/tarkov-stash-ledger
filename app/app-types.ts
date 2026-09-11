@@ -1,5 +1,5 @@
 export type MapDataResult = {maps: any[]; source: string; updatedAt?: string | null; error?: string;};
-export type TaskMedia = {url: string; caption: string; width?: number; height?: number;};
+export type TaskMedia = {id?: string; url: string; caption: string; width?: number; height?: number;};
 export type MapVariant = {id: string; url: string; title: string; kind: string; width?: number; height?: number; source?: string; primary?: boolean;};
 export type KeyMapFocus = {keyId: string; keyName: string; mapId: string; positions: Array<{x: number; y?: number; z: number; type?: string;}>;};
 

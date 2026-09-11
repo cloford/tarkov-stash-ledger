@@ -33,7 +33,7 @@ async function fetchTaskMedia(url){
     const endpoint=`https://escapefromtarkov.fandom.com/api.php?action=query&titles=${encodeURIComponent(names.map(name=>"File:"+name).join("|"))}&prop=imageinfo&iiprop=url|mime|size&format=json&origin=*`,infoResponse=await fetch(endpoint,{headers,signal});
     if(!infoResponse.ok)throw Error(`wiki imageinfo ${infoResponse.status}`);
     const info=await infoResponse.json(),byName=new Map();
-    for(const page of Object.values(info.query?.pages||{})){const image=page?.imageinfo?.[0],name=String(page?.title||"").replace(/^File:/i,"");if(image?.url&&/^image\/(png|jpe?g|webp)$/i.test(image.mime||""))byName.set(name,{url:image.url,caption:name.replace(/_/g," "),width:Number(image.width)||0,height:Number(image.height)||0})}
+    for(const page of Object.values(info.query?.pages||{})){const image=page?.imageinfo?.[0],name=String(page?.title||"").replace(/^File:/i,"");if(image?.url&&/^image\/(png|jpe?g|webp)$/i.test(image.mime||""))byName.set(name,{id:name,url:image.url,caption:name.replace(/_/g," "),width:Number(image.width)||0,height:Number(image.height)||0})}
     const images=names.map(name=>byName.get(name)).filter(Boolean);saveTaskMediaIndex(wiki,images);return{images,status:"ready"};
   }catch(error){const saved=readTaskMediaIndex()[wiki]?.images;console.error("task:media",error);return Array.isArray(saved)?{images:saved,status:"stale",error:String(error?.message||error)}:{images:[],status:"failed",error:String(error?.message||error)}}
 }
