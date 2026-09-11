@@ -6,24 +6,11 @@ import {mapImageCacheChecks, mapVariantRequests} from "./map-request-cache.mjs";
 import {normalizeMapRuntime} from "./runtime-data.mjs";
 import {parseStoredRecord} from "./render-safety.mjs";
 import {findRequestedExtract} from "./quick-search-utils.mjs";
+import {MAP_IMAGE_SELECTIONS_KEY, mapImageFor, mapSelectionKey, mapVisualFor, parseMapImageSelections} from "./map-images.mjs";
 import type {KeyMapFocus, MapDataResult, MapVariant} from "./app-types";
 
 const asset = (path: string) => typeof window !== "undefined" && window.location.protocol === "file:" ? `./${path}` : `/${path}`;
 
-type MapVisual = {image: string; source: "annotated" | "raster"; size?: readonly [number, number]; revision: string;};
-const mapVisuals: Record<string, MapVisual> = {
-  "55f2d3fd4bdc2d5f408b4567": {image: "https://www.re3mr.com/maps/Factory/FactorybyRe3mr.png", source: "annotated", size: [13440, 6656], revision: "factory-re3mr-13440x6656-v1"},
-  "56f40101d2720b2a4d8b45d6": {image: "https://maps.reemr.se/Customs/re3mrCustoms2.png", source: "annotated", size: [7832, 5016], revision: "customs-re3mr-7832x5016-v2"},
-  "5704e3c2d2720bac5b8b4567": {image: "https://www.reemr.se/maps/Woods/WoodsRe3mrPNG.png", source: "annotated", size: [7680, 5168], revision: "woods-re3mr-7680x5168-v1"},
-  "5704e554d2720bac5b8b456e": {image: "https://reemr.se/maps/Shoreline/re3mrShoreline2.png", source: "annotated", size: [5760, 3240], revision: "shoreline-re3mr-5760x3240-v2"},
-  "5714dbc024597771384a510d": {image: "https://maps.reemr.se/Interchange/re3mrInterchange.png", source: "annotated", size: [9600, 5400], revision: "interchange-re3mr-9600x5400-v1"},
-  "5b0fc42d86f7744a585f9105": {image: "https://tarkov.dev/maps/labs-2d.jpg", source: "raster", size: [3820, 1980], revision: "labs-tarkovdev-3820x1980-v1"},
-  "5704e5fad2720bc05b8b4567": {image: "https://reemr.se/maps/Reserve/Re3mrReserveLossless.png", source: "annotated", size: [5760, 3240], revision: "reserve-re3mr-5760x3240-v1"},
-  "5704e4dad2720bb55b8b4567": {image: "https://reemr.se/maps/Lighthouse/re3mrLighthouseVERT.png", source: "annotated", size: [8259, 7560], revision: "lighthouse-re3mr-8259x7560-v1"},
-  "5714dc692459777137212e12": {image: "https://reemr.se/maps/Streets/re3mrStreetsofTarkov.png", source: "annotated", size: [7605, 4841], revision: "streets-re3mr-7605x4841-v1"},
-  "653e6760052c01c1c805532f": {image: "https://www.re3mr.com/maps/Groundzero/GroundZero.png", source: "annotated", size: [2656, 2160], revision: "groundzero-re3mr-2656x2160-v1"},
-  "65b8d6f5cdde2479cb2a3125": {image: "https://www.re3mr.com/maps/Groundzero/GroundZero.png", source: "annotated", size: [2656, 2160], revision: "groundzero-re3mr-2656x2160-v1"}
-};
 const mapBounds: Record<string, [[number, number], [number, number]]> = {
   "55f2d3fd4bdc2d5f408b4567": [[77, -64.5], [-65.5, 67.4]],
   "56f40101d2720b2a4d8b45d6": [[698, -307], [-372, 237]],
@@ -37,11 +24,6 @@ const mapBounds: Record<string, [[number, number], [number, number]]> = {
   "653e6760052c01c1c805532f": [[249, -124], [-99, 364]],
   "65b8d6f5cdde2479cb2a3125": [[249, -124], [-99, 364]]
 };
-const namedMapVisuals: Record<string, MapVisual> = {"the labyrinth": {image: "https://tarkov.dev/maps/labyrinth-2d.jpg", source: "raster", size: [4800, 4320], revision: "labyrinth-tarkovdev-4800x4320-v1"}};
-const fallbackMapImages: Record<string, string> = {"55f2d3fd4bdc2d5f408b4567": "https://tarkov.dev/maps/factory-2d.jpg", "59fc81d786f774390775787e": "https://tarkov.dev/maps/factory-2d.jpg", "56f40101d2720b2a4d8b45d6": "https://tarkov.dev/maps/customs-2d.jpg", "5704e3c2d2720bac5b8b4567": "https://tarkov.dev/maps/woods-2d.jpg", "5704e554d2720bac5b8b456e": "https://www.escapistmagazine.com/wp-content/uploads/2023/07/Escape-from-Tarkov-Shoreline-Map.jpg?fit=1200%2C800", "5714dbc024597771384a510d": "https://tarkov.dev/maps/interchange-2d.jpg", "5704e4dad2720bb55b8b4567": "https://tarkov.dev/maps/lighthouse-2d.jpg", "5704e5fad2720bc05b8b4567": "https://tarkov.dev/maps/reserve-2d.jpg", "5714dc692459777137212e12": "https://tarkov.dev/maps/streets-2d.jpg", "653e6760052c01c1c805532f": "https://tarkov.dev/maps/ground-zero-2d.jpg", "65b8d6f5cdde2479cb2a3125": "https://tarkov.dev/maps/ground-zero-2d.jpg", "68236e8153654e8c1200798a": "https://tarkov.dev/maps/ground-zero-2d.jpg", "5b0fc42d86f7744a585f9105": "https://tarkov.dev/maps/labs-2d.jpg", "6a294a5b5eb5f9a1700417b7": "https://tarkov.dev/maps/labs-2d.jpg"};
-const fallbackMapImagesByName: Record<string, string> = {factory: "https://tarkov.dev/maps/factory-2d.jpg", "night factory": "https://tarkov.dev/maps/factory-2d.jpg", customs: "https://tarkov.dev/maps/customs-2d.jpg", woods: "https://tarkov.dev/maps/woods-2d.jpg", shoreline: "https://tarkov.dev/maps/shoreline-2d.jpg", interchange: "https://tarkov.dev/maps/interchange-2d.jpg", lighthouse: "https://tarkov.dev/maps/lighthouse-2d.jpg", reserve: "https://tarkov.dev/maps/reserve-2d.jpg", "streets of tarkov": "https://tarkov.dev/maps/streets-2d.jpg", streets: "https://tarkov.dev/maps/streets-2d.jpg", "ground zero": "https://tarkov.dev/maps/ground-zero-2d.jpg", "ground zero 21+": "https://tarkov.dev/maps/ground-zero-2d.jpg", "ground zero tutorial": "https://tarkov.dev/maps/ground-zero-2d.jpg", "the lab": "https://tarkov.dev/maps/labs-2d.jpg", "the lab (dark)": "https://tarkov.dev/maps/labs-2d.jpg", labs: "https://tarkov.dev/maps/labs-2d.jpg", icebreaker: "https://tarkov.dev/maps/icebreaker-2d.jpg", terminal: "https://tarkov.dev/maps/terminal-2d.jpg", "the labyrinth": "https://tarkov.dev/maps/labyrinth-2d.jpg"};
-const mapVisualFor = (map: any) => mapVisuals[String(map.id || "")] || namedMapVisuals[String(map.name || map.nameJa || "").trim().toLowerCase()];
-const mapImageFor = (map: any) => {const id = String(map.id || ""), name = String(map.name || map.nameJa || "").trim().toLowerCase(), slug = String(map.slug || name).trim().toLowerCase().replace(/\+/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); return mapVisualFor(map)?.image || fallbackMapImages[id] || fallbackMapImagesByName[name] || fallbackMapImagesByName[String(map.slug || "").toLowerCase()] || `https://tarkov.dev/maps/${slug}-2d.jpg`;};
 const arrayValue = (value: any): any[] => Array.isArray(value) ? value : [];
 const printedFileKey = (url: string) => {try {return printedLabelKey(decodeURIComponent(url.split("/").pop()?.split("?")[0] || "")).trim();} catch {return printedLabelKey(url.split("/").pop()?.split("?")[0] || "").trim();}};
 const mapStages = [
@@ -149,7 +131,7 @@ function printedLabelLineLengths(value: any) {
 }
 function printedLabelAnchor(mapId: string, mapName: string, name: any): MapAnnotation | null {
   const points = printedLabelAnchors[mapId] || printedLabelAnchors[`name:${printedLabelKey(mapName)}`], point = points?.[printedLabelKey(name)];
-  const visual = mapVisuals[mapId] || namedMapVisuals[String(mapName || "").trim().toLowerCase()];
+  const visual = mapVisualFor({id:mapId,name:mapName});
   if (!point || !visual?.size) return null;
   const lines = printedLabelLineLengths(name), longest = Math.max(...lines, 1), lineCount = lines.length;
   const baseWidth = point.width ?? Math.min(10, Math.max(2.6, longest * .44 + .8));
@@ -163,7 +145,8 @@ function pixelRectStyle(rect: PixelRect, size: readonly [number, number]) {retur
 function OfflineZoomMap({selected, selectedExtract, keyFocus, onShowDetails}: {selected: any; selectedExtract: any; keyFocus?: KeyMapFocus | null; onShowDetails: () => void;}) {
   const viewportRef = useRef<HTMLDivElement | null>(null), markerRef = useRef<HTMLSpanElement | null>(null), dragRef = useRef<{x: number; y: number; startX: number; startY: number;} | null>(null), didDragRef = useRef(false), panCleanupRef = useRef<() => void>(() => {}), zoomAnchorRef = useRef<{x: number; y: number; localX: number; localY: number;} | null>(null), focusRequestRef = useRef("");
   const primaryUrl = mapImageFor({id: selected.id, name: selected.name, slug: selected.name.toLowerCase().replace(/\s+/g, "-")}), primaryVisual = mapVisualFor(selected), primaryVariant = useMemo<MapVariant>(() => ({id: "extraction", url: primaryUrl, title: "脱出地点・タスク対応マップ", kind: "基準版", width: primaryVisual?.size?.[0], height: primaryVisual?.size?.[1], source: "RE3MR / tarkov.dev", primary: true}), [primaryUrl, primaryVisual]);
-  const [variants, setVariants] = useState<MapVariant[]>([primaryVariant]), [activeVariantId, setActiveVariantId] = useState("extraction"), [variantsLoading, setVariantsLoading] = useState(false), [variantsSourceUrl, setVariantsSourceUrl] = useState("");
+  const restoredVariant = useMemo(() => {try{return parseMapImageSelections(sessionStorage.getItem(MAP_IMAGE_SELECTIONS_KEY))[mapSelectionKey(selected)]?.id || "extraction";}catch{return "extraction";}}, [selected]);
+  const [variants, setVariants] = useState<MapVariant[]>([primaryVariant]), [activeVariantId, setActiveVariantId] = useState(restoredVariant), [variantsLoading, setVariantsLoading] = useState(false), [variantsSourceUrl, setVariantsSourceUrl] = useState("");
   const activeVariant = variants.find(variant => variant.id === activeVariantId) || variants[0] || primaryVariant, remoteUrl = activeVariant.url, visual = activeVariant.primary ? primaryVisual : undefined, activeVariantIndex = Math.max(0, variants.findIndex(variant => variant.id === activeVariant.id)), sameKindOrdinal = activeVariant.primary ? 0 : variants.slice(0, activeVariantIndex + 1).filter(variant => variant.kind === activeVariant.kind).length, stableVariantTitle = activeVariant.primary ? "脱出地点・タスク対応マップ" : `${selected.ja} · ${activeVariant.kind}${sameKindOrdinal > 1 ? ` ${sameKindOrdinal}` : ""}`;
   const hasDiskCache = typeof window !== "undefined" && Boolean(window.stashAI?.cacheMapImage);
   const [zoom, setZoom] = useState(1), [imageUrl, setImageUrl] = useState(hasDiskCache ? "" : remoteUrl), [imageSize, setImageSize] = useState<readonly [number, number] | null>(null), [cached, setCached] = useState(false), [saving, setSaving] = useState(false), [resolvingImage, setResolvingImage] = useState(hasDiskCache), [message, setMessage] = useState(""), [imageHash, setImageHash] = useState(""), [imageError, setImageError] = useState(false);
@@ -174,7 +157,8 @@ function OfflineZoomMap({selected, selectedExtract, keyFocus, onShowDetails}: {s
   const focusTarget = useMemo(() => selectedPoint ? {left: selectedPoint.focusPoint.x / (visual?.size?.[0] || 1) * 100, top: selectedPoint.focusPoint.y / (visual?.size?.[1] || 1) * 100} : keyPositions[0] || null, [keyPositions, selectedPoint, visual]);
   const selectionKey = selectedExtract ? `${selected.id || selected.name}-${activeVariant.id}-${selectedExtract.id || selectedExtract.name}` : keyFocus && keyPositions.length ? `${selected.id}-${activeVariant.id}-${keyFocus.keyId}` : "", selectedLabelNotPrinted = Boolean(activeVariant.primary && unprintedLabelKeys[selected.id]?.has(printedLabelKey(selectedExtract?.name))), auditEnabled = useMemo(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).has("mapAudit"), []);
   const auditAnnotations = useMemo(() => {if (!auditEnabled || !activeVariant.primary || !sizeMatches) return []; const annotationSource = printedLabelAnchors[selected.id] || printedLabelAnchors[`name:${printedLabelKey(selected.name)}`] || {}; return Object.keys(annotationSource).map(key => printedLabelAnchor(selected.id, selected.name, key)).filter(Boolean) as MapAnnotation[];}, [activeVariant, auditEnabled, selected, sizeMatches]);
-  useEffect(() => {let cancelled = false; setVariants(current => current.length === 1 && current[0].id === primaryVariant.id && current[0].url === primaryVariant.url ? current : [primaryVariant]); setActiveVariantId(current => current === "extraction" ? current : "extraction"); setVariantsSourceUrl(current => current ? "" : current); if (!window.stashAI?.mapVariants) return; setVariantsLoading(true); const requestKey = `${selected.id || selected.name}:${selected.name}`; mapVariantRequests.get(requestKey, () => window.stashAI!.mapVariants(selected.name)).then(result => {if (cancelled) return; const primaryFileKey = printedFileKey(primaryUrl), alternatives = arrayValue(result?.variants).filter((variant: MapVariant) => variant && variant.url && variant.url !== primaryUrl && printedLabelKey(variant.title) !== primaryFileKey); setVariants([primaryVariant, ...alternatives]); setVariantsSourceUrl(result?.sourceUrl || "");}).catch(() => {}).finally(() => {if (!cancelled) setVariantsLoading(false);}); return () => {cancelled = true;};}, [primaryUrl, primaryVariant, selected.id, selected.name]);
+  useEffect(() => {let cancelled = false; setVariants(current => current.length === 1 && current[0].id === primaryVariant.id && current[0].url === primaryVariant.url ? current : [primaryVariant]); setActiveVariantId(restoredVariant); setVariantsSourceUrl(current => current ? "" : current); if (!window.stashAI?.mapVariants) return; setVariantsLoading(true); const requestKey = `${selected.id || selected.name}:${selected.name}`; mapVariantRequests.get(requestKey, () => window.stashAI!.mapVariants(selected.name)).then(result => {if (cancelled) return; const primaryFileKey = printedFileKey(primaryUrl), alternatives = arrayValue(result?.variants).filter((variant: MapVariant) => variant && variant.url && variant.url !== primaryUrl && printedLabelKey(variant.title) !== primaryFileKey), next=[primaryVariant, ...alternatives]; setVariants(next); if(!next.some(variant=>variant.id===restoredVariant))setActiveVariantId("extraction"); setVariantsSourceUrl(result?.sourceUrl || "");}).catch(() => {}).finally(() => {if (!cancelled) setVariantsLoading(false);}); return () => {cancelled = true;};}, [primaryUrl, primaryVariant, restoredVariant, selected.id, selected.name]);
+  useEffect(()=>{try{const saved=parseMapImageSelections(sessionStorage.getItem(MAP_IMAGE_SELECTIONS_KEY)),key=mapSelectionKey(selected);saved[key]=activeVariant;sessionStorage.setItem(MAP_IMAGE_SELECTIONS_KEY,JSON.stringify(saved));}catch{}},[activeVariant,selected]);
   const cacheKey = `${selected.id || selected.name}-${activeVariant.id}:${remoteUrl}`;
   useEffect(() => {
     let cancelled = false;
@@ -188,12 +172,12 @@ function OfflineZoomMap({selected, selectedExtract, keyFocus, onShowDetails}: {s
     setImageUrl(""); setResolvingImage(true); setMessage("保存済み画像を確認中…");
     mapImageCacheChecks.get(cacheKey, async () => {
       const saved = await cacheImage(remoteUrl, cacheId, false);
-      return saved.cached ? saved : cacheImage(remoteUrl, cacheId, true);
+      return saved.cached && !saved.stale ? saved : cacheImage(remoteUrl, cacheId, true);
     }).then(result => {
       if (cancelled) return;
       if (result.cached) {
         setImageUrl(result.url); setCached(true); setImageHash(result.sha256 || "");
-        setMessage(result.error ? "更新できないため保存済み画像を表示中" : "ローカル保存済み・高速表示対応");
+        setMessage(result.stale ? "更新できないため旧版の保存画像を表示中" : result.error ? "更新できないため保存済み画像を表示中" : "ローカル保存済み・高速表示対応");
       } else {
         setImageUrl(remoteUrl); setMessage("保存できなかったためオンライン画像を表示中");
       }
@@ -202,7 +186,7 @@ function OfflineZoomMap({selected, selectedExtract, keyFocus, onShowDetails}: {s
     }).finally(() => {if (!cancelled) setResolvingImage(false);});
     return () => {cancelled = true;};
   }, [activeVariant.id, cacheKey, remoteUrl, selected.id, selected.name]);
-  const saveOffline = async () => {if (!window.stashAI?.cacheMapImage) {setMessage("配布版アプリで利用できます"); return ;} setSaving(true); setMessage("保存中…"); try {const result = await window.stashAI.cacheMapImage(remoteUrl, `${selected.id || selected.name}-${activeVariant.id}`, true); if (!result.cached) throw Error(result.error || "保存失敗"); mapImageCacheChecks.delete(cacheKey); setImageUrl(result.url); setCached(true); setImageHash(result.sha256 || ""); setMessage(result.error ? "更新できなかったため保存済み画像を維持しています" : "オフライン保存完了");} catch {setMessage("保存できませんでした。現在の画像を維持します");} finally {setSaving(false);} };
+  const saveOffline = async () => {if (!window.stashAI?.cacheMapImage) {setMessage("配布版アプリで利用できます"); return ;} setSaving(true); setMessage("保存中…"); try {const result = await window.stashAI.cacheMapImage(remoteUrl, `${selected.id || selected.name}-${activeVariant.id}`, true); if (!result.cached || result.stale || result.error) {if(result.cached){setImageUrl(result.url);setCached(true);setMessage("更新できなかったため旧版の保存画像を維持しています");return;}throw Error(result.error || "保存失敗");} mapImageCacheChecks.delete(cacheKey); setImageUrl(result.url); setCached(true); setImageHash(result.sha256 || ""); setMessage("オフライン保存完了");} catch {setMessage("保存できませんでした。現在の画像を維持します");} finally {setSaving(false);} };
   const zoomValueRef = useRef(zoom); zoomValueRef.current = zoom;
   const resetView = () => {zoomAnchorRef.current = null; focusRequestRef.current = ""; zoomValueRef.current = 1; if (zoom !== 1) setZoom(1); if (viewportRef.current) {viewportRef.current.scrollLeft = 0; viewportRef.current.scrollTop = 0;} };
   const zoomAt = (nextZoom: number, clientX?: number, clientY?: number) => {const viewport = viewportRef.current, next = clampZoom(nextZoom); if (!viewport || next === zoomValueRef.current) return; const rect = viewport.getBoundingClientRect(), localX = clientX === undefined ? viewport.clientWidth / 2 : clientX - rect.left, localY = clientY === undefined ? viewport.clientHeight / 2 : clientY - rect.top; zoomAnchorRef.current = {x: (viewport.scrollLeft + localX) / Math.max(1, viewport.scrollWidth), y: (viewport.scrollTop + localY) / Math.max(1, viewport.scrollHeight), localX, localY}; zoomValueRef.current = next; setZoom(next);};

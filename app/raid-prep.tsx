@@ -1,8 +1,11 @@
 "use client";
-import {useEffect, useMemo, useState} from "react";
+import {useCallback, useEffect, useMemo, useState} from "react";
 import type {ReactNode} from "react";
 import {buildRaidPrepSummary, loadRaidKeyRequirements, resolveRaidTasks, taskMapReferences} from "./raid-prep-utils.mjs";
 import {taskDetailRequestCache} from "./task-request-cache.mjs";
+import {selectTaskReferenceImages} from "./task-media.mjs";
+import {MAP_IMAGE_SELECTIONS_KEY, parseMapImageSelections} from "./map-images.mjs";
+import {buildRaidImageTargets, inspectRaidImageTargets, saveRaidImageTargets, summarizeRaidImageSaveResult, summarizeRaidImageTargets} from "./raid-image-prefetch.mjs";
 
 type RequirementState = {status: "idle" | "loading" | "ready" | "failed"; keys: any[];};
 type RaidPrepProps = {
@@ -33,6 +36,7 @@ const equipmentDetails = (entry: any) => {
 export default function RaidPrep({open, ids, tasks, onClose, onRemove, onClear, onOpenTask, onOpenKey, onOpenMap}: RaidPrepProps) {
   const entries = useMemo(() => resolveRaidTasks(ids, tasks), [ids, tasks]);
   const [requirements, setRequirements] = useState<Record<string, RequirementState>>({});
+  const [imagePanel, setImagePanel] = useState(false), [imageItems, setImageItems] = useState<any[]>([]), [imagePreparing, setImagePreparing] = useState(false), [imageSaveResult, setImageSaveResult] = useState<{title:string;detail:string}|null>(null);
   const updateRequirements = (taskId: string, state: RequirementState) => setRequirements(current => ({...current, [taskId]: state}));
 
   useEffect(() => {
@@ -48,6 +52,20 @@ export default function RaidPrep({open, ids, tasks, onClose, onRemove, onClear, 
   }, [open, onClose]);
 
   const summary = useMemo(() => buildRaidPrepSummary(entries, requirements), [entries, requirements]);
+  const imageSummary = useMemo(() => summarizeRaidImageTargets(imageItems), [imageItems]);
+  const updateImage = useCallback((next: any) => setImageItems(current => current.map(item => item.id === next.id ? next : item)),[]);
+  const prepareImages = useCallback(async () => {
+    setImagePreparing(true);setImageSaveResult(null);
+    let selections: Record<string, any> = {}; try {selections=parseMapImageSelections(sessionStorage.getItem(MAP_IMAGE_SELECTIONS_KEY));} catch {}
+    const initial=buildRaidImageTargets(entries,{mapSelections:selections,mediaStates:{}}), mediaStates: Record<string, any> = {};
+    setImageItems(initial.all);
+    await Promise.all(entries.filter(entry=>entry.task).map(async entry=>{const task=entry.task;if(!task.wiki){mediaStates[entry.id]={status:"ready",images:[]};return;}try{const result=window.stashAI?.mediaStatus?await window.stashAI.mediaStatus(task.wiki):{status:"ready",images:await window.stashAI?.media(task.wiki)};mediaStates[entry.id]={status:result.status,images:result.status==="failed"||result.status==="unsupported"?[]:selectTaskReferenceImages(result.images||[],task)};}catch(error){mediaStates[entry.id]={status:"failed",images:[],error:String(error)};}}));
+    const targets=buildRaidImageTargets(entries,{mapSelections:selections,mediaStates}),actionable=[...targets.maps,...targets.images];setImageItems(targets.all);
+    if(window.stashAI?.cacheMapImage){const inspected=await inspectRaidImageTargets(actionable,window.stashAI.cacheMapImage,{concurrency:3,onState:updateImage});const byId=new Map(inspected.map((item:any)=>[item.id,item]));setImageItems(targets.all.map((item:any)=>byId.get(item.id)||item));}
+    setImagePreparing(false);
+  },[entries,updateImage]);
+  useEffect(()=>{if(imagePanel)void prepareImages();},[imagePanel,prepareImages]);
+  const saveImages=async(retryOnly=false)=>{const cache=window.stashAI?.cacheMapImage;if(!cache)return;setImageSaveResult(null);const snapshot=imageItems,results=await saveRaidImageTargets(snapshot,cache,{concurrency:3,retryOnly,onState:updateImage}),summary=summarizeRaidImageSaveResult(snapshot,results);setImageItems(summary.items);setImageSaveResult(summary.failed?{title:summary.saved?"一部の画像を保存しました":"画像を保存できませんでした",detail:`今回の${retryOnly?"再試行":"保存"}対象${summary.total}件中${summary.saved}件を保存しました。${summary.failed}件は取得できませんでした。`}:{title:"画像を保存しました",detail:`今回保存した画像：マップ${summary.maps}件、タスク参考画像${summary.images}件`});};
   if (!open) return null;
   const unresolved = entries.filter(entry => !entry.task), resolved = entries.filter(entry => entry.task);
   const loadingKeys = summary.keyStates.filter((state: any) => state.status === "loading" || state.status === "idle"), failedKeys = summary.keyStates.filter((state: any) => state.status === "failed");
@@ -59,6 +77,7 @@ export default function RaidPrep({open, ids, tasks, onClose, onRemove, onClear, 
         <section className="raidPrepSelected"><header><div><small>SELECTED TASKS</small><h3>選択タスク</h3></div><button type="button" onClick={onClear}>全件解除</button></header><div>{entries.map(entry => {const maps = entry.task ? taskMapReferences(entry.task) : []; return entry.task ? <article key={entry.id}><button type="button" onClick={() => onOpenTask(entry.id, entry.task.trader)}><span>LV.{entry.task.level || "-"}</span><strong>{taskName(entry.task)}</strong><small>{entry.task.trader || "トレーダー不明"}</small><small className="raidPrepTaskMap">対象マップ：{maps.length ? maps.map((map: any) => map.nameJa || map.label || map.name).join("・") : "構造化データで確認できません"}</small></button><button type="button" onClick={() => onRemove(entry.id)} aria-label={`${taskName(entry.task)}を今回のレイドから外す`}>外す</button></article> : <article className="raidPrepMissing" key={entry.id}><div><strong>現在のデータではタスクを確認できません</strong><small>ID: {entry.id}</small></div><button type="button" onClick={() => onRemove(entry.id)} aria-label={`${entry.id}を今回のレイドから外す`}>外す</button></article>;})}</div></section>
         {unresolved.length > 0 && <p className="raidPrepCaution">保存した{unresolved.length}件は現在のタスクデータにありません。ほかの項目だけで集約を続けています。</p>}
         <RaidSection eyebrow="TARGET MAPS" title="対象マップ" empty={resolved.length > 0 && !summary.maps.length ? "構造化データ上、対象マップの指定はありません。" : ""}><div className="raidPrepMapList">{summary.maps.map((map: any) => <button type="button" key={map.id || map.name} onClick={() => onOpenMap(map)}><span>⌖</span><strong>{map.nameJa || map.label || map.name}</strong><small>MAPへ ›</small></button>)}</div></RaidSection>
+        <section className="raidImagePrefetch"><header><div><small>RAID IMAGE CACHE</small><h3>画像を事前保存</h3></div><button type="button" onClick={()=>setImagePanel(value=>!value)}>{imagePanel?"閉じる":"対象を確認"}</button></header>{imagePanel&&<div className="raidImagePrefetchBody"><p className="raidImageNotice">マップと直接関連する参考画像だけをアプリ管理領域へ保存します。タスク文章などを含む完全オフライン対応ではありません。</p>{typeof window==="undefined"||!window.stashAI?.cacheMapImage?<p className="raidImageWeb">永続保存は配布版アプリで利用できます。Webの一時キャッシュは保存済みとして数えません。</p>:<><div className="raidImageStats" role="status"><span>対象 <b>{imageSummary.total}</b></span><span>保存済み <b>{imageSummary.saved}</b></span><span>未保存 <b>{imageSummary.pending}</b></span><span>保存中 <b>{imageSummary.saving}</b></span><span>失敗 <b>{imageSummary.failed}</b></span><span>対象外・取得不能 <b>{imageSummary.unavailable}</b></span><span>更新可能 <b>{imageSummary.update}</b></span></div><div className="raidImageActions"><button type="button" disabled={imagePreparing||imageSummary.saving>0||imageSummary.pending+imageSummary.update===0} onClick={()=>void saveImages(false)}>{imagePreparing?"対象を確認中…":"未保存・更新対象を保存"}</button>{imageSummary.failed>0&&<button type="button" disabled={imageSummary.saving>0} onClick={()=>void saveImages(true)}>失敗だけ再試行</button>}</div>{imageSaveResult&&<div className="raidImageSaveResult" role="status"><strong>{imageSaveResult.title}</strong><span>{imageSaveResult.detail}</span></div>}<RaidImageGroup title="マップ" items={imageItems.filter(item=>item.kind==="map")}/><RaidImageGroup title="タスク参考画像" items={imageItems.filter(item=>item.kind==="task")}/></>}</div>}</section>
         <RaidSection eyebrow="REQUIRED KEYS" title="必要な鍵" empty={!summary.keys.length && !loadingKeys.length && !failedKeys.length ? "確認できた構造化データ上、必要な鍵はありません。" : ""}><div className="raidPrepKeyList">{summary.keys.map((entry: any) => <button type="button" key={entry.id} onClick={() => onOpenKey(entry.id)}><strong>{displayItem(entry.key)}</strong><small>{entry.tasks.map((task: any) => task.name).join("・")}</small><span>鍵詳細へ ›</span></button>)}</div>{loadingKeys.length > 0 && <p className="raidPrepLoading" role="status">必要な鍵を確認中…（{loadingKeys.map((state: any) => state.taskName).join("・")}）</p>}{failedKeys.map((state: any) => <p className="raidPrepWarning" key={state.taskId}>鍵情報を取得できませんでした：{state.taskName}</p>)}</RaidSection>
         <RaidSection eyebrow="TAKE INTO RAID" title="持ち込み品" empty={!summary.bring.length ? "確認できる持ち込み品はありません。" : ""}><div className="raidPrepRows">{summary.bring.map((entry: any) => <article key={entry.id}><div><strong>{entry.certain ? displayItem(entry.item) : displayEntryItems(entry)}</strong><small>{entry.certain ? `確実な消費数 合計 ${entry.totalCount}個` : `必要数 ${entry.count}（${entry.note}）`}</small></div><ul>{entry.certain ? entry.details.map((detail: any) => <li key={`${detail.taskId}:${detail.objectiveId}`}>{detail.taskName}：{detail.count}個</li>) : <li>{entry.task.name}：{entry.description}</li>}</ul></article>)}</div></RaidSection>
         <RaidItemSection eyebrow="FIND IN RAID" title="現地回収" entries={summary.find} empty="確認できる現地回収品はありません。" />
@@ -76,4 +95,9 @@ function RaidSection({eyebrow, title, empty, children}: {eyebrow: string; title:
 
 function RaidItemSection({eyebrow, title, entries, empty}: {eyebrow: string; title: string; entries: any[]; empty: string;}) {
   return <RaidSection eyebrow={eyebrow} title={title} empty={!entries.length ? empty : ""}><div className="raidPrepRows">{entries.map(entry => <article key={entry.id}><div><strong>{displayEntryItems(entry)} · 必要数 {entry.count}</strong><small>{entry.task.name}{entry.foundInRaid ? " · FIR必須" : ""}</small></div><p>{entry.description}</p></article>)}</div></RaidSection>;
+}
+
+const imageStatusLabel: Record<string,string>={checking:"確認中",pending:"未保存",saved:"保存済み",saving:"保存中",failed:"保存失敗",update:"更新可能",unavailable:"取得不能",excluded:"対象外"};
+function RaidImageGroup({title,items}:{title:string;items:any[]}){
+  return <section className="raidImageGroup"><h4>{title}<span>{items.length}件</span></h4>{items.length?<div>{items.map(item=><article key={item.id}><div><strong>{item.label}</strong><small>{item.detail}</small></div><span className={`raidImageStatus ${item.status}`}>{item.oldLocal&&"旧版あり・"}{imageStatusLabel[item.status]||item.status}</span>{item.error&&<p>{item.error}</p>}</article>)}</div>:<p>対象はありません。</p>}</section>;
 }

@@ -1,6 +1,7 @@
 const {contextBridge,ipcRenderer}=require("electron");
 contextBridge.exposeInMainWorld("stashAI",{
  media:url=>ipcRenderer.invoke("task:media",url),
+ mediaStatus:url=>ipcRenderer.invoke("task:media-status",url),
  requirements:id=>ipcRenderer.invoke("task:requirements",id),
  weaponBuild:id=>ipcRenderer.invoke("task:weapon-build",id),
  translate:texts=>ipcRenderer.invoke("task:translate",texts),

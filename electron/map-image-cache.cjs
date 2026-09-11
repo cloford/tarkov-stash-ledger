@@ -12,7 +12,8 @@ const MIME_PATTERN=/^image\/(png|jpe?g|webp|svg\+xml)$/i;
 const safeMapId=value=>String(value||"map").replace(/[^a-z0-9_-]/gi,"_").slice(0,80)||"map";
 const digest=data=>crypto.createHash("sha256").update(data).digest("hex");
 const cacheDirectory=userDataPath=>path.join(userDataPath,"offline-maps");
-const cachePaths=(userDataPath,id)=>{const directory=cacheDirectory(userDataPath);return{directory,image:path.join(directory,`${id}.bin`),meta:path.join(directory,`${id}.json`)}};
+const cachePaths=(userDataPath,id)=>{const directory=cacheDirectory(userDataPath);return{directory,legacyImage:path.join(directory,`${id}.bin`),meta:path.join(directory,`${id}.json`)}};
+const revisionPath=(directory,id,sha256)=>path.join(directory,`${id}-${sha256}.bin`);
 const cacheUrl=(id,sha256)=>`${MAP_CACHE_SCHEME}://cache/${id}?v=${sha256}`;
 
 function httpsSource(value){
@@ -20,38 +21,55 @@ function httpsSource(value){
   try{return new URL(source).protocol==="https:"?source:null}catch{return null}
 }
 
-function readCache(userDataPath,source,id){
+const metadataRecords=meta=>[meta,...(Array.isArray(meta?.history)?meta.history:[])].filter(record=>record&&typeof record==="object");
+function verifiedRecord(userDataPath,id,record,{allowLegacy=false}={}){
   try{
-    const files=cachePaths(userDataPath,id),meta=JSON.parse(fs.readFileSync(files.meta,"utf8")),stat=fs.statSync(files.image);
-    if(meta.source!==source||!MIME_PATTERN.test(String(meta.mime||""))||!stat.isFile()||!stat.size||stat.size>MAX_IMAGE_BYTES)return null;
-    const sha256=SHA256_PATTERN.test(String(meta.sha256||""))?String(meta.sha256).toLowerCase():digest(fs.readFileSync(files.image));
-    return{url:cacheUrl(id,sha256),cached:true,updatedAt:meta.updatedAt,sha256};
+    const files=cachePaths(userDataPath,id),sha256=String(record.sha256||"").toLowerCase(),mime=String(record.mime||"").toLowerCase();
+    if(!httpsSource(record.source)||!MIME_PATTERN.test(mime)||!SHA256_PATTERN.test(sha256))return null;
+    const revision=revisionPath(files.directory,id,sha256),image=fs.existsSync(revision)?revision:(allowLegacy?files.legacyImage:"");
+    if(!image)return null;
+    const stat=fs.statSync(image),data=fs.readFileSync(image);
+    if(!stat.isFile()||!stat.size||stat.size>MAX_IMAGE_BYTES||digest(data)!==sha256)return null;
+    return{...record,sha256,mime,image,bytes:stat.size};
   }catch{return null}
 }
+function readManifest(userDataPath,id){try{return JSON.parse(fs.readFileSync(cachePaths(userDataPath,id).meta,"utf8"))}catch{return null}}
+function readCache(userDataPath,source,id){
+  const meta=readManifest(userDataPath,id);if(!meta)return null;
+  const verified=metadataRecords(meta).map((record,index)=>verifiedRecord(userDataPath,id,record,{allowLegacy:index===0})).filter(Boolean),exact=verified.find(record=>record.source===source),selected=exact||verified[0];
+  return selected?{url:cacheUrl(id,selected.sha256),cached:true,updatedAt:selected.updatedAt,sha256:selected.sha256,stale:!exact,source:selected.source}:null;
+}
+function classifyError(error){const code=String(error?.code||"").toUpperCase();if(code==="ENOSPC"||code==="EDQUOT")return{message:"容量不足",kind:"storage"};const message=String(error?.message||error);if(/timeout|abort/i.test(message))return{message:"タイムアウト",kind:"timeout"};if(/unsupported image|content.?type/i.test(message))return{message:"画像形式が対象外",kind:"unsupported"};if(/image \d+/i.test(message))return{message:`HTTP ${message.match(/\d+/)?.[0]||"エラー"}`,kind:"http"};if(/size|検証/i.test(message))return{message,kind:"corrupt"};return{message,kind:"network"};}
+function atomicWrite(file,data){const temporary=`${file}.${process.pid}.${crypto.randomBytes(6).toString("hex")}.tmp`;try{fs.writeFileSync(temporary,data);fs.renameSync(temporary,file);}catch(error){try{fs.unlinkSync(temporary)}catch{}throw error}}
 
 function createMapImageCache({getUserDataPath,fetchImpl=globalThis.fetch,now=()=>new Date()}){
   return async function cacheMapImage(url,mapId,refresh=false){
     const input=String(url||""),source=httpsSource(input),id=safeMapId(mapId);
     if(!source)return{url:input,cached:false,error:"invalid url"};
-    const saved=()=>readCache(getUserDataPath(),source,id);
+    const userDataPath=getUserDataPath(),saved=()=>readCache(userDataPath,source,id);
     if(!refresh)return saved()||{url:source,cached:false};
     try{
       const response=await fetchImpl(source,{signal:AbortSignal.timeout(45000),headers:{"user-agent":"Tarkov Task Extract Navi/1.0"}});
       if(!response.ok)throw Error(`image ${response.status}`);
-      const mime=String(response.headers.get("content-type")||"image/jpeg").split(";")[0].trim().toLowerCase();
+      const mime=String(response.headers.get("content-type")||"").split(";")[0].trim().toLowerCase();
       if(!MIME_PATTERN.test(mime))throw Error("unsupported image");
       const contentLength=Number(response.headers.get("content-length")||0);
       if(contentLength>MAX_IMAGE_BYTES)throw Error("invalid image size");
       const data=Buffer.from(await response.arrayBuffer());
       if(!data.length||data.length>MAX_IMAGE_BYTES)throw Error("invalid image size");
-      const files=cachePaths(getUserDataPath(),id),updatedAt=now().toISOString(),sha256=digest(data);
+      const files=cachePaths(userDataPath,id),updatedAt=now().toISOString(),sha256=digest(data),current={source,mime,updatedAt,sha256,bytes:data.length};
       fs.mkdirSync(files.directory,{recursive:true});
-      fs.writeFileSync(files.image,data);
-      fs.writeFileSync(files.meta,JSON.stringify({source,mime,updatedAt,sha256,bytes:data.length}));
-      return{url:cacheUrl(id,sha256),cached:true,updatedAt,sha256};
+      const imageFile=revisionPath(files.directory,id,sha256);
+      if(!fs.existsSync(imageFile))atomicWrite(imageFile,data);
+      if(digest(fs.readFileSync(imageFile))!==sha256)throw Error("保存画像の検証に失敗しました");
+      const oldMeta=readManifest(userDataPath,id),oldRecords=metadataRecords(oldMeta).map(record=>verifiedRecord(userDataPath,id,record,{allowLegacy:record===oldMeta})).filter(record=>record&&record.sha256!==sha256).slice(0,8);
+      for(const record of oldRecords){const target=revisionPath(files.directory,id,record.sha256);if(!fs.existsSync(target))atomicWrite(target,fs.readFileSync(record.image));}
+      const history=oldRecords.map(({source,mime,updatedAt,sha256,bytes})=>({source,mime,updatedAt,sha256,bytes}));
+      atomicWrite(files.meta,JSON.stringify({...current,history}));
+      return{url:cacheUrl(id,sha256),cached:true,updatedAt,sha256,stale:false,source};
     }catch(error){
-      const fallback=saved(),message=String(error?.message||error);
-      return fallback?{...fallback,error:message}:{url:source,cached:false,error:message};
+      const fallback=saved(),classified=classifyError(error);
+      return fallback?{...fallback,error:classified.message,errorKind:classified.kind}:{url:source,cached:false,error:classified.message,errorKind:classified.kind};
     }
   };
 }
@@ -67,10 +85,10 @@ function createMapCacheProtocolHandler({getUserDataPath}){
     const expectedHash=requested.searchParams.get("v")||"";
     if(requested.protocol!==`${MAP_CACHE_SCHEME}:`||requested.hostname!=="cache"||!SAFE_ID_PATTERN.test(id)||!SHA256_PATTERN.test(expectedHash))return errorResponse(404,"Not found");
     try{
-      const files=cachePaths(getUserDataPath(),id),root=await fs.promises.realpath(files.directory),image=await fs.promises.realpath(files.image),meta=JSON.parse(await fs.promises.readFile(files.meta,"utf8")),stat=await fs.promises.stat(image),mime=String(meta.mime||"").toLowerCase();
-      if(!staysInside(root,image)||!stat.isFile()||!stat.size||stat.size>MAX_IMAGE_BYTES||!httpsSource(meta.source)||!MIME_PATTERN.test(mime)||!SHA256_PATTERN.test(String(meta.sha256||""))||meta.sha256.toLowerCase()!==expectedHash.toLowerCase())return errorResponse(404,"Not found");
+      const userDataPath=getUserDataPath(),files=cachePaths(userDataPath,id),meta=readManifest(userDataPath,id),record=metadataRecords(meta).find(entry=>String(entry.sha256||"").toLowerCase()===expectedHash.toLowerCase()),verified=record&&verifiedRecord(userDataPath,id,record,{allowLegacy:record===meta}),root=await fs.promises.realpath(files.directory),image=await fs.promises.realpath(verified?.image||"");
+      if(!verified||!staysInside(root,image))return errorResponse(404,"Not found");
       const body=Readable.toWeb(fs.createReadStream(image));
-      return new Response(body,{status:200,headers:{"cache-control":"private, max-age=31536000, immutable","content-length":String(stat.size),"content-security-policy":"default-src 'none'; sandbox","content-type":mime,"x-content-type-options":"nosniff"}});
+      return new Response(body,{status:200,headers:{"cache-control":"private, max-age=31536000, immutable","content-length":String(verified.bytes),"content-security-policy":"default-src 'none'; sandbox","content-type":verified.mime,"x-content-type-options":"nosniff"}});
     }catch{return errorResponse(404,"Not found")}
   };
 }
