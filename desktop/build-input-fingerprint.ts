@@ -1,2 +1,2 @@
 // このファイルはデスクトップビルドの直前に自動更新されます。
-export const desktopBuildInputFingerprint = "5de3a339b92e47a7fe1082bbb42128389ffc16b6f322e7a79a68b979ea71a6a0";
+export const desktopBuildInputFingerprint = "f581f95f1a926bb8c4e33533d138bf275fe8180643f0a8f3592e0f4fb8b508e3";

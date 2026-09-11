@@ -137,22 +137,6 @@ try {
   await cdp.call("Page.reload", {ignoreCache: true});
   if (!await evaluate(cdp, waitFor(".raidPrepTrigger"))) throw new Error("Background Checkの今回のレイド登録を復元できませんでした");
   await evaluate(cdp, `document.querySelector(".raidPrepTrigger")?.click()`);
-  await evaluate(cdp, `document.querySelector(".raidImagePrefetch>header button")?.click()`);
-  if (!await evaluate(cdp, waitFor(".raidImageStats", 30000))) throw new Error("画像事前保存の対象確認を開始できませんでした");
-  const imageReady = await evaluate(cdp, `(async()=>{const end=Date.now()+30000;while(Date.now()<end){const text=document.querySelector(".raidImageActions button")?.textContent||"";if(!text.includes("確認中"))return true;await new Promise(resolve=>setTimeout(resolve,100));}return false})()`);
-  if (!imageReady) throw new Error("画像事前保存の対象確認が完了しませんでした");
-  const imageTargets = await evaluate(cdp, `({maps:document.querySelectorAll(".raidImageGroup:first-of-type article").length,total:Number(document.querySelector(".raidImageStats span:first-child b")?.textContent||0)})`);
-  if (!imageTargets.maps || !imageTargets.total) throw new Error(`画像事前保存の対象マップを抽出できませんでした: ${JSON.stringify(imageTargets)}`);
-  await evaluate(cdp, `document.querySelector(".raidImageActions button")?.click()`);
-  const imageSaveFinished = await evaluate(cdp, `(async()=>{const end=Date.now()+60000;while(Date.now()<end){if(!document.querySelector(".raidImageStatus.saving")&&!document.querySelector(".raidImageStatus.pending,.raidImageStatus.update"))return true;await new Promise(resolve=>setTimeout(resolve,150));}return false})()`);
-  if (!imageSaveFinished) throw new Error("画像事前保存が制限時間内に完了しませんでした");
-  const imageSaveState = await evaluate(cdp, `({saved:document.querySelectorAll(".raidImageStatus.saved").length,failed:document.querySelectorAll(".raidImageStatus.failed").length,retry:Array.from(document.querySelectorAll(".raidImageActions button")).some(button=>button.textContent.includes("失敗だけ再試行"))})`);
-  if (!imageSaveState.saved && !imageSaveState.failed) throw new Error(`画像事前保存の結果を項目別に表示できませんでした: ${JSON.stringify(imageSaveState)}`);
-  if (imageSaveState.failed && !imageSaveState.retry) throw new Error("一部失敗後の再試行ボタンを表示できませんでした");
-  await cdp.call("Emulation.setDeviceMetricsOverride", {width: 420, height: 760, deviceScaleFactor: 1, mobile: false});
-  const narrowImageLayout = await evaluate(cdp, `({pageWidth:document.documentElement.scrollWidth,viewport:document.documentElement.clientWidth,drawerWidth:document.querySelector(".raidPrepDrawer")?.getBoundingClientRect().width||0})`);
-  if (narrowImageLayout.pageWidth > narrowImageLayout.viewport + 1 || narrowImageLayout.drawerWidth > narrowImageLayout.viewport + 1) throw new Error(`画像事前保存の狭い幅で横スクロールが発生しました: ${JSON.stringify(narrowImageLayout)}`);
-  await cdp.call("Emulation.clearDeviceMetricsOverride");
   if (!await evaluate(cdp, waitFor(".raidPrepKeyList button", 25000))) throw new Error("Background Checkの必要鍵を取得できませんでした");
   const backgroundKey = await evaluate(cdp, `({text:document.querySelector(".raidPrepKeyList button")?.textContent||"",count:document.querySelectorAll(".raidPrepKeyList button").length})`);
   if (backgroundKey.count !== 1 || !/Machinery|特殊車両/.test(backgroundKey.text) || /交渉室/.test(backgroundKey.text)) throw new Error(`Background Checkの必要鍵がMachinery keyではありません: ${JSON.stringify(backgroundKey)}`);
@@ -183,7 +167,7 @@ try {
     if (!await evaluate(cdp, waitFor(".interactiveWorld"))) throw new Error("全体マップへ戻れませんでした");
   }
 
-  console.log("Electron今回のレイド・画像事前保存・クイック検索・個別マップ描画: 対象確認 / 保存結果 / 失敗時再試行導線 / 通常幅・狭い幅 / 保存復元 / Background Check→Machinery key / ZB-1011強調 / Interchange / Customs 成功");
+  console.log("Electron今回のレイド・クイック検索・個別マップ描画: 保存復元 / 狭い幅 / Background Check→Machinery key / ZB-1011強調 / Interchange / Customs 成功");
 } catch (error) {
   const suffix = processOutput.trim() ? `\nElectron出力:\n${processOutput.trim()}` : "";
   throw new Error(`${error.message}${suffix}`, {cause: error});
@@ -198,5 +182,3 @@ try {
   }
   if (!child.killed) child.kill();
 }
-
-await import("./smoke-raid-image-render.mjs");
