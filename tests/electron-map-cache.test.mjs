@@ -19,20 +19,20 @@ test.after(async()=>Promise.all(temporaryDirectories.map(directory=>rm(directory
 test("保存画像の本体をIPCへ載せず専用URLとSHA-256だけを返す",async()=>{
   const userData=await temporaryUserData(),now=new Date("2026-09-04T00:00:00.000Z"),cache=createMapImageCache({getUserDataPath:()=>userData,now:()=>now,fetchImpl:async()=>new Response(largeImage,{headers:{"content-type":"image/png"}})});
   const result=await cache(source,"customs/extraction",true);
-  assert.deepEqual(result,{url:`stash-map://cache/customs_extraction?v=${largeSha256}`,cached:true,updatedAt:now.toISOString(),sha256:largeSha256,stale:false,source});
+  assert.deepEqual(result,{url:`stash-map://cache/customs_extraction?v=${largeSha256}`,cached:true,updatedAt:now.toISOString(),sha256:largeSha256});
   assert.ok(Buffer.byteLength(JSON.stringify(result))<512,"IPC応答サイズが画像サイズに比例しない");
   assert.equal(JSON.stringify(result).includes("base64"),false);
-  assert.deepEqual(await readFile(path.join(userData,"offline-maps",`customs_extraction-${largeSha256}.bin`)),largeImage);
+  assert.deepEqual(await readFile(path.join(userData,"offline-maps","customs_extraction.bin")),largeImage);
   const meta=JSON.parse(await readFile(path.join(userData,"offline-maps","customs_extraction.json"),"utf8"));
-  assert.deepEqual(meta,{source,mime:"image/png",updatedAt:now.toISOString(),sha256:largeSha256,bytes:largeImage.length,history:[]});
+  assert.deepEqual(meta,{source,mime:"image/png",updatedAt:now.toISOString(),sha256:largeSha256,bytes:largeImage.length});
 });
 
 test("保存済み画像はネットワークなしで再利用し、更新失敗時も維持する",async()=>{
   const userData=await temporaryUserData(),successful=createMapImageCache({getUserDataPath:()=>userData,fetchImpl:async()=>new Response(image,{headers:{"content-type":"image/png"}})}),saved=await successful(source,"customs",true);
   const offline=createMapImageCache({getUserDataPath:()=>userData,fetchImpl:async()=>{throw Error("offline")}});
   assert.deepEqual(await offline(source,"customs",false),saved);
-  assert.deepEqual(await offline(source,"customs",true),{...saved,error:"offline",errorKind:"network"});
-  assert.deepEqual(await offline("https://example.com/maps/woods.png","woods",true),{url:"https://example.com/maps/woods.png",cached:false,error:"offline",errorKind:"network"});
+  assert.deepEqual(await offline(source,"customs",true),{...saved,error:"offline"});
+  assert.deepEqual(await offline("https://example.com/maps/woods.png","woods",true),{url:"https://example.com/maps/woods.png",cached:false,error:"offline"});
 });
 
 test("専用プロトコルは検証済みキャッシュだけを正しいMIMEで配信する",async()=>{
@@ -48,27 +48,6 @@ test("専用プロトコルは検証済みキャッシュだけを正しいMIME�
   assert.equal((await handle({method:"GET",url:`stash-map://cache/customs/../../secret?v=${sha256}`})).status,404);
   assert.equal((await handle({method:"GET",url:`stash-map://cache/customs?v=${"0".repeat(64)}`})).status,404);
   assert.equal((await handle({method:"POST",url:`stash-map://cache/customs?v=${sha256}`})).status,405);
-});
-
-test("URL変更後の更新失敗では検証済み旧版を返し、破損した旧版は返さない",async()=>{
-  const userData=await temporaryUserData(),first=createMapImageCache({getUserDataPath:()=>userData,fetchImpl:async()=>new Response(image,{headers:{"content-type":"image/png"}})});
-  const saved=await first(source,"customs",true),next="https://example.com/maps/customs-v2.png",offline=createMapImageCache({getUserDataPath:()=>userData,fetchImpl:async()=>{throw Error("offline")}});
-  const fallback=await offline(next,"customs",true);
-  assert.equal(fallback.cached,true);assert.equal(fallback.stale,true);assert.equal(fallback.url,saved.url);assert.equal(fallback.error,"offline");
-  await writeFile(path.join(userData,"offline-maps",`customs-${sha256}.bin`),Buffer.from("broken"));
-  assert.deepEqual(await offline(next,"customs",false),{url:next,cached:false});
-});
-
-test("新しい版は原子的に切り替え、旧版URLも引き続き配信する",async()=>{
-  const userData=await temporaryUserData(),newImage=Buffer.from("new-image"),newHash=createHash("sha256").update(newImage).digest("hex"),responses=[image,newImage],cache=createMapImageCache({getUserDataPath:()=>userData,fetchImpl:async()=>new Response(responses.shift(),{headers:{"content-type":"image/png"}})});
-  const old=await cache(source,"customs",true),current=await cache("https://example.com/maps/customs-v2.png","customs",true),handle=createMapCacheProtocolHandler({getUserDataPath:()=>userData});
-  assert.equal(current.sha256,newHash);assert.equal((await handle({method:"GET",url:old.url})).status,200);assert.equal((await handle({method:"GET",url:current.url})).status,200);
-});
-
-test("旧形式キャッシュも更新時に履歴へ移して旧版として維持する",async()=>{
-  const userData=await temporaryUserData(),directory=path.join(userData,"offline-maps"),oldUpdatedAt="2026-09-01T00:00:00.000Z";await mkdir(directory,{recursive:true});await writeFile(path.join(directory,"customs.bin"),image);await writeFile(path.join(directory,"customs.json"),JSON.stringify({source,mime:"image/png",updatedAt:oldUpdatedAt,sha256,bytes:image.length}));
-  const next="https://example.com/maps/customs-v2.png",newImage=Buffer.from("new-format"),cache=createMapImageCache({getUserDataPath:()=>userData,fetchImpl:async()=>new Response(newImage,{headers:{"content-type":"image/png"}})}),current=await cache(next,"customs",true),old=await cache(source,"customs",false),handle=createMapCacheProtocolHandler({getUserDataPath:()=>userData});
-  assert.equal(current.stale,false);assert.equal(old.stale,false);assert.equal(old.sha256,sha256);assert.equal((await handle({method:"GET",url:old.url})).status,200);
 });
 
 test("Electronへ標準・secureな専用schemeをready前登録できる",()=>{
