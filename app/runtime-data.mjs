@@ -7,7 +7,7 @@ export function normalizeTaskGuideRuntime(value, fallback) {
   const guide = record(source);
   return {
     ...guide,
-    tasks: array(guide.tasks).filter(task => task && typeof task === "object").map(task => ({...task, objectives: array(task.objectives), prerequisites: array(task.prerequisites)})),
+    tasks: array(guide.tasks).filter(task => task && typeof task === "object").map(task => ({...task, relationsAvailable: task.relationsAvailable !== false && Array.isArray(task.prerequisites), objectives: array(task.objectives), prerequisites: array(task.prerequisites)})),
     story: array(guide.story),
     battlePass: array(guide.battlePass)
   };

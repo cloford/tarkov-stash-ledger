@@ -193,10 +193,10 @@ test("タスク・マップ・鍵Wikiだけを表示する",()=>{
 
 test("破損・旧形式の保存データで主要画面の描画を止めない",()=>{
  const fallback={tasks:[{id:"bundled",objectives:[]}],story:[{id:"story"}],battlePass:[{id:"pass"}]};
- assert.deepEqual(normalizeTaskGuideRuntime(null,fallback).tasks,[{id:"bundled",objectives:[],prerequisites:[]}]);
+ assert.deepEqual(normalizeTaskGuideRuntime(null,fallback).tasks,[{id:"bundled",objectives:[],prerequisites:[],relationsAvailable:false}]);
  assert.deepEqual(normalizeTaskGuideRuntime([],fallback).story,[{id:"story"}]);
  const guide=normalizeTaskGuideRuntime({tasks:[{id:"safe",objectives:null,prerequisites:"old-format"}],story:null,battlePass:{}},fallback);
- assert.deepEqual(guide.tasks,[{id:"safe",objectives:[],prerequisites:[]}]);
+ assert.deepEqual(guide.tasks,[{id:"safe",objectives:[],prerequisites:[],relationsAvailable:false}]);
  assert.deepEqual(guide.story,[]);
  assert.deepEqual(guide.battlePass,[]);
  const maps=normalizeMapRuntime({maps:[{id:"customs",extracts:{},transits:null},null]});
