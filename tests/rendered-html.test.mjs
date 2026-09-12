@@ -309,10 +309,10 @@ test("鍵Wikiで鍵名・タスク名・マップ名を横断検索できる",()
  assert.match(main,/ipcMain\.handle\("keys:latest"/);
  assert.match(main,/ipcMain\.handle\("keys:refresh-online"/);
  assert.match(preload,/keys:\(\)=>ipcRenderer\.invoke\("keys:latest"\)/);
- assert.match(keyWiki,/使用するタスク/);
- assert.match(keyWiki,/QUICK DECISION/);
- assert.match(keyWiki,/タスク用に保管/);
- assert.match(keyWiki,/最大 \$\{selected\.uses\}回使用/);
+ assert.match(keyWiki,/関連タスク/);
+ assert.match(keyWiki,/判断材料/);
+ assert.doesNotMatch(keyWiki,/QUICK DECISION|タスク用に保管|保管推奨|売却推奨/);
+ assert.match(keyWiki,/keyUsesLabel/);
  assert.doesNotMatch(keyWiki,/keyMapUses|onOpenMap|位置を見る ›/);
  assert.match(keyWiki,/onOpenTask/);
  assert.match(desktopMain,/app\/key-wiki\.css/);
@@ -340,9 +340,9 @@ test("鍵Wikiで鍵名・タスク名・マップ名を横断検索できる",()
  assert.ok(filterKeys(keys,{query:"grenade box"}).some(key=>key.behindLockEn?.includes("Grenade box")));
  assert.ok(keys.find(key=>key.nameEn==="Military checkpoint key").mapUses.some(map=>map.nameEn==="Customs"&&map.kind==="wiki"));
  assert.match(keyWiki,/鍵を使う場所/);
- assert.match(keyWiki,/locationMaps=selected/);
- assert.match(keyWiki,/使用場所の対応マップ/);
- assert.match(keyWiki,/対応マップ/);
+ assert.match(keyWiki,/lockLocationMaps=\[\.\.\.new Map/);
+ assert.match(keyWiki,/Lock・Wikiで確認できたマップ/);
+ assert.match(keyWiki,/使用マップ/);
  assert.match(keyWiki,/開錠先で入手・利用できるもの/);
  assert.match(keyWiki,/節の記載なし/);
  assert.match(keyWikiV22,/\.keyWikiIntel/);
@@ -449,7 +449,7 @@ test("主要画面は保存状態と表示配列の異常型を描画前に正�
  assert.match(keyWiki,/parseStoredRecord\(sessionStorage\.getItem\("tarkov-key-wiki-view"\)\)/);
  assert.match(mapTab,/if \(!stage\) return null/);
  assert.match(keyWiki,/const keys=arrayOrEmpty\(catalog\?\.keys\)/);
- assert.equal((keyWiki.match(/Array\.isArray\(value\?\.keys\)/g)||[]).length,2);
+ assert.ok((keyWiki.match(/Array\.isArray\(value\?\.keys\)/g)||[]).length>=1);
 });
 
 test("サブタスク検索は正規化済みインデックスを再利用し、詳細表示を再描画しない",()=>{

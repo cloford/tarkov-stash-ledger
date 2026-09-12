@@ -144,6 +144,38 @@ try {
   if (!await evaluate(cdp, waitFor(".keyDetail h2"))) throw new Error("Machinery keyの鍵詳細へ移動できませんでした");
   const backgroundKeyDetail = await evaluate(cdp, `({id:history.state?.keySelected||"",text:document.querySelector(".keyDetail>header")?.textContent||""})`);
   if (backgroundKeyDetail.id !== "5937ee6486f77408994ba448" || !/Machinery|特殊車両/.test(backgroundKeyDetail.text)) throw new Error(`Machinery keyの鍵詳細ではありません: ${JSON.stringify(backgroundKeyDetail)}`);
+  if (!await evaluate(cdp, waitFor(".keyJudgment"))) throw new Error("鍵詳細の判断材料を表示できませんでした");
+  const keyJudgment = await evaluate(cdp, `document.querySelector(".keyJudgment")?.textContent||""`);
+  if (!["タスク用途", "使用マップ", "使用回数", "参考相場", "価格取得"].every(label => keyJudgment.includes(label))) throw new Error(`鍵の判断材料が不足しています: ${keyJudgment}`);
+  if (/保管推奨|売却推奨|タスク用に保管/.test(keyJudgment)) throw new Error(`鍵の判断材料に自動推奨が含まれています: ${keyJudgment}`);
+  await evaluate(cdp, `document.querySelector(".keyEvidenceDetails>summary")?.click()`);
+  if (!await evaluate(cdp, waitFor(".keyEvidenceDetails[open]"))) throw new Error("鍵の根拠と関連タスクを展開できませんでした");
+  const keyEvidence = await evaluate(cdp, `document.querySelector(".keyEvidenceDetails")?.textContent||""`);
+  if (!/使用マップの根拠/.test(keyEvidence) || !/マップのLock情報|マップのアクセスキー|タスク目標の対象マップ|既存Wikiの使用場所情報/.test(keyEvidence)) throw new Error(`鍵の使用マップ根拠を区別できませんでした: ${keyEvidence}`);
+  await cdp.call("Emulation.setDeviceMetricsOverride", {width: 480, height: 800, deviceScaleFactor: 1, mobile: false});
+  const narrowKeyLayout = await evaluate(cdp, `({pageWidth:document.documentElement.scrollWidth,viewport:document.documentElement.clientWidth,judgmentWidth:document.querySelector(".keyJudgment")?.getBoundingClientRect().width||0})`);
+  if (narrowKeyLayout.pageWidth > narrowKeyLayout.viewport + 1 || narrowKeyLayout.judgmentWidth > narrowKeyLayout.viewport + 1) throw new Error(`狭い幅で鍵詳細に横スクロールが発生しました: ${JSON.stringify(narrowKeyLayout)}`);
+  await cdp.call("Emulation.clearDeviceMetricsOverride");
+  await evaluate(cdp, `window.dispatchEvent(new KeyboardEvent("keydown", {key:"k", ctrlKey:true, bubbles:true}))`);
+  if (!await evaluate(cdp, waitFor(".quickSearchDialog"))) throw new Error("タスク前後関係確認用のクイック検索を開けませんでした");
+  await evaluate(cdp, `(()=>{const input=document.querySelector(".quickSearchDialog input"),setter=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,"value")?.set;if(!input||!setter)return;setter.call(input,"Chemical Part 3");input.dispatchEvent(new Event("input",{bubbles:true}));})()`);
+  if (!await evaluate(cdp, waitFor(".quickSearchResults button"))) throw new Error("Chemical - Part 3の検索候補を表示できませんでした");
+  await evaluate(cdp, `Array.from(document.querySelectorAll(".quickSearchResults button")).find(button=>button.textContent.includes("Chemical - Part 3"))?.click()`);
+  if (!await evaluate(cdp, waitFor(".taskRelations"))) throw new Error("タスク詳細の前後関係を表示できませんでした");
+  const taskRelations = await evaluate(cdp, `document.querySelector(".taskRelations")?.textContent||""`);
+  if (!/直接の前提/.test(taskRelations) || !/直接の後続/.test(taskRelations) || !/要求：/.test(taskRelations)) throw new Error(`直接の前提・後続または要求ステータスが不足しています: ${taskRelations}`);
+  await evaluate(cdp, `document.querySelector(".taskRelationExpand")?.click()`);
+  if (!await evaluate(cdp, waitFor(".taskRelationExpanded"))) throw new Error("解放までの前提を任意展開できませんでした");
+  await cdp.call("Emulation.setDeviceMetricsOverride", {width: 480, height: 800, deviceScaleFactor: 1, mobile: false});
+  const narrowRelationLayout = await evaluate(cdp, `({pageWidth:document.documentElement.scrollWidth,viewport:document.documentElement.clientWidth,relationsWidth:document.querySelector(".taskRelations")?.getBoundingClientRect().width||0})`);
+  if (narrowRelationLayout.pageWidth > narrowRelationLayout.viewport + 1 || narrowRelationLayout.relationsWidth > narrowRelationLayout.viewport + 1) throw new Error(`狭い幅でタスク前後関係に横スクロールが発生しました: ${JSON.stringify(narrowRelationLayout)}`);
+  await cdp.call("Emulation.clearDeviceMetricsOverride");
+  const relationSourceName = await evaluate(cdp, `document.querySelector(".taskDetail .taskHero h2")?.textContent||""`);
+  await evaluate(cdp, `document.querySelector(".taskRelationEntry button:not(:disabled)")?.click()`);
+  if (!await evaluate(cdp, waitFor(".guideBreadcrumb"))) throw new Error("前提タスクの詳細へ移動できませんでした");
+  if (!String(await evaluate(cdp, `document.querySelector(".guideBreadcrumb")?.textContent||""`)).includes(`元のタスク「${relationSourceName}」へ戻る`)) throw new Error("関連タスクから元のタスクへ戻る導線を表示できませんでした");
+  await evaluate(cdp, `document.querySelector(".guideBreadcrumb button")?.click()`);
+  if (!await evaluate(cdp, waitFor(".taskRelations"))) throw new Error("関連タスクから元のタスクへ戻れませんでした");
   await evaluate(cdp, `window.dispatchEvent(new KeyboardEvent("keydown", {key:"k", ctrlKey:true, bubbles:true}))`);
   if (!await evaluate(cdp, waitFor(".quickSearchDialog"))) throw new Error("クイック検索を開けませんでした");
   await evaluate(cdp, `(()=>{const input=document.querySelector(".quickSearchDialog input"),setter=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,"value")?.set;if(!input||!setter)return;setter.call(input,"ZB-1011");input.dispatchEvent(new Event("input",{bubbles:true}));})()`);
@@ -167,7 +199,7 @@ try {
     if (!await evaluate(cdp, waitFor(".interactiveWorld"))) throw new Error("全体マップへ戻れませんでした");
   }
 
-  console.log("Electron今回のレイド・クイック検索・個別マップ描画: 保存復元 / 狭い幅 / Background Check→Machinery key / ZB-1011強調 / Interchange / Customs 成功");
+  console.log("Electron主要画面描画: 今回のレイド / 鍵判断材料 / タスク前後関係・戻る導線 / 狭い幅 / クイック検索 / 個別マップ 成功");
 } catch (error) {
   const suffix = processOutput.trim() ? `\nElectron出力:\n${processOutput.trim()}` : "";
   throw new Error(`${error.message}${suffix}`, {cause: error});
