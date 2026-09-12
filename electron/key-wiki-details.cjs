@@ -1,5 +1,5 @@
 const WIKI_API="https://escapefromtarkov.fandom.com/api.php";
-const KEY_CATALOG_SCHEMA_VERSION=4;
+const KEY_CATALOG_SCHEMA_VERSION=5;
 const WIKI_FIELDS=["lockLocation","lockLocationEn","behindLock","behindLockEn","lockLocationSource","behindLockSource","wikiUpdatedAt"];
 
 const compactTitle=value=>decodeURIComponent(String(value||"")).replace(/_/g," ").trim().toLocaleLowerCase("en-US");
